@@ -1,5 +1,5 @@
 // create controller 
-const { prisma } = require("../../db/prismaClient.js");
+const prisma  = require("../../db/prismaClient.js");
 const { validationResult } = require("express-validator");
 
 const bcrypt = require("bcryptjs");
@@ -13,7 +13,7 @@ async function handleCreateUser(req, res, next) {
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: req.body.username,
         fname: req.body.firstname,
@@ -22,6 +22,13 @@ async function handleCreateUser(req, res, next) {
         password: hashedPassword,
       }
    });
+
+   await prisma.profile.create({
+    data: {
+      userId: user.id
+    }
+   });
+   
   return res.status(201).json({ message: "Account Created Successfully" });
 
   } catch (error) {

@@ -5,20 +5,15 @@ const jwtDecode = require("jwt-decode");
 const passport = require('passport');
 const { getData } = require('../controllers/viewController');
 require('../config/passport');
+const { getAllData } = require("../controllers/viewController");
 
 homeRouter.get('/', passport.authenticate('jwt', { session: false }), async (req, res, next ) => {
 
-//  const data = await getAllUserData(req, res, next);
+  const allData = await getAllData(req, res, next);
 
   // req.user from passport callback authentication
   res.json({
-    user: {
-      id: req.user.id,
-      alias: req.user.alias,
-      first: req.user.fname,
-      last: req.user.lname,
-      admin: req.user.is_admin
-    },
+    allData: allData,
    // data: orderedData
   });
 });

@@ -1,5 +1,5 @@
 // delete controller 
-const { prisma } = require("../../db/prismaClient.js");
+const prisma  = require("../../db/prismaClient.js");
 
 async function handleDeleteUser(req, res, next) {
   try {

@@ -1,47 +1,10 @@
 // viewController
-const prisma = require("../db/prismaClient.js");
+const prisma  = require("../db/prismaClient.js");
 
-async function getAllData(req, res, next) {
-  try {
-      const users = await getUsers(req, res, next);
-      const chatRooms = await getChatRooms(req, res, next);
-      const userData = await getUserData(req, res, next);
-      res.json({users, chatRooms, userData}); 
-      
-  } catch (error) {
-    next(error);
-  }
-};
 
-async function getUsers(req, res, next) {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        alias: true,
-        fname: true,
-        lname: true,
-      },
-      include: {
-        profile: true,
-      },
-    });
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-};
-
-async function getChatRooms(req, res, next) {
-  try {
-    const chatRooms = await prisma.chatRoom.findMany();
-    res.json(chatRooms);
-  } catch (error) {
-    next(error);
-  }
-};
 
 async function getUserData(req, res, next) {
+
   try {
     const userId = parseInt(req.user.id, 10);
     const userData = await prisma.user.findUnique({
@@ -51,12 +14,57 @@ async function getUserData(req, res, next) {
         alias: true,
         fname: true,
         lname: true,
-      include: {
+        email: true,
         profile: true,
-        friends: true
-      },
-  }});
-    res.json(userData);
+        friendsOf: true,
+        userFriendships: true,
+    }
+  });
+    return userData;
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function getAllData(req, res, next) {
+  try {
+      const [users, chatRooms, userData] = await Promise.all([
+        getUsers(req, res, next),
+        getChatRooms(req, res, next),
+        getUserData(req, res, next)
+      ]);
+      return { users, chatRooms, userData };
+      
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function getUsers(req, res, next) {
+  try {
+  const users = await prisma.user.findMany({
+    select: {
+        id: true,
+        alias: true,
+        fname: true,
+        lname: true,
+        email: true,
+        profile: true,
+        friendsOf: true,
+        userFriendships: true,
+    },
+  });
+
+    return users;
+  } catch (error) {
+    next(error);
+  }
+};
+
+async function getChatRooms(req, res, next) {
+  try {
+    const chatRooms = await prisma.chatRoom.findMany();
+    return chatRooms;
   } catch (error) {
     next(error);
   }
@@ -76,7 +84,7 @@ async function getChatRoom(req, res,next) {
                 alias: true,
                 fname: true,
     }}}}}});
-    res.json(chatRoom);
+    return chatRoom;
   } catch (error) {
     next(error);
   }

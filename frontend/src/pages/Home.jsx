@@ -7,7 +7,8 @@ import Footer from "../components/Footer";
 function Home() {
 
   const [user, SetUser] = useState(null);
-  const [data, SetData] = useState(null);
+  const [users, SetUsers] = useState(null);
+  const [chatRooms, SetChatRooms] = useState(null);
   // loading state settings
   const [fetched, SetNewFetch] = useState(false);
   const [loading, SetLoading] = useState(true);
@@ -43,9 +44,11 @@ function Home() {
         }
         const result = await response.json();
         
-        SetUser(result.user); // (only non sensitive user data from backend)
-        // SetData(result.posts);
-        // reset boolean fetch after updated posts fetch
+        //console.log(result.allData, "home data");
+        // setting all non sensitive user data
+        SetUser(result.allData.userData); 
+        SetUsers(result.allData.users);
+        SetChatRooms(result.allData.chatRooms);
         SetNewFetch(false);
       } catch (error) {
         setError(error);
@@ -73,7 +76,7 @@ function Home() {
   return (
     <>
     <Navbar/>
-      <Outlet context={{user, data, loading, success, SetLoading, SetSuccess, SetNewFetch, }} />
+      <Outlet context={{user, users, chatRooms, loading, success, SetLoading, SetSuccess, SetNewFetch, }} />
     <Footer/>
     </>
 

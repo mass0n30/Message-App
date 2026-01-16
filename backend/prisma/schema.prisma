@@ -46,11 +46,10 @@ model User {
 model Profile {
   id        Int     @id @default(autoincrement())
   userId    Int     @unique
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   bio       String?
   avatarUrl String?
   status    Boolean  @default(true) // online or offline
-
-  user User @relation(fields: [userId], references: [id])
 }
 
 

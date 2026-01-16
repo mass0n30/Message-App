@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const pool = require("./pool");
 
-const { prisma } = require("../db/prismaClient.js");
+const prisma = require("../db/prismaClient.js");
 
 passport.use(new LocalStrategy({
   usernameField: 'username',
