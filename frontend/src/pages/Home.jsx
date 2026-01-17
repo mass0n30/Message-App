@@ -3,12 +3,14 @@ import { useParams, Outlet } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SideBar from "../components/Sidebar";
 
 function Home() {
 
   const [user, SetUser] = useState(null);
   const [users, SetUsers] = useState(null);
   const [chatRooms, SetChatRooms] = useState(null);
+  const [currentRoom, SetCurrentRoom] = useState(null);
   // loading state settings
   const [fetched, SetNewFetch] = useState(false);
   const [loading, SetLoading] = useState(true);
@@ -65,6 +67,14 @@ function Home() {
     return (
       <>
       <Navbar/>
+        <aside>
+          <SideBar 
+            chatRooms={chatRooms}
+            loading={loading}
+            success={success}
+            SetLoading={SetLoading}
+          />
+        </aside>
         <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
           <div className="spinner"></div>
         </div>
@@ -75,9 +85,19 @@ function Home() {
 
   return (
     <>
-    <Navbar/>
-      <Outlet context={{user, users, chatRooms, loading, success, SetLoading, SetSuccess, SetNewFetch, }} />
-    <Footer/>
+      <Navbar/>
+      <aside>
+          <SideBar 
+            chatRooms={chatRooms}
+            currentRoom={currentRoom}
+            SetCurrentRoom={SetCurrentRoom}
+            loading={loading}
+            success={success}
+            SetLoading={SetLoading}
+          />
+        </aside>
+        <Outlet context={{user, users, chatRooms, currentRoom, SetCurrentRoom, loading, success, SetLoading, SetSuccess, SetNewFetch, }} />
+      <Footer/>
     </>
 
 

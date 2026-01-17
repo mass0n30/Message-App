@@ -3,7 +3,7 @@
 {/*maybe import local styles */}
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import styles from '../styles/form.module.css';
+import styles from '../styles/components/form.module.css';
 
 function SignUp() {
   const [user, setUser] = useState({
