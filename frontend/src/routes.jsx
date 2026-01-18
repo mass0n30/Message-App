@@ -27,11 +27,13 @@ const routes = [
             index: true,
             element: <HomePage/> 
           },
-        //  {
-         //   path: "post/:postId",
-        //    element: <PostDetails/>
-        //  }
-        ]
+          {
+            path: ":roomId",
+            element: <HomePage/>
+          }
+
+        ],
+
       },
     ]
   },

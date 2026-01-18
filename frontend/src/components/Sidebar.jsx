@@ -1,15 +1,31 @@
 import { useEffect } from "react";
 import styles from '../styles/components/sidebar.module.css';
+import axios from "axios";
 
 function SideBar(props) {
-  const {chatRooms, currentRoom, SetCurrentRoom, loading, success, SetLoading } = props;
+  const {chatRooms, currentRoom, SetCurrentRoom, loading, success, SetLoading, authRouter } = props;
 
 
   const handleSetRoom = (roomId) => {
     if (currentRoom.id !== roomId) {
-      SetCurrentRoom(roomId);
+      const selectedRoom = chatRooms.find((room) => room.id === roomId);
+      SetCurrentRoom(selectedRoom);
     }
   };
+
+  useEffect(() => {
+    async function fetchRoomData() {
+      await authRouter.get(`/chats/${currentRoom.id}`)
+        .then((response) => {
+          console.log("Room data fetched:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching room data:", error);
+        });
+    }
+
+    fetchRoomData();
+  }  , [currentRoom, SetLoading, success, authRouter]);
 
 
   if (loading) {

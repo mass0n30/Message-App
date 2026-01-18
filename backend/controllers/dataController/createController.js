@@ -46,10 +46,13 @@ async function handleCreateMessage(req, res, next) {
     const { content } = req.body;
     await prisma.chatMessage.create({
       data: {
+        chatRoomId: parseInt(req.params.roomId, 10),
+        senderId: parseInt(req.userId, 10),
         content: content,
       }
    });
-  return res.status(201).json({ content: req.body.content, message: "Message Created Successfully" });
+
+  return res.status(201).json({ message: "Message Created Successfully" });
 
   } catch (error) {
     return res.status(400).json({ errors:error });
@@ -86,19 +89,31 @@ async function handleCreateChatMessage(req, res, next) {
   }
 
   try {
-    const userId = 1 // parseInt(req.user.id, 10);
-    const chatRoomId = parseInt(req.params.chatRoomId, 10);
+    const userId = parseInt(req.body.userId, 10);
+    const chatRoomId = parseInt(req.body.roomId, 10);
     const { content } = req.body;
 
     const newMessage = await prisma.chatMessage.create({
       data: {
+        chatRoomId: chatRoomId,
         content: content,
         senderId: userId,
         chatRoomId: chatRoomId
       },
     });
 
-    res.status(201).json({ message: "Message sent successfully", content: newMessage.content });
+    const updatedChatRoom = await prisma.chatRoom.findUnique({
+      where: { id: chatRoomId },
+      include: {
+        messages: {
+          include: {
+            sender: true,
+          },
+        },
+      },
+    });
+
+    res.status(201).json({ updatedChatRoom, message: "Message sent successfully", content: newMessage.content });
   } catch (error) {
     next(error);
   }

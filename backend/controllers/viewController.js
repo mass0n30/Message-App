@@ -63,7 +63,21 @@ async function getUsers(req, res, next) {
 
 async function getChatRooms(req, res, next) {
   try {
-    const chatRooms = await prisma.chatRoom.findMany();
+    const chatRooms = await prisma.chatRoom.findMany({
+        include: {
+          messages: {
+            include: {
+              sender: {
+                select: {
+                  alias: true,
+                  fname: true,
+                }
+              }
+            }
+          }
+        }
+      }
+    );
     return chatRooms;
   } catch (error) {
     next(error);
@@ -78,12 +92,17 @@ async function getChatRoom(req, res,next) {
       include: {
         messages: {
           include: {
-            user: {
+            sender: {
               select: {
                 id: true,
                 alias: true,
                 fname: true,
-    }}}}}});
+              }
+            }
+          }
+        }
+      }
+    });
     return chatRoom;
   } catch (error) {
     next(error);
