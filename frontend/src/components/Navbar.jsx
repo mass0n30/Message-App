@@ -16,6 +16,7 @@ function Navbar() {
     <>
       <div>Navbar Text</div>
       <button onClick={handleLogOut}>Log Out</button>
+      <button onClick={() => navigate("/home/profile")}>Profile</button>
     </>
   )
 }

@@ -10,7 +10,7 @@ profileRouter.get('/', async (req, res, next ) => {
   res.json({profileData: req.user.profile });
 });
 
-profileRouter.put('/', async (req, res, next ) => {
+profileRouter.post('/', async (req, res, next ) => {
   try {
     const updatedProfile = await handleUpdateProfile(req, res, next);
     return res.json(updatedProfile);

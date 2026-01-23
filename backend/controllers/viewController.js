@@ -28,12 +28,11 @@ async function getUserData(req, res, next) {
 
 async function getAllData(req, res, next) {
   try {
-      const [users, chatRooms, userData] = await Promise.all([
+      const [users, chatRooms ] = await Promise.all([
         getUsers(req, res, next),
         getChatRooms(req, res, next),
-        getUserData(req, res, next)
       ]);
-      return { users, chatRooms, userData };
+      return { users, chatRooms };
       
   } catch (error) {
     next(error);

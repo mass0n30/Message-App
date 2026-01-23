@@ -17,11 +17,16 @@ export default function ChatBody(props) {
   } ,[loading]);
 
 
-  const userId = user.id;
-  const roomId = currentRoom.id;
+  const userId = user?.id;
+  const roomId = currentRoom?.id;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      return;
+    }
+
     try {
       const response = await authRouter.post(`/chats/${currentRoom.id}/message`, {
         content: messageContent,
@@ -52,7 +57,7 @@ export default function ChatBody(props) {
        { currentRoom && (
           currentRoom.messages && currentRoom.messages.length > 0 ? (
             currentRoom.messages.map((message) => (
-              <div key={message.id} className={message.senderId === user.id ? styles.ownMessage : styles.message}>
+              <div key={message.id} className={user ? (message.senderId === user.id ? styles.ownMessage : styles.message) : styles.message}>
                 <strong>{message.sender.alias}:</strong> {message.content}
               </div>
             ))) : (

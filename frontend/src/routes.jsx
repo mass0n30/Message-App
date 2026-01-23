@@ -4,6 +4,7 @@ import ErrorPage from "./components/ErrorPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import HomePage from "./pages/HomePage";
+import Profile from "./pages/Profile";
 
 const routes = [
   {
@@ -30,8 +31,11 @@ const routes = [
           {
             path: ":roomId",
             element: <HomePage/>
+          },
+          {
+            path: "profile",
+            element: <Profile />
           }
-
         ],
 
       },

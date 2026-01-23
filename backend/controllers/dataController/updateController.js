@@ -4,12 +4,13 @@ const prisma  = require("../../db/prismaClient.js");
 async function handleUpdateProfile(req, res, next) {
   try {
     const userId = parseInt(req.user.id, 10);
-    const { bio, avatarUrl, status } = req.body;
+    const { formData } = req.body;
+    const { alias, email, status, id } = formData;
 
     const updatedProfile = await prisma.profile.upsert({
-      where: { userId: userId },
-      update: { bio, avatarUrl, status },
-      create: { userId, bio, avatarUrl, status },
+      where: { userId: id },
+      update: { alias, email, status, bio },
+      create: { alias, email, status, bio },
     });
 
     res.json({ message: "Profile updated successfully", profile: updatedProfile });
