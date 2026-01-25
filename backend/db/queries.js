@@ -46,9 +46,25 @@ async function checkUserByEmail(value) {
   }
 };
 
+async function checkFriendshipStatus(userId, friendId) {
+  const friendship = await prisma.friendship.findFirst({
+    where: {
+      userId: userId,
+      friendId: friendId,
+    },
+  });
+
+  if (friendship) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 
 module.exports = {
   checkEmail,
   checkUser,
-  checkUserByEmail
+  checkUserByEmail,
+  checkFriendshipStatus
 }

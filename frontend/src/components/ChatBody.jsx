@@ -1,10 +1,13 @@
 import styles from '../styles/components/chatbody.module.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ChatBody(props) {
 
   const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError } = props;
+  currentRoom, authRouter, SetError, SetCurrentFriend } = props;
+
+  const navigate = useNavigate();
 
   const [ messageContent, setMessageContent ] = useState("");
   const [ loading, SetLoading ] = useState(true);
@@ -40,6 +43,10 @@ export default function ChatBody(props) {
     }
   }
 
+  const handleGetProfile = async (userId) => {
+     navigate(`/home/profile/${userId}`);
+  }
+
   if (loading) {
     return (
       <div className={styles.chatBody}>
@@ -58,7 +65,17 @@ export default function ChatBody(props) {
           currentRoom.messages && currentRoom.messages.length > 0 ? (
             currentRoom.messages.map((message) => (
               <div key={message.id} className={user ? (message.senderId === user.id ? styles.ownMessage : styles.message) : styles.message}>
-                <strong>{message.sender.alias}:</strong> {message.content}
+                <strong>
+                  <button style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    font: 'inherit',}}
+                    onClick={() => handleGetProfile(message.sender.id)}
+                    >
+                    {message.sender.alias}:
+                  </button>
+                </strong> {message.content}
               </div>
             ))) : (
               <p>No messages in this chat room.</p>

@@ -1,11 +1,12 @@
 const friendDetailsRouter = require('express').Router();
-const {getUserData} = require('../controllers/viewController');
+const {getSelectedUserData} = require('../controllers/viewController');
 const { handleAddFriend } = require('../controllers/dataController/updateController');  
 
+// viewing user details + friendship status (view users info if friend)
 friendDetailsRouter.get('/:friendId', async (req, res, next) => {
   try {
-    const userData = await getUserData(req, res, next);
-    return res.json(userData);
+    const friendData = await getSelectedUserData(req, res, next);
+    return res.json(friendData);
   } catch (error) {
     next(error);
   }

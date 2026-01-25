@@ -26,6 +26,31 @@ async function getUserData(req, res, next) {
   }
 };
 
+const {checkFriendshipStatus} =  require('../db/queries.js');
+
+async function getSelectedUserData(req, res, next) {
+  try {
+    const userId = parseInt(req.params.friendId, 10);
+    const friendshipStatus = await checkFriendshipStatus(req.user.id, userId);
+    const friendData = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        alias: true,
+        fname: true,
+        lname: true,
+        email: true,
+        profile: true,
+        friendsOf: true,
+        userFriendships: true,
+      }
+    });
+    return { friendData, friendshipStatus };
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getAllData(req, res, next) {
   try {
       const [users, chatRooms ] = await Promise.all([
@@ -68,8 +93,11 @@ async function getChatRooms(req, res, next) {
             include: {
               sender: {
                 select: {
+                  id: true,
                   alias: true,
                   fname: true,
+                  lname: true
+
                 }
               }
             }
@@ -108,4 +136,4 @@ async function getChatRoom(req, res,next) {
   }
 };
 
-module.exports = { getAllData, getUserData, getChatRooms, getUsers, getChatRoom };
+module.exports = { getAllData, getUserData, getSelectedUserData ,getChatRooms, getUsers, getChatRoom };

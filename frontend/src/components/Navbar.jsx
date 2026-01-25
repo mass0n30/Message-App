@@ -13,11 +13,16 @@ function Navbar() {
   };
 
   return (
-    <>
-      <div>Navbar Text</div>
-      <button onClick={handleLogOut}>Log Out</button>
-      <button onClick={() => navigate("/home/profile")}>Profile</button>
-    </>
+    <nav className={styles.navbar}>
+      <div className={styles.logo}>
+        <h1>Navbar Text</h1>
+      </div>
+      <div className={styles.navLinks}>
+        <button onClick={handleLogOut}>Log Out</button>
+        <button onClick={() => navigate("/home/profile")}>Profile</button>
+      </div>
+
+    </nav>
   )
 }
 

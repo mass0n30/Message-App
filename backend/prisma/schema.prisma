@@ -38,7 +38,7 @@ model User {
   ChatMessage ChatMessage[]
   ChatRoom   ChatRoom[]
   friendsOf  Friendship[] @relation("FriendOf") // users who have this user as a friend
-  userFriendships Friendship[] @relation("UserFriend") // users who are friends with this user
+  userFriendships Friendship[] @relation("UserFriend") // users user has as friends 
 
 }
 

@@ -1,0 +1,55 @@
+/* ----------------- Colors ----------------- */
+:root {
+  --color-text: #e5e7eb;
+  --color-text-paragraph: #d4d4d4;
+  --color-white-alt: #E8F1F2;
+  --color-text-active: #a7e9ff; /* sidebar category selected text */
+
+  --color-primary: rgb(59, 130, 246);             /* main neon */
+  --color-primary-hover: #60a5fa;       /* softer neon */
+  --color-primary-glow: #00aaff;        /* bright glow */
+  --color-primary-glow-translucent: #00aaffa8;   /* dark glow */
+  --color-primary-glow-lite: #5ee7ff;   /* micro glow */
+  --color-secondary: #F03A47; 
+  --color-secondary-light: #f03a4683;       /* accent red */
+  --color-text-link:#646cff;
+  --color-text-link-hover: #535bf2;
+  --color-text-muted: #6b7280;     /* Secondary / muted text */      /* Borders / dividers */
+}
+
+/* ----------------- Typography ----------------- */
+
+:root {
+  --font-family: 'Satoshi', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --icon-size-desktop: 34px;
+  --icon-size-tablet: 44px;
+  --icon-size-mobile: 50px;
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --line-height-sm: 1.2;
+  --line-height-md: 1.5;
+  --line-height-lg: 1.75;
+}
+
+/* ----------------- Spacing ----------------- */
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --container-width: 1200px;
+}
+
+/* ----------------- Borders / Radius ----------------- */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+}

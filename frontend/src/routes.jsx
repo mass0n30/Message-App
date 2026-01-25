@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import HomePage from "./pages/HomePage";
 import Profile from "./pages/Profile";
+import { ProfileView } from "./pages/Profile";
+import ChatDirect from "./components/ChatDirect";
 
 const routes = [
   {
@@ -35,6 +37,14 @@ const routes = [
           {
             path: "profile",
             element: <Profile />
+          },
+          {
+            path: "profile/:userId",
+            element: <ProfileView />
+          },
+          {
+            path: "direct/:userId",
+            element: <ChatDirect />
           }
         ],
 

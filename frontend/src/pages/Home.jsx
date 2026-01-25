@@ -121,6 +121,7 @@ function Home() {
   return (
     <>
       <Navbar/>
+      <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
       <aside>
           <SideBar 
             chatRooms={chatRooms}
@@ -135,7 +136,10 @@ function Home() {
             SetError={SetError}
           />
         </aside>
-        <Outlet context={{user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, SetError }} />
+        <main>
+          <Outlet context={{user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, SetError }} />
+        </main>
+      </div>
       <Footer/>
     </>
 

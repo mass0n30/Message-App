@@ -82,9 +82,7 @@ function Login() {
       <p>A network error was encountered: {error}</p>
     ) : null}
 
-    <div className={styles.loginContainer}>
-
-      <div className={styles.formContainerOuter}  >
+      <div className={styles.formContainerOuter} >
         <div className={styles.formContainer}>
         <div className={styles.logoContainer}>
           <div className={styles.logoImage}>
@@ -97,12 +95,12 @@ function Login() {
         <form 
           onSubmit={handleSubmit} 
           method="POST" 
-          className={styles.loginForm} 
+          className={styles.login_form} 
           autoComplete="off"
         >
           <div className={styles.form_row}>
             <input 
-             className={styles.formInput}
+             className={styles.form_input}
              onChange={(e) => setUsername(e.target.value)}
              id="email" 
              name="username" 
@@ -113,7 +111,7 @@ function Login() {
           </div>
           <div className={styles.form_row}>
             <input 
-            className={styles.formInput}
+            className={styles.form_input}
             onChange={(e) => setPassword(e.target.value)} 
             id="password" 
             name="password"  
@@ -126,17 +124,17 @@ function Login() {
             <button type="submit" className={styles.form_button}>Continue</button>
           </div>
         </form>
-          <div className={styles.form_row} id="signUp">
+          <div className={styles.form_row_signup}>
             <div className={styles.form_link} >
-              Not a member? 
+             <> Not a member? </> 
             </div>
             <Link to="/sign-up">
               <button className={styles.form_button_signup}>Sign Up!</button>
             </Link>
           </div>
-          <div className={styles.form_row}>
-            <button className={styles.guestBtn} onClick={handleGuestSubmit}>
-              <div className={styles.guestContainer}>
+          <div className={styles.form_row_signup }>
+            <button className={styles.guest_btn} onClick={handleGuestSubmit}>
+              <div className={styles.guest_container}>
                   <div>Continue as Guest</div>
                   <CircleUserRound/>
               </div>
@@ -144,7 +142,6 @@ function Login() {
           </div>
         </div>
       </div>
-    </div>
     </>
   )
 }

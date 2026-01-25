@@ -1,16 +1,19 @@
 import { useEffect } from "react";
+import{ useNavigate } from "react-router-dom";
 import styles from '../styles/components/sidebar.module.css';
 import axios from "axios";
 
 function SideBar(props) {
   const {chatRooms, currentRoom, SetCurrentRoom, loading, success, SetLoading, authRouter } = props;
 
+  const navigate = useNavigate();
 
   const handleSetRoom = (roomId) => {
     if (currentRoom.id !== roomId) {
       const selectedRoom = chatRooms.find((room) => room.id === roomId);
       SetCurrentRoom(selectedRoom);
     }
+    navigate('/home');
   };
 
   useEffect(() => {

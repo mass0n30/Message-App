@@ -1,72 +1,68 @@
 
-/* ----------------- Colors ----------------- */
-:root {
-  --color-background: #0d0f17;
-  --color-background-light: #1a1e27;
-  --color-surface: #1a2b29ad;
-  --color-surface-translucent: #171f1e5b;
-  --color-surface-translucent-alt: #2c3d3bc4;
+@import '../base/variables.css';
 
-  --color-text: #e5e7eb;
-  --color-text-paragraph: #d4d4d4;
-  --color-white-alt: #E8F1F2;
-  --color-text-active: #a7e9ff; /* sidebar category selected text */
 
-  --purple-accent: #612cff;
-  --purple-accent-dark: #321686;
-  --orange-fire: #fd7310da; /* accent orange */
-
-  --purple-ambient: rgba(58, 25, 156, 0.123);
-  --blue-ambient:   rgba(59, 131, 246, 0.164);
-  --red-ambient:    rgba(240, 58, 70, 0.26);
-  --blue-light-ambient: #1992cf10;
-
-  --color-primary: rgb(59, 130, 246);             /* main neon */
-  --color-primary-hover: #60a5fa;       /* softer neon */
-  --color-primary-glow: #00aaff;        /* bright glow */
-  --color-primary-glow-translucent: #00aaffa8;   /* dark glow */
-  --color-primary-glow-lite: #5ee7ff;   /* micro glow */
-  --color-secondary: #F03A47; 
-  --color-secondary-light: #f03a4683;       /* accent red */
-  --color-text-link:#646cff;
-  --color-text-link-hover: #535bf2;
-  --color-text-muted: #6b7280;     /* Secondary / muted text */
-  --color-border: #E8F1F2;;         /* Borders / dividers */
+.loginContainer, .formContainerOuter, .formContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-/* ----------------- Typography ----------------- */
-
-:root {
-  --font-family: 'Satoshi', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --icon-size-desktop: 34px;
-  --icon-size-tablet: 28px;
-  --icon-size-mobile: 24px;
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --line-height-sm: 1.2;
-  --line-height-md: 1.5;
-  --line-height-lg: 1.75;
+.formContainerOuter {
+    flex: 1;
+    padding: var(--space-lg);
+    box-sizing: border-box;
+    width: 100%;
 }
 
-/* ----------------- Spacing ----------------- */
-:root {
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --container-width: 1200px;
+.form_row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-md);
+    box-sizing: border-box;
 }
 
-/* ----------------- Borders / Radius ----------------- */
-:root {
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --border-width: 1px;
+.form_input {
+    width: 100%;
+    padding: var(--space-sm);
+    font-size: var(--text-base);
+    border: 1px solid var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    background-color: #1a1a1a;
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+.form_row_signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-sm);
+  box-sizing: border-box;
+}
+
+.guest_btn, .form_button_signup {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.form_btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm);
 }
