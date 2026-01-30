@@ -21,8 +21,8 @@ async function handleUpdateProfile(req, res, next) {
 
 async function handleAddFriend(req, res, next) {
   try {
-    const userId = 1 // parseInt(req.user.id, 10);
-    const friendId = parseInt(req.body.friendId, 10);
+    const userId = parseInt(req.user.id, 10);
+    const friendId = parseInt(req.params.friendId, 10);
 
     // Check if the friendship already exists
     const existingFriendship = await prisma.friendship.findFirst({

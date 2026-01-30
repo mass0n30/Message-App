@@ -43,9 +43,11 @@ function SideBar(props) {
     <div className={styles.sidebar}>
       <h2>Sidebar</h2>
       {chatRooms && chatRooms.length > 0 && (
-        <div>
+        <div className={styles.chatRoomList}>
           {chatRooms.map((room) => (
-            <button key={room.id} onClick={() => handleSetRoom(room.id)} >{room.id}</button>
+            <div key={room.id} className={styles.chatRoomItem}>
+              <button onClick={() => handleSetRoom(room.id)} >{room.name}</button>
+            </div>
           ))}
         </div>
       )}

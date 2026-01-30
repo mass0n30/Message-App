@@ -97,7 +97,7 @@ export function ProfileView() {
   const handleUpdateFriendship = async (friendId) => {
 
     try {
-      const response = await authRouter.post(`/friends/${userId}`);
+      const response = await authRouter.post(`/friends/${friendId}`);
     } catch (error) {
       SetError(error);
     }
