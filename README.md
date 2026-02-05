@@ -1,5 +1,6 @@
 # PERN-Starter-Template
 Starter template, using PERN stack, keeping backend and frontend in seperate directories. 
+Real Time messaging using websockets in the context of using React: https://ably.com/blog/websockets-react-tutorial 
 
 ToDo:
  - Plan Feautures (user settings, board rooms, ect)

@@ -1,21 +1,60 @@
 // update controller 
 const prisma  = require("../../db/prismaClient.js");
 
+
 async function handleUpdateProfile(req, res, next) {
   try {
-    const userId = parseInt(req.user.id, 10);
-    const { formData } = req.body;
-    const { alias, email, status, id } = formData;
+    const userId = Number(req.user.id);
+    const { alias, email, status, bio } = req.body;
 
-    const updatedProfile = await prisma.profile.upsert({
-      where: { userId: id },
-      update: { alias, email, status, bio },
-      create: { alias, email, status, bio },
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        alias,
+        email,
+        profile: {
+          upsert: {
+            update: { status: status, bio },
+            create: { status: status, bio },
+          },
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+        alias: true,
+        profile: {
+          select: {
+            status: true,
+            bio: true,
+            avatarUrl: true,
+          },
+        },
+      },
     });
 
-    res.json({ message: "Profile updated successfully", profile: updatedProfile });
-  } catch (error) {
-    next(error);
+    return updatedUser;
+  } catch (err) {
+    return next(err);
+  }
+};
+
+const {getUserData} = require('../../controllers/viewController.js');
+
+async function handleUpdateAvatar(req, res, next, url) {
+  try {
+    const userId = Number(req.user.id);
+    await prisma.profile.update({
+      where: { userId: userId },
+      data: { avatarUrl: url }
+    });
+
+    const updatedProfile = await getUserData(req, res, next);
+
+    return updatedProfile;
+  } catch (err) {
+    return next(err);
   }
 };
 
@@ -59,4 +98,4 @@ async function handleAddFriend(req, res, next) {
   }
 };
 
-module.exports = { handleUpdateProfile, handleAddFriend };
+module.exports = { handleUpdateProfile, handleAddFriend, handleUpdateAvatar };

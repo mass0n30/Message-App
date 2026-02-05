@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const expressSession = require("express-session");
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('./generated/prisma/client');
 const passport = require("passport");
@@ -14,8 +16,9 @@ const {signupRouter} = require('./routes/signup');
 const {homeRouter} = require('./routes/home');
 
 const app = express();
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
+const server = createServer(app);
 
+console.log('DATABASE_URL:', process.env.DATABASE_URL)
 
 
 app.use(cors());
@@ -45,6 +48,9 @@ app.use(
 app.use(passport.session());  //enables persistent login sessions
 
 app.use('/', indexRouter);
+
+
+
 app.use('/sign-up', signupRouter);
 
 app.use('/home', homeRouter);

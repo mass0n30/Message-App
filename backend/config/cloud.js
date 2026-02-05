@@ -1,8 +1,5 @@
 const cloudinary = require('cloudinary').v2;
-const { format }  = require("@cloudinary/url-gen/actions/delivery");
-const { auto } = require("@cloudinary/url-gen/qualifiers/format");
-const { attachment } = require("@cloudinary/url-gen/qualifiers/flag");
-const { CloudinaryImage } = require('@cloudinary/url-gen');
+
 
 cloudinary.config({
   cloud_name: 'dlcev9lgh',

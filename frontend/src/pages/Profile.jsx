@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import formStyles from '../styles/components/form.module.css';
 
 export default function Profile() {
-  const { user, authRouter, SetLoading } = useOutletContext();
+  const { user, SetUser, authRouter, authRouterForm, SetLoading } = useOutletContext();
+  const [avatarFile, setAvatarFile] = useState(null);
+
   const [formData, setFormData] = useState({
     alias: user.alias,
     email: user.email,
+    bio: user.profile ? user.profile.bio : '',
+    status: user.profile && user.profile?.status,
     id: user.id,
   });
 
@@ -17,17 +21,35 @@ export default function Profile() {
     try {
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/profile`, formData);
       const result = await response.data;
-      setFormData({
-        ...formData,
-        alias: result.profile.alias,
-        email: result.profile.email,
-        id: result.profile.userId,
-      });
+      SetUser(result);
     } catch (error) {
       console.error("Error updating profile:", error);
-    }
-    
+    } 
   };
+
+
+const handleUploadAvatar = async (e) => {
+  e.preventDefault();
+  SetLoading(true);
+  try {
+    if (!avatarFile) return;
+
+    const fd = new FormData();
+    fd.append("avatar", avatarFile); 
+
+    const response = await authRouterForm.post(
+      `${import.meta.env.VITE_API_URL}/profile/avatar`,
+      fd
+    );
+
+    const updatedProfile = await response.data;
+    SetUser(updatedProfile);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    SetLoading(false);
+  }
+};
 
   return (
     <div>
@@ -45,20 +67,39 @@ export default function Profile() {
             <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
             <br />
             <label>Bio</label>
-            <textarea value={formData.bio} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
+            <textarea value={formData.bio ? formData.bio : ''} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
             <br />
             <label>Status</label>
-              <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
-                <option value="busy">Busy</option>
+              <select
+                value={formData.status === true ? "Online" : "Offline"}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value === "Online" ? true : false })
+                }
+              >
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
               </select>
+
             <br />
             <label>
               <button type="submit">Update Profile</button>
             </label>
           </form>
+
+          <div> 
+            <img src={user.profile && user.profile.avatarUrl ? `${user.profile.avatarUrl}` : ''} alt="User Avatar" />
+            <div className="modalContainer">
+              <label>Add a File</label>
+              <form onSubmit={handleUploadAvatar}>
+                <input type="file" name="avatar" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} />
+                <button type="submit">Upload</button>
+              </form>
+              <button className="addFileModal">Close</button>
+            </div>
+          </div>
+
         </div>
+
       )}
     </div>
   );
@@ -110,7 +151,7 @@ export function ProfileView() {
         <div>
           <h2>{selectedUser.alias}'s Profile</h2>
           <p>Email: {selectedUser.email}</p>
-          <p>Bio: {selectedUser.bio}</p>
+          <textarea defaultValue={selectedUser.bio}></textarea>
           <p>Status: {friendshipStatus ? "Friends" : (pending ? "Pending" : "Not Friends")}</p>
           <div className={formStyles.form_row}>
             <button onClick={() => handleUpdateFriendship(selectedUser.id)}>

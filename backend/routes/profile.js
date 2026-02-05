@@ -1,7 +1,9 @@
 const { Router } = require("express");
-const {handleUpdateProfile} = require('../controllers/dataController/updateController');  
+const {handleUpdateProfile, handleUpdateAvatar} = require('../controllers/dataController/updateController');  
 const {handleDeleteProfile} = require('../controllers/dataController/deleteController');
-
+const multer =  require('multer');
+const { handleUploadFile } = require("../controllers/dataController/createController");
+const upload = multer({ dest: 'uploads/' });
 
 const profileRouter = Router();
 
@@ -19,8 +21,15 @@ profileRouter.post('/', async (req, res, next ) => {
   }
 }); 
 
-// route for avatar ?
-
+profileRouter.post('/avatar', upload.single('avatar'), async (req, res, next ) => {
+  try {
+    const avatarUrl = await handleUploadFile(req, res, next);
+    const updatedProfile = await handleUpdateAvatar(req, res, next, avatarUrl.url);
+    return res.json(updatedProfile);
+  } catch (error) {
+    next(error);
+  }
+});
 
 profileRouter.delete('/', async (req, res, next ) => {
   try {

@@ -1,6 +1,7 @@
 // create controller 
 const prisma  = require("../../db/prismaClient.js");
 const { validationResult } = require("express-validator");
+const { getCloudinaryObj } = require("../../config/cloud.js");
 
 const bcrypt = require("bcryptjs");
 
@@ -119,5 +120,33 @@ async function handleCreateChatMessage(req, res, next) {
   }
 }
 
+async function handleUploadFile(req, res, next) {
 
-module.exports = { handleCreateUser, handleCreateMessage, handleCreateChatRoom, handleCreateChatMessage };
+  if (req.file == undefined) {
+    const err = new Error("No attached file");
+    err.status = 400;
+    return next(err);
+  }
+
+  const filePath = req.file.path;
+
+  console.log(req.file);
+  
+  try {
+    const cloudFileObj = await getCloudinaryObj(filePath);
+    console.log(cloudFileObj);
+
+    // ( 1/1/25 Format Formula Conversion)
+
+   return { url: cloudFileObj.url, message: "Avatar uploaded successfully" };
+
+    
+  } catch (error) {
+    console.error(error);
+    // goes to error middleware
+    next(error);
+  }
+};
+
+
+module.exports = { handleCreateUser, handleCreateMessage, handleCreateChatRoom, handleCreateChatMessage, handleUploadFile };

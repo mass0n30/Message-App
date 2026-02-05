@@ -32,6 +32,15 @@ function Home() {
       },
   });
 
+  // for multer form data (file (avatar img) uploads)
+  const authRouterForm = axios.create({
+    baseURL: `${import.meta.env.VITE_API_URL}`,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data', 
+      },
+  });
+
 
   //spinner upon mount with delay, post creation message with delay
   useEffect(() => {
@@ -137,7 +146,7 @@ function Home() {
           />
         </aside>
         <main>
-          <Outlet context={{user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, SetError }} />
+          <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError }} />
         </main>
       </div>
       <Footer/>
