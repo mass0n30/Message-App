@@ -2,6 +2,7 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import formStyles from '../styles/components/form.module.css';
+import profileStyles from '../styles/pages/profile.module.css';
 
 export default function Profile() {
   const { user, SetUser, authRouter, authRouterForm, SetLoading } = useOutletContext();
@@ -86,15 +87,18 @@ const handleUploadAvatar = async (e) => {
             </label>
           </form>
 
-          <div> 
-            <img src={user.profile && user.profile.avatarUrl ? `${user.profile.avatarUrl}` : ''} alt="User Avatar" />
-            <div className="modalContainer">
+          <div>
+            <div className={profileStyles.avatarSection}>
+              <img src={user.profile && user.profile.avatarUrl ? `${user.profile.avatarUrl}` : ''} alt="User Avatar" />
+            </div>
+            <button className={profileStyles.openModalButton}>Change Avatar</button>
+            <div className={profileStyles.addFileModalContent}>
               <label>Add a File</label>
               <form onSubmit={handleUploadAvatar}>
                 <input type="file" name="avatar" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} />
                 <button type="submit">Upload</button>
               </form>
-              <button className="addFileModal">Close</button>
+              <button className={profileStyles.closeModalButton}>Close</button>
             </div>
           </div>
 
@@ -144,6 +148,21 @@ export function ProfileView() {
     }
   };
 
+  const handleSubmitMessage = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await authRouter.post(`/chats/private/${selectedUser.id}`, {
+        userId: user.id,
+        friendId: selectedUser.id
+      });
+      const result = await response.data;
+      SetCurrentRoom(result.chatRoom);
+    } catch (error) {
+      SetError(error);
+    }
+  };
+
 
   return (
     <div>
@@ -151,9 +170,9 @@ export function ProfileView() {
         <div>
           <h2>{selectedUser.alias}'s Profile</h2>
           <p>Email: {selectedUser.email}</p>
-          <textarea defaultValue={selectedUser.bio}></textarea>
+          <p>{selectedUser.profile.bio}</p>
           <p>Status: {friendshipStatus ? "Friends" : (pending ? "Pending" : "Not Friends")}</p>
-          <div className={formStyles.form_row}>
+          <div>
             <button onClick={() => handleUpdateFriendship(selectedUser.id)}>
               {!friendshipStatus && !pending ? (
                 <span>Add Friend</span>
@@ -163,6 +182,12 @@ export function ProfileView() {
                 <span>Unfriend</span>
               )}
             </button>
+          </div>
+          <div>
+            <form className={formStyles.formContainer} onSubmit={handleSubmitMessage}>
+              <input type="text" placeholder="Send Message" />
+              <button type="submit">Send</button>
+            </form>
           </div>
         </div>
       )}

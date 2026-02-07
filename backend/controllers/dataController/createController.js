@@ -37,28 +37,6 @@ async function handleCreateUser(req, res, next) {
   }
 };
 
-async function handleCreateMessage(req, res, next) {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  };
-
-  try {
-    const { content } = req.body;
-    await prisma.chatMessage.create({
-      data: {
-        chatRoomId: parseInt(req.params.roomId, 10),
-        senderId: parseInt(req.userId, 10),
-        content: content,
-      }
-   });
-
-  return res.status(201).json({ message: "Message Created Successfully" });
-
-  } catch (error) {
-    return res.status(400).json({ errors:error });
-  }
-};
 
 async function handleCreateChatRoom(req, res, next) {
   const errors = validationResult(req);
@@ -113,12 +91,29 @@ async function handleCreateChatMessage(req, res, next) {
         },
       },
     });
-
     res.status(201).json({ updatedChatRoom, message: "Message sent successfully", content: newMessage.content });
   } catch (error) {
     next(error);
   }
 }
+
+async function handleCreateMessageDirect(req, res, next) {
+  try {
+    const { content } = req.body;
+    await prisma.messages.create({
+      data: {
+        receiverId: parseInt(req.params.friendId),
+        senderId: parseInt(req.user.id),
+        content: content,
+      }
+  });
+
+  return res.status(201).json({ message: "Message Sent" });
+
+  } catch (error) {
+    return res.status(400).json({ errors:error });
+  }
+};
 
 async function handleUploadFile(req, res, next) {
 
@@ -149,4 +144,4 @@ async function handleUploadFile(req, res, next) {
 };
 
 
-module.exports = { handleCreateUser, handleCreateMessage, handleCreateChatRoom, handleCreateChatMessage, handleUploadFile };
+module.exports = { handleCreateUser, handleCreateChatRoom, handleCreateChatMessage, handleCreateMessageDirect, handleUploadFile };

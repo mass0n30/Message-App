@@ -3,6 +3,21 @@ Starter template, using PERN stack, keeping backend and frontend in seperate dir
 Real Time messaging using websockets in the context of using React: https://ably.com/blog/websockets-react-tutorial 
 
 ToDo:
+  - create message in update
+  - realtime messaging overview:
+      Connect socket
+      
+      Listen for events (incoming)
+
+      Update state
+
+      Render UI
+
+      Emit events (outgoing) from user actions
+
+
+
+Done:
  - Plan Feautures (user settings, board rooms, ect)
   - Online Status, Profile data, Icon Picture, Friends
  - Plan API Routes (following REST)

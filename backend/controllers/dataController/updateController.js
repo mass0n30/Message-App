@@ -99,3 +99,4 @@ async function handleAddFriend(req, res, next) {
 };
 
 module.exports = { handleUpdateProfile, handleAddFriend, handleUpdateAvatar };
+
