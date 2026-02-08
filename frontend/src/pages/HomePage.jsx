@@ -7,7 +7,7 @@ import ChatBody  from '../components/ChatBody';
 {/*maybe import local styles */}
 
 function HomePage() {
-  const { user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, SetLoading, SetSuccess, authRouter, SetError } = useOutletContext();
+  const { user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, SetLoading, SetSuccess, authRouter, SetError, guestMode, SetAlertGuest } = useOutletContext();
 
 
 
@@ -23,6 +23,8 @@ function HomePage() {
         SetCurrentRoom={SetCurrentRoom}
         authRouter={authRouter}
         SetError={SetError}
+        guestMode={guestMode}
+        SetAlertGuest={SetAlertGuest}
       />
     </> 
   )

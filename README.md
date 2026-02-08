@@ -4,6 +4,12 @@ Real Time messaging using websockets in the context of using React: https://ably
 
 ToDo:
   - create message in update
+  - return updated messages like userProfile
+  - setup Guest logic
+  - add banners for guest features
+  - add user messages tab in nav (amount of new messages, *default message for signing up)
+  - add popup module for message directs (toggling on parent component)
+  - display messages with time stamp
   - realtime messaging overview:
       Connect socket
       

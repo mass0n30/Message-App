@@ -1,11 +1,12 @@
 const Router = require("express");
 const chatRouter = Router();
+const passport = require("passport");
 const {validateCreateChatRoom, validateCreateMessage} = require('../controllers/validation'); 
 
 const {handleCreateChatRoom, handleCreateChatMessage } = require('../controllers/dataController/createController');
 const {getChatRoom, getChatMessages} = require('../controllers/viewController');
 
-chatRouter.post('/', validateCreateChatRoom(), handleCreateChatRoom);
+chatRouter.post('/', passport.authenticate('jwt', { session: false }), validateCreateChatRoom(), handleCreateChatRoom);
 
 chatRouter.get('/:chatRoomId', async (req, res, next ) => {
 
@@ -17,6 +18,6 @@ chatRouter.get('/:chatRoomId', async (req, res, next ) => {
   }
 });
 
-chatRouter.post('/:chatRoomId/message', validateCreateMessage(), handleCreateChatMessage); 
+chatRouter.post('/:chatRoomId/message', passport.authenticate('jwt', { session: false }), validateCreateMessage(), handleCreateChatMessage);
 
 module.exports = {chatRouter};

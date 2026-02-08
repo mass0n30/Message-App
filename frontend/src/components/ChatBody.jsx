@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ChatBody(props) {
 
   const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError, SetCurrentFriend } = props;
+  currentRoom, authRouter, SetError, SetCurrentFriend, guestMode, SetAlertGuest } = props;
 
   const navigate = useNavigate();
 
@@ -26,7 +26,8 @@ export default function ChatBody(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
+    if (guestMode) {
+      SetAlertGuest(true);
       return;
     }
 
@@ -44,7 +45,12 @@ export default function ChatBody(props) {
   }
 
   const handleGetProfile = async (userId) => {
-     navigate(`/home/profile/${userId}`);
+    if (guestMode) {
+      SetAlertGuest(true);
+      return;
+    } else {
+      navigate(`/home/profile/${userId}`);
+    }
   }
 
   if (loading) {

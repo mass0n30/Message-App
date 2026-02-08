@@ -37,6 +37,7 @@ async function handleCreateUser(req, res, next) {
   }
 };
 
+const { getAllData } = require("../viewController.js");
 
 async function handleCreateChatRoom(req, res, next) {
   const errors = validationResult(req);
@@ -48,13 +49,16 @@ async function handleCreateChatRoom(req, res, next) {
   try {
     const { roomName } = req.body;
     console.log(roomName);
-    await prisma.chatRoom.create({
+    const chatRoom = await prisma.chatRoom.create({
       data: {
         ownerId: 1, // parseInt(req.user.id, 10)
         name: roomName,
       }
    });
-  return res.status(201).json({ message: "Chat Room Created Successfully" });
+
+   const allData = await getAllData(req, res, next);
+
+  return res.status(201).json({ message: "Chat Room Created Successfully", allData: allData, chatRoom: chatRoom });
 
   } catch (error) {
     return res.status(400).json({ errors:error });

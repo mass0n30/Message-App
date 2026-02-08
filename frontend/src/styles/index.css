@@ -40,14 +40,16 @@ html, body, nav, #root, main, section, .infinite-scroll-component__outerdiv, .in
 }
 
 /* Shell defines boundaries, Stack defines rhythm, Cluster defines horizontal relationships. */
-
 .shell {
-  max-width: var(--max-page);
+  width: 100%;
+  max-width: 1800px;
   margin-inline: auto;
+  min-height: 100dvh;
   padding-inline: var(--space-md);
 }
 
 .stack {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-md); /* change upon media queries */

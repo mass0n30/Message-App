@@ -1,16 +1,20 @@
 {/* import { useState, useEffect } from 'react' */}
 import { useParams, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import Shell from "../primitives/Shell";
+import Stack from "../primitives/Stack";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import SideBar from "../components/Sidebar";
 import axios from "axios";
+import SnackBarAlert from "../components/reactMUI/Alerts";
 
 function Home() {
 
   const [user, SetUser] = useState(null);
   const [users, SetUsers] = useState(null);
   const [guestMode, SetGuestMode] = useState(false);
+  const [alertGuest, SetAlertGuest] = useState(false);
   const [chatRooms, SetChatRooms] = useState(null);
   const [currentRoom, SetCurrentRoom] = useState(null);
   // loading state settings
@@ -115,42 +119,75 @@ function Home() {
   // loader sidebar/ navbar / ect
   if (loading) {
     return (
-      <>
-      <Navbar/>
-        <aside> 
-        </aside>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
-          <div className="spinner"></div>
-        </div>
-      <Footer/>
-      </>
+      <Shell>
+        <Stack>
+          <Navbar
+            setMount={SetMount}
+            guestMode={guestMode}
+            SetAlertGuest={SetAlertGuest}
+          />
+            <aside>
+                <SideBar 
+                  chatRooms={chatRooms}
+                  currentRoom={currentRoom}
+                  SetCurrentRoom={SetCurrentRoom}
+                  SetChatRooms={SetChatRooms}
+                  SetMount={SetMount}
+                  mount={mount}
+                  loading={loading}
+                  success={success}
+                  SetLoading={SetLoading}
+                  authRouter={authRouter}
+                  SetError={SetError}
+                  SetAlertGuest={SetAlertGuest}
+                  guestMode={guestMode}
+                />
+              </aside>
+            <div className="contentWrapper" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
+              <div className="spinner"></div>
+            </div>
+          <Footer/>
+        </Stack>
+      </Shell>
     );
   }
 
   return (
-    <>
-      <Navbar/>
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-      <aside>
-          <SideBar 
-            chatRooms={chatRooms}
-            currentRoom={currentRoom}
-            SetCurrentRoom={SetCurrentRoom}
-            SetMount={SetMount}
-            mount={mount}
-            loading={loading}
-            success={success}
-            SetLoading={SetLoading}
-            authRouter={authRouter}
-            SetError={SetError}
-          />
-        </aside>
-        <main>
-          <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError }} />
-        </main>
-      </div>
-      <Footer/>
-    </>
+    <Shell>
+      <Stack>
+        <Navbar
+          setMount={SetMount}
+          guestMode={guestMode}
+          SetAlertGuest={SetAlertGuest}
+        />
+        <div className="contentWrapper" style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+        <aside>
+            <SideBar 
+              chatRooms={chatRooms}
+              currentRoom={currentRoom}
+              SetCurrentRoom={SetCurrentRoom}
+              SetChatRooms={SetChatRooms}
+              SetMount={SetMount}
+              mount={mount}
+              loading={loading}
+              success={success}
+              SetLoading={SetLoading}
+              authRouter={authRouter}
+              SetError={SetError}
+              SetAlertGuest={SetAlertGuest}
+              guestMode={guestMode}
+            />
+          </aside>
+          <main>
+            <SnackBarAlert setOpen={SetAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
+            <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError
+              , guestMode, SetAlertGuest
+             }} />
+          </main>
+        </div>
+        <Footer/>
+      </Stack>
+    </Shell>
 
 
   )

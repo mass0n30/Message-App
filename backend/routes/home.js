@@ -3,9 +3,9 @@ const homeRouter = Router();
 var jwt = require('jsonwebtoken');
 const jwtDecode = require("jwt-decode");
 const passport = require('passport');
-const { getData } = require('../controllers/viewController');
 require('../config/passport');
 const { getAllData, getUserData } = require("../controllers/viewController");
+const { handleCreateChatRoom } = require("../controllers/dataController/createController"); 
 
 homeRouter.get('/', passport.authenticate('jwt', { session: false }), async (req, res, next ) => {
 
@@ -17,6 +17,17 @@ homeRouter.get('/', passport.authenticate('jwt', { session: false }), async (req
   res.json({
     allData: allData,
     userData: userData
+  });
+});
+
+homeRouter.post('/create', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+
+  const chatRoom = await handleCreateChatRoom(req, res, next);
+  const allData = await getAllData(req, res, next);
+
+  res.json({
+    allData: allData,
+    chatRoom: chatRoom
   });
 });
 

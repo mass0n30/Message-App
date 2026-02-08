@@ -62,7 +62,7 @@ app.use('/profile', passport.authenticate('jwt', { session: false }), profileRou
 
 const chatRouter = require('./routes/chats').chatRouter;
 
-app.use('/chats', passport.authenticate('jwt', { session: false }), chatRouter);
+app.use('/chats', chatRouter);
 
 const {friendDetailsRouter} = require('./routes/frienddetails');
 
