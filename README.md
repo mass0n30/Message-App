@@ -3,10 +3,11 @@ Starter template, using PERN stack, keeping backend and frontend in seperate dir
 Real Time messaging using websockets in the context of using React: https://ably.com/blog/websockets-react-tutorial 
 
 ToDo:
+  Display UserFriend (who we added) all Friends under Friends in message box
+  Display Pending messages for users not added under Friends in message box
   - create message in update
   - return updated messages like userProfile
-  - setup Guest logic
-  - add banners for guest features
+
   - add user messages tab in nav (amount of new messages, *default message for signing up)
   - add popup module for message directs (toggling on parent component)
   - display messages with time stamp
@@ -22,7 +23,6 @@ ToDo:
       Emit events (outgoing) from user actions
 
 
-
 Done:
  - Plan Feautures (user settings, board rooms, ect)
   - Online Status, Profile data, Icon Picture, Friends
@@ -31,6 +31,8 @@ Done:
  - Update Prisma Schema
   - User(status, profile data, cloudify picture link?, Friends[])
  - Setup Tests to test API Routes
+  - setup Guest logic
+  - add banners for guest features
 
 BACKEND directory:
 

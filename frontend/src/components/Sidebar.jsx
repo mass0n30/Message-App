@@ -52,20 +52,6 @@ function SideBar(props) {
     }
   };
 
-  useEffect(() => {
-    async function fetchRoomData() {
-      await authRouter.get(`/chats/${currentRoom.id}`)
-        .then((response) => {
-          console.log("Room data fetched:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching room data:", error);
-        });
-    }
-
-    fetchRoomData();
-  }  , [currentRoom, SetLoading, success, authRouter]);
-
 
   return (
     <div className={styles.sidebar}>

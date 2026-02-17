@@ -29,6 +29,14 @@ async function handleCreateUser(req, res, next) {
       userId: user.id
     }
    });
+
+   await prisma.messages.create({
+    data: {
+      senderId: 1, // from me  
+      receiverId: user.id,
+      content: "Welcome to Message App!"
+    }
+   });
    
   return res.status(201).json({ message: "Account Created Successfully" });
 

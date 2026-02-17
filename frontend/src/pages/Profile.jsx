@@ -118,6 +118,7 @@ export function ProfileView() {
   const [ selectedUser, setSelectedUser ] = useState(null);
   const [ friendshipStatus, setFriendshipStatus ] = useState(null);
   const [pending, setPending] = useState(false);
+  const [messageContent, setMessageContent] = useState('');
 
   const { userId } = useParams();
 
@@ -151,13 +152,15 @@ export function ProfileView() {
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
 
+    if (!messageContent || messageContent.trim() === '') return;
+
     try {
-      const response = await authRouter.post(`/chats/private/${selectedUser.id}`, {
+      const response = await authRouter.post(`friends/chats/private/${selectedUser.id}`, {
         userId: user.id,
-        friendId: selectedUser.id
+        friendId: selectedUser.id,
+        content: messageContent
       });
       const result = await response.data;
-      SetCurrentRoom(result.chatRoom);
     } catch (error) {
       SetError(error);
     }
@@ -185,7 +188,7 @@ export function ProfileView() {
           </div>
           <div>
             <form className={formStyles.formContainer} onSubmit={handleSubmitMessage}>
-              <input type="text" placeholder="Send Message" />
+              <input type="text" placeholder="Send Message" onChange={(e) => setMessageContent(e.target.value)} />
               <button type="submit">Send</button>
             </form>
           </div>

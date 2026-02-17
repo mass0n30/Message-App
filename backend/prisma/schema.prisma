@@ -68,6 +68,7 @@ model Messages {
   receiverId Int
   content   String
   timestamp DateTime @default(now())
+  read      Boolean  @default(false)
   
   sender    User     @relation("sentMessages", fields: [senderId], references: [id])
   receiver  User     @relation("receivedMessages", fields: [receiverId], references: [id])

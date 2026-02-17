@@ -17,8 +17,48 @@ async function getUserData(req, res, next) {
         email: true,
         profile: true,
         friendsOf: true,
-        userFriendships: true,
-    }
+        userFriendships: {
+          select: {
+            id: true,
+            friendId: true,
+            friendsOf: {
+              select: {
+                id: true,
+                alias: true,
+                fname: true,
+                lname: true,
+                email: true,
+                profile: true,
+                sentMessages: {
+                  where: {
+                    receiverId: userId
+                  },
+                  select: {
+                    id: true,
+                    content: true,
+                    timestamp: true,
+                    read: true,
+                  }
+                },
+              }
+            }
+          }
+        },
+        receivedMessages: {
+          select: {
+            id: true,
+            content: true,
+            timestamp: true,
+            read: true,
+            sender: {
+              select: {
+                id: true,
+                alias: true,
+              }
+            }
+          }
+        }
+      }
   });
     return userData;
   } catch (error) {
@@ -136,4 +176,22 @@ async function getChatRoom(req, res,next) {
   }
 };
 
-module.exports = { getAllData, getUserData, getSelectedUserData ,getChatRooms, getUsers, getChatRoom };
+async function getDirectMessageChatMessages(req, res, next, friendId) {
+
+  try {
+    const userId = parseInt(req.user.id, 10);
+    const directMessageChats = await prisma.messages.findMany({
+      where: {
+        AND: [
+          { receiverId: userId },
+          { senderId: friendId }
+        ]
+      }
+    });
+    return directMessageChats;
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { getAllData, getUserData, getSelectedUserData ,getChatRooms, getUsers, getChatRoom, getDirectMessageChatMessages };

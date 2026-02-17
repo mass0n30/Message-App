@@ -6,14 +6,17 @@ import styles from '../styles/components/navbar.module.css';
 import Cluster from '../primitives/Cluster';
 
 
-function Navbar({setMount, guestMode, SetAlertGuest}) {
+function Navbar({setMount, guestMode, SetAlertGuest, user, messages, toggleMessages, SetToggleMessages}) {
   const navigate = useNavigate();
+
+  const newMsgCount = user && messages ? messages.filter(msg => !msg.read).length : 0;
 
   function handleNavigateMessages() {
     if (guestMode) {
       SetAlertGuest(true);
       return;
     }
+    SetToggleMessages(!toggleMessages);
   };
 
   function handleNavigateProfile() {
@@ -25,9 +28,9 @@ function Navbar({setMount, guestMode, SetAlertGuest}) {
     }
   };
 
-  function handleLogOut() {
-  localStorage.removeItem("usertoken");
-  navigate("/");
+    function handleLogOut() {
+    localStorage.removeItem("usertoken");
+    navigate("/");
   };
 
   return (
@@ -43,7 +46,7 @@ function Navbar({setMount, guestMode, SetAlertGuest}) {
           <button onClick={handleNavigateProfile}>Profile</button>
         </div>
         <div className={styles.navLinks}>
-          <button onClick={handleNavigateMessages}>Messages</button>
+          <button onClick={handleNavigateMessages}>Messages {newMsgCount > 0 && <span style={{ color: 'red' }}>({newMsgCount})</span>}</button>
         </div>
       </Cluster>
 

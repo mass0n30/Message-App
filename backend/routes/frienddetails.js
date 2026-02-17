@@ -1,7 +1,7 @@
 const friendDetailsRouter = require('express').Router();
 const {getSelectedUserData} = require('../controllers/viewController');
-const { handleAddFriend,handleSendMessage} = require('../controllers/dataController/updateController');  
-
+const { handleAddFriend} = require('../controllers/dataController/updateController');  
+const {handleCreateMessageDirect} = require('../controllers/dataController/createController');
 // viewing user details + friendship status (view users info if friend)
 friendDetailsRouter.get('/:friendId', async (req, res, next) => {
   try {
@@ -29,13 +29,22 @@ friendDetailsRouter.post('/:friendId', async (req, res, next) => {
 /* websocket implementation needed for realtime chatting */
 friendDetailsRouter.post('/chats/private/:friendId', async (req, res, next) => {
   try {
-    const updatedMessages = await handleSendMessage(req, res, next);
-    return res.json(updatedMessages);
+    const updatedMessages = await handleCreateMessageDirect(req, res, next);
+    return updatedMessages;
   } catch (error) {
     next(error);
   }
 });
 
+const {handleUpdateMessageStatus} = require('../controllers/dataController/updateController.js');
 
+friendDetailsRouter.get('/chats/read/:msgId', async (req, res, next) => {
+  try {
+    const updatedMessages = await handleUpdateMessageStatus(req, res, next);
+    return res.json(updatedMessages);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = {friendDetailsRouter};

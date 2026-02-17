@@ -6,6 +6,7 @@ import Stack from "../primitives/Stack";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import SideBar from "../components/Sidebar";
+import MessagesBox from "../components/MessagesBox";
 import axios from "axios";
 import SnackBarAlert from "../components/reactMUI/Alerts";
 
@@ -13,8 +14,10 @@ function Home() {
 
   const [user, SetUser] = useState(null);
   const [users, SetUsers] = useState(null);
+  const [userMessages, SetUserMessages] = useState(null);
   const [guestMode, SetGuestMode] = useState(false);
   const [alertGuest, SetAlertGuest] = useState(false);
+  const [friends, SetFriends] = useState(false);
   const [chatRooms, SetChatRooms] = useState(null);
   const [currentRoom, SetCurrentRoom] = useState(null);
   // loading state settings
@@ -46,7 +49,7 @@ function Home() {
   });
 
 
-  //spinner upon mount with delay, post creation message with delay
+  // spinner upon mount with delay, post creation message with delay
   useEffect(() => {
     const timer = setTimeout(() => {
       SetLoading(false);
@@ -64,10 +67,11 @@ function Home() {
         const response = await authRouter.get('/home');
         const result = await response.data;
 
-        //console.log(result.allData, "home data");
+        // console.log(result.allData, "home data");
         // setting all non sensitive user data
 
         SetUser(result.userData); 
+        SetFriends(result.userData.userFriendships);
         SetUsers(result.allData.users);
         SetChatRooms(result.allData.chatRooms);
         SetCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
@@ -104,7 +108,7 @@ function Home() {
     };
 
     // initiate GET home fetch if there's a token else continue guest mode
-     if (token) {
+     if (token && !user) {
       fetchUser();
      } else {
       fetchGuestMode();
@@ -125,6 +129,9 @@ function Home() {
             setMount={SetMount}
             guestMode={guestMode}
             SetAlertGuest={SetAlertGuest}
+            user={user}
+            messages={userMessages}
+
           />
             <aside>
                 <SideBar 
@@ -141,6 +148,7 @@ function Home() {
                   SetError={SetError}
                   SetAlertGuest={SetAlertGuest}
                   guestMode={guestMode}
+                  user={user}
                 />
               </aside>
             <div className="contentWrapper" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
@@ -159,6 +167,10 @@ function Home() {
           setMount={SetMount}
           guestMode={guestMode}
           SetAlertGuest={SetAlertGuest}
+          user={user}
+          messages={userMessages}
+
+
         />
         <div className="contentWrapper" style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
         <aside>
@@ -176,12 +188,13 @@ function Home() {
               SetError={SetError}
               SetAlertGuest={SetAlertGuest}
               guestMode={guestMode}
+              user={user}
             />
           </aside>
+
           <main>
             <SnackBarAlert setOpen={SetAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
-            <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError
-              , guestMode, SetAlertGuest
+            <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError, guestMode, SetAlertGuest
              }} />
           </main>
         </div>

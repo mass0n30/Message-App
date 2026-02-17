@@ -73,7 +73,6 @@ async function handleAddFriend(req, res, next) {
       },
     });
 
-    console.log(existingFriendship, "eeeee");
 
     // if the friendship exists, unfriend
     if (existingFriendship) {
@@ -86,7 +85,7 @@ async function handleAddFriend(req, res, next) {
     // Create the friendship
     await prisma.friendship.create({
       data: {
-        userId: 1,
+        userId: userId,
         friendId: friendId,
       },
     });
@@ -98,5 +97,46 @@ async function handleAddFriend(req, res, next) {
   }
 };
 
-module.exports = { handleUpdateProfile, handleAddFriend, handleUpdateAvatar };
+const { getDirectMessageChatMessages } = require('../../controllers/viewController.js');
+
+async function handleUpdateMessageStatus(req, res, next) {
+  try {
+    const { msgId } = req.params;
+    await prisma.messages.update({
+      where: { id: parseInt(msgId) },
+      data: { read: true },
+    });
+
+    const userId = parseInt(req.user.id, 10);
+    const updatedMessages = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        receivedMessages: {
+          select: {
+            id: true,
+            content: true,
+            timestamp: true,
+            read: true,
+            sender: {
+              select: {
+                id: true,
+                alias: true,
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const currentViewedMessages = await getDirectMessageChatMessages(req, res, next, );
+
+
+
+    return updatedMessages;
+  } catch (err) {
+    return next(err);
+  }
+}
+
+module.exports = { handleUpdateProfile, handleAddFriend, handleUpdateAvatar, handleUpdateMessageStatus };
 
