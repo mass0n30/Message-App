@@ -38,7 +38,7 @@ friendDetailsRouter.post('/chats/private/:friendId', async (req, res, next) => {
 
 const {handleUpdateMessageStatus} = require('../controllers/dataController/updateController.js');
 
-friendDetailsRouter.get('/chats/read/:msgId', async (req, res, next) => {
+friendDetailsRouter.put('/chats/read/:friendId', async (req, res, next) => {
   try {
     const updatedMessages = await handleUpdateMessageStatus(req, res, next);
     return res.json(updatedMessages);

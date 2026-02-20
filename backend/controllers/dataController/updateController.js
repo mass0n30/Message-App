@@ -101,38 +101,29 @@ const { getDirectMessageChatMessages } = require('../../controllers/viewControll
 
 async function handleUpdateMessageStatus(req, res, next) {
   try {
-    const { msgId } = req.params;
-    await prisma.messages.update({
-      where: { id: parseInt(msgId) },
-      data: { read: true },
-    });
-
+    const friendId  = req.params.friendId;
     const userId = parseInt(req.user.id, 10);
-    const updatedMessages = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        receivedMessages: {
-          select: {
-            id: true,
-            content: true,
-            timestamp: true,
-            read: true,
-            sender: {
-              select: {
-                id: true,
-                alias: true,
-              }
-            }
-          }
-        }
-      }
+
+    await prisma.messages.updateMany({
+      where: {
+        senderId: parseInt(friendId, 10),
+        receiverId: userId,
+        read: false,
+      },
+      data: {
+        read: true,
+      },
     });
 
-    const currentViewedMessages = await getDirectMessageChatMessages(req, res, next, );
+    const updatedUser = await getUserData(req, res, next);
 
+    const currentViewedMessages = await getDirectMessageChatMessages(req, res, next, friendId);
 
-
-    return updatedMessages;
+    return {
+      updatedFriends: updatedUser.userFriendships,
+      updatedMessages: updatedUser.receivedMessages,
+      currentViewedMessages
+    };
   } catch (err) {
     return next(err);
   }

@@ -66,7 +66,7 @@ export default function ChatBody(props) {
       {currentRoom?.name && (
         <h2>{currentRoom.name}</h2>
       )}
-      <div className="messages">
+      <div className={styles.messages}>
        { currentRoom && (
           currentRoom.messages && currentRoom.messages.length > 0 ? (
             currentRoom.messages.map((message) => (
@@ -77,9 +77,9 @@ export default function ChatBody(props) {
                     border: 'none',
                     padding: 0,
                     font: 'inherit',}}
-                    onClick={() => handleGetProfile(message.sender.id)}
+                    onClick={() => message.senderId !== user.id ? handleGetProfile(message.sender.id) : null}
                     >
-                    {message.sender.alias}:
+                      {message.senderId === user.id ? "You" : message.sender.alias}:
                   </button>
                 </strong> {message.content}
               </div>

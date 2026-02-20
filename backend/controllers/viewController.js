@@ -3,6 +3,7 @@ const prisma  = require("../db/prismaClient.js");
 
 
 
+// userFriendships select for message directs and friends list
 async function getUserData(req, res, next) {
 
   try {
@@ -17,6 +18,7 @@ async function getUserData(req, res, next) {
         email: true,
         profile: true,
         friendsOf: true,
+
         userFriendships: {
           select: {
             id: true,
@@ -184,9 +186,30 @@ async function getDirectMessageChatMessages(req, res, next, friendId) {
       where: {
         AND: [
           { receiverId: userId },
-          { senderId: friendId }
+          { senderId: parseInt(friendId, 10) }
         ]
-      }
+      },
+      select: {
+        id: true,
+        content: true,
+        timestamp: true,
+        read: true,
+        sender: {
+          select: {
+            id: true,
+            alias: true,
+          }
+        },
+        receiver: {
+          select: {
+            id: true,
+            alias: true,
+          }
+        }
+      },
+      orderBy: {
+        timestamp: 'asc'
+      },
     });
     return directMessageChats;
   } catch (error) {

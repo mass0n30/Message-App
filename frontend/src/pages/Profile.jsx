@@ -113,12 +113,12 @@ const handleUploadAvatar = async (e) => {
 export function ProfileView() {
 
   const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError } = useOutletContext();
+  currentRoom, authRouter, SetError, setToggledFriendId, toggledFriendId, toggleMessages, SetToggleMessages,
+  SetFriends, SetUserMessages, messageContent, setMessageContent } = useOutletContext();
 
   const [ selectedUser, setSelectedUser ] = useState(null);
   const [ friendshipStatus, setFriendshipStatus ] = useState(null);
   const [pending, setPending] = useState(false);
-  const [messageContent, setMessageContent] = useState('');
 
   const { userId } = useParams();
 
@@ -139,6 +139,24 @@ export function ProfileView() {
     fetchProfile();
   }, [selectedUser]);
 
+  const handleToggleMessageBox = async () => {
+    setToggledFriendId(toggledFriendId === selectedUser.id ? null : selectedUser.id);
+    SetToggleMessages(!toggleMessages);
+
+    authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${selectedUser.id}`)
+    .then( response => {
+      const data = response.data;
+      setMessageContent(data.currentViewedMessages);
+      SetFriends(data.updatedFriends);
+      SetUserMessages(data.updatedMessages);
+
+    })
+    .catch(error => {
+      console.error("Error updating message status:", error);
+    });
+
+  };
+
 
   const handleUpdateFriendship = async (friendId) => {
 
@@ -146,23 +164,8 @@ export function ProfileView() {
       const response = await authRouter.post(`/friends/${friendId}`);
     } catch (error) {
       SetError(error);
-    }
-  };
-
-  const handleSubmitMessage = async (e) => {
-    e.preventDefault();
-
-    if (!messageContent || messageContent.trim() === '') return;
-
-    try {
-      const response = await authRouter.post(`friends/chats/private/${selectedUser.id}`, {
-        userId: user.id,
-        friendId: selectedUser.id,
-        content: messageContent
-      });
-      const result = await response.data;
-    } catch (error) {
-      SetError(error);
+    } finally {
+      SetMount(true);
     }
   };
 
@@ -187,10 +190,7 @@ export function ProfileView() {
             </button>
           </div>
           <div>
-            <form className={formStyles.formContainer} onSubmit={handleSubmitMessage}>
-              <input type="text" placeholder="Send Message" onChange={(e) => setMessageContent(e.target.value)} />
-              <button type="submit">Send</button>
-            </form>
+            <button type="submit" onClick={() => handleToggleMessageBox()}>Message</button>
           </div>
         </div>
       )}

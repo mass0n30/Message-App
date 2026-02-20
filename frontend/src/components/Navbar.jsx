@@ -6,7 +6,7 @@ import styles from '../styles/components/navbar.module.css';
 import Cluster from '../primitives/Cluster';
 
 
-function Navbar({setMount, guestMode, SetAlertGuest, user, messages, toggleMessages, SetToggleMessages}) {
+function Navbar({setMount, guestMode, SetAlertGuest, user, friends, SetToggleMessages, toggleMessages, messages}) {
   const navigate = useNavigate();
 
   const newMsgCount = user && messages ? messages.filter(msg => !msg.read).length : 0;

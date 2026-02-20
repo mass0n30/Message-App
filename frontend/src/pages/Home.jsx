@@ -12,6 +12,7 @@ import SnackBarAlert from "../components/reactMUI/Alerts";
 
 function Home() {
 
+  // state settings
   const [user, SetUser] = useState(null);
   const [users, SetUsers] = useState(null);
   const [userMessages, SetUserMessages] = useState(null);
@@ -20,13 +21,16 @@ function Home() {
   const [friends, SetFriends] = useState(false);
   const [chatRooms, SetChatRooms] = useState(null);
   const [currentRoom, SetCurrentRoom] = useState(null);
+  // message box toggle settings
+  const [toggleMessages, SetToggleMessages] = useState(false);
+  const [toggledFriendId, setToggledFriendId] = useState(null);
+  const [messageContent, setMessageContent] = useState(null);
   // loading state settings
-  const [mount, SetMount] = useState(true);
+  const [mount, SetMount] = useState(null);
   const [loading, SetLoading] = useState(true);
   const [success, SetSuccess] = useState(false);
   const [error, SetError] = useState(null);
   const token = localStorage.getItem('usertoken');
-  // console.log(token, "tested");
 
   const navigate = useNavigate();
 
@@ -58,7 +62,12 @@ function Home() {
     const successTimer = setTimeout(() => {
       SetSuccess(false);
     }, 5000);
-    return () => clearTimeout(timer, successTimer); 
+
+    const mountTimer = setTimeout(() => {
+      SetMount(false);
+    }, 5000);
+
+    return () => clearTimeout(timer, successTimer, mountTimer); 
   } ,[loading, SetSuccess, SetLoading]);
 
   useEffect(() => {
@@ -72,6 +81,7 @@ function Home() {
 
         SetUser(result.userData); 
         SetFriends(result.userData.userFriendships);
+        SetUserMessages(result.userData.receivedMessages);
         SetUsers(result.allData.users);
         SetChatRooms(result.allData.chatRooms);
         SetCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
@@ -108,51 +118,27 @@ function Home() {
     };
 
     // initiate GET home fetch if there's a token else continue guest mode
-     if (token && !user) {
+     if (token && !user || token && user) {
       fetchUser();
      } else {
       fetchGuestMode();
      }
 
-  }, [token]);  // token dependency?
+  }, [token, mount]);  // token dependency?
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }
   
   // loader sidebar/ navbar / ect
+  // replace all this with loader in future, just testing loading state here
   if (loading) {
     return (
       <Shell>
         <Stack>
-          <Navbar
-            setMount={SetMount}
-            guestMode={guestMode}
-            SetAlertGuest={SetAlertGuest}
-            user={user}
-            messages={userMessages}
 
-          />
-            <aside>
-                <SideBar 
-                  chatRooms={chatRooms}
-                  currentRoom={currentRoom}
-                  SetCurrentRoom={SetCurrentRoom}
-                  SetChatRooms={SetChatRooms}
-                  SetMount={SetMount}
-                  mount={mount}
-                  loading={loading}
-                  success={success}
-                  SetLoading={SetLoading}
-                  authRouter={authRouter}
-                  SetError={SetError}
-                  SetAlertGuest={SetAlertGuest}
-                  guestMode={guestMode}
-                  user={user}
-                />
-              </aside>
             <div className="contentWrapper" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
-              <div className="spinner"></div>
+              <div className="spinner">Loading...</div>
             </div>
           <Footer/>
         </Stack>
@@ -169,7 +155,8 @@ function Home() {
           SetAlertGuest={SetAlertGuest}
           user={user}
           messages={userMessages}
-
+          SetToggleMessages={SetToggleMessages}
+          toggleMessages={toggleMessages}
 
         />
         <div className="contentWrapper" style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
@@ -191,11 +178,23 @@ function Home() {
               user={user}
             />
           </aside>
-
+          <MessagesBox
+            authRouter={authRouter}
+            user={user}
+            messages={userMessages}
+            toggleMessages={toggleMessages}
+            SetFriends={SetFriends}
+            friends={friends}
+            SetUserMessages={SetUserMessages}
+            toggledFriendId={toggledFriendId}
+            setToggledFriendId={setToggledFriendId}
+            messageContent={messageContent}
+            setMessageContent={setMessageContent}
+          />
           <main>
             <SnackBarAlert setOpen={SetAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
             <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError, guestMode, SetAlertGuest
-             }} />
+            ,toggleMessages, SetToggleMessages, setToggledFriendId, toggledFriendId, SetFriends, SetUserMessages, messageContent, setMessageContent }} />
           </main>
         </div>
         <Footer/>

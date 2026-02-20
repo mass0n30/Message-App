@@ -28,3 +28,42 @@
   padding: 10px;
   color: black;
 }
+
+.friendsList {
+  padding: 10px;
+}
+
+.friendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.friendItemBtn {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.newMessage, .noMessage {
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.newMessage {
+  background-color: red;
+  font-weight: bold;
+}
+
+.messageTimeStamp {
+  font-size: 10px;
+  color: #888;
+  font-style: italic;
+}
