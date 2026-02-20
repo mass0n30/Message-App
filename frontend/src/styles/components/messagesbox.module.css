@@ -11,6 +11,7 @@
   background-color: rgb(17, 17, 17);
   padding: 20px;
   box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .messageButton {
@@ -66,4 +67,22 @@
   font-size: 10px;
   color: #888;
   font-style: italic;
+}
+
+.messageItem, .receievedMessageItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.messageItem {
+  align-items: flex-end;
+  background-color: #021fc0;
+}
+
+.messageContent {
+  flex: 1;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }

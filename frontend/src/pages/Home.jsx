@@ -9,6 +9,7 @@ import SideBar from "../components/Sidebar";
 import MessagesBox from "../components/MessagesBox";
 import axios from "axios";
 import SnackBarAlert from "../components/reactMUI/Alerts";
+import { getPendingMessages } from "../../public/helpers";
 
 function Home() {
 
@@ -23,10 +24,11 @@ function Home() {
   const [currentRoom, SetCurrentRoom] = useState(null);
   // message box toggle settings
   const [toggleMessages, SetToggleMessages] = useState(false);
+  const [pendingMessages, SetPendingMessages] = useState(false);
   const [toggledFriendId, setToggledFriendId] = useState(null);
   const [messageContent, setMessageContent] = useState(null);
   // loading state settings
-  const [mount, SetMount] = useState(null);
+  const [mount, SetMount] = useState(true);
   const [loading, SetLoading] = useState(true);
   const [success, SetSuccess] = useState(false);
   const [error, SetError] = useState(null);
@@ -63,11 +65,8 @@ function Home() {
       SetSuccess(false);
     }, 5000);
 
-    const mountTimer = setTimeout(() => {
-      SetMount(false);
-    }, 5000);
 
-    return () => clearTimeout(timer, successTimer, mountTimer); 
+    return () => clearTimeout(timer, successTimer); 
   } ,[loading, SetSuccess, SetLoading]);
 
   useEffect(() => {
@@ -82,6 +81,8 @@ function Home() {
         SetUser(result.userData); 
         SetFriends(result.userData.userFriendships);
         SetUserMessages(result.userData.receivedMessages);
+        const pendingMessages = getPendingMessages(result.userData.userFriendships, result.userData.receivedMessages);
+        SetPendingMessages(pendingMessages);
         SetUsers(result.allData.users);
         SetChatRooms(result.allData.chatRooms);
         SetCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
@@ -117,12 +118,20 @@ function Home() {
       } 
     };
 
+    // cleanup for mount, used to update userProfile from user changes
+    const timer = setTimeout(() => {
+      SetMount(false);
+    }, 2000);
+
+
     // initiate GET home fetch if there's a token else continue guest mode
      if (token && !user || token && user) {
       fetchUser();
      } else {
       fetchGuestMode();
      }
+     return () => clearTimeout(timer); 
+
 
   }, [token, mount]);  // token dependency?
 
@@ -183,6 +192,7 @@ function Home() {
             user={user}
             messages={userMessages}
             toggleMessages={toggleMessages}
+            pendingMessages={pendingMessages}
             SetFriends={SetFriends}
             friends={friends}
             SetUserMessages={SetUserMessages}

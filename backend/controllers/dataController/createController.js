@@ -5,6 +5,7 @@ const { getCloudinaryObj } = require("../../config/cloud.js");
 
 const bcrypt = require("bcryptjs");
 
+const { handleAddFriend } = require("./updateController.js");
 
 async function handleCreateUser(req, res, next) {
   const errors = validationResult(req);
@@ -37,8 +38,15 @@ async function handleCreateUser(req, res, next) {
       content: "Welcome to Message App!"
     }
    });
-   
-  return res.status(201).json({ message: "Account Created Successfully" });
+
+  await prisma.friendship.create({
+      data: {
+        userId: user.id,
+        friendId: 1,
+      },
+    });
+
+   return res.status(201).json({ message: "Account Created Successfully" });
 
   } catch (error) {
     return res.status(400).json({ errors:error });
@@ -109,6 +117,8 @@ async function handleCreateChatMessage(req, res, next) {
   }
 }
 
+const { getDirectMessageChatMessages } = require("../viewController.js");
+
 async function handleCreateMessageDirect(req, res, next) {
   try {
     const { content } = req.body;
@@ -120,7 +130,9 @@ async function handleCreateMessageDirect(req, res, next) {
       }
   });
 
-  return res.status(201).json({ message: "Message Sent" });
+  const updatedMessages = await getDirectMessageChatMessages(req, res, next, req.params.friendId);
+
+  return res.status(201).json({ message: "Message Sent", updatedMessages });
 
   } catch (error) {
     return res.status(400).json({ errors:error });

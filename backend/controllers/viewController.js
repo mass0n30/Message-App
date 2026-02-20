@@ -184,10 +184,16 @@ async function getDirectMessageChatMessages(req, res, next, friendId) {
     const userId = parseInt(req.user.id, 10);
     const directMessageChats = await prisma.messages.findMany({
       where: {
-        AND: [
-          { receiverId: userId },
-          { senderId: parseInt(friendId, 10) }
-        ]
+        OR: [
+          {
+            senderId: userId,
+            receiverId: parseInt(friendId, 10)
+          },
+          {
+            senderId: parseInt(friendId, 10),
+            receiverId: userId
+          }
+        ],
       },
       select: {
         id: true,

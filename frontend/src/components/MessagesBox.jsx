@@ -3,7 +3,7 @@ import formStyles from '../styles/components/form.module.css';
 import SnackBarAlert from './reactMUI/Alerts';
 import { useState, useEffect } from 'react';
 
-function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, messages, SetUserMessages, toggledFriendId, setToggledFriendId,
+function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, messages, pendingMessages, SetUserMessages, toggledFriendId, setToggledFriendId,
   messageContent, setMessageContent
  }) {
 
@@ -22,7 +22,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
 
   const handleToggleMessage = async (friendId) => {
 
-    setToggledFriendId(toggledFriendId === friendId ? null : friendId);
+    setToggledFriendId(friendId);
 
     authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${friendId}`)
     .then( response => {
@@ -41,15 +41,16 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
 
-    if (!messageContent || messageContent.trim() === '') return;
+    if (!directMessage || directMessage.trim() === '') return;
 
     try {
-      const response = await authRouter.post(`friends/chats/private/${toggledFriendId}`, {
+      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`, {
         userId: user.id,
         friendId: toggledFriendId,
-        content: messageContent
+        content: directMessage
       });
       const result = await response.data;
+      setMessageContent(result.updatedMessages);
       SetAlertSuccess(true);
     } catch (error) {
       console.error("Error sending message:", error);
@@ -82,11 +83,11 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
               <button type="button">Messages</button>
             </div>
             {messageContent.map((msg) => (
-          
-              <div key={msg.id} className={styles.messageItem}
-                style={{ backgroundColor: msg.read ? '#f0f0f013' : '#fcff3ca1', borderBottom: msg.read ? '1px solid #ccc' : '1px solid #ff0000' }}
+
+              <div key={msg.id} className={msg.sender.id === user.id ? styles.messageItem : styles.receivedMessageItem}
+                style={{ borderBottom: !msg.read && '2px solid #ff0000bb' }}
               >
-                <div className={styles.messageText}>{msg.sender.alias}: {msg.content}</div>
+                <div className={styles.messageText}>{msg.sender.id !== user.id ? msg.sender.alias : 'You'}: {msg.content}</div>
                 <div className={styles.messageTimestamp}>{new Date(msg.timestamp).toLocaleString()}</div>
               </div>
             ))}
@@ -94,7 +95,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
         )}
         <div>
           <form className={formStyles.formContainer} onSubmit={handleSubmitMessage}>
-            <input type="text" placeholder="Send Message" onChange={(e) => setMessageContent(e.target.value)} />
+            <input type="text" placeholder="Send Message" onChange={(e) => setDirectMessage(e.target.value)} />
             <button type="submit">Send</button>
           </form>
         </div>
@@ -121,7 +122,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
               <div key={friend.id} className={styles.friendItem}>
                 <button
                   className={styles.friendItemBtn}
-                  onClick={async () => handleToggleMessage(friend?.friendsOf?.id)}
+                  onClick={() => handleToggleMessage(friend?.friendsOf?.id)}
                 >
                   {friend?.friendsOf?.alias}
 
@@ -135,6 +136,19 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, SetFriends, me
             );
           })}
         </div>
+      )}
+      <h4>Pending Messages</h4>
+      {pendingMessages && pendingMessages.length > 0 ? (
+        <div className={styles.pendingMessages}>
+          {pendingMessages.map((msg) => (
+            <div key={msg.id} className={styles.pendingMessageItem}>
+              <div className={styles.messageText}>{msg.sender.alias}: {msg.content}</div>
+              <div className={styles.messageTimestamp}>{new Date(msg.timestamp).toLocaleString()}</div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <></>
       )}
     </div>
   );
