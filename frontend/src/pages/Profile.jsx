@@ -5,7 +5,7 @@ import formStyles from '../styles/components/form.module.css';
 import profileStyles from '../styles/pages/profile.module.css';
 
 export default function Profile() {
-  const { user, SetUser, authRouter, authRouterForm, SetLoading } = useOutletContext();
+  const { user, setUser, authRouter, authRouterForm, setLoading } = useOutletContext();
   const [avatarFile, setAvatarFile] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -18,11 +18,11 @@ export default function Profile() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    SetLoading(true);
+    setLoading(true);
     try {
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/profile`, formData);
       const result = await response.data;
-      SetUser(result);
+      setUser(result);
     } catch (error) {
       console.error("Error updating profile:", error);
     } 
@@ -31,7 +31,7 @@ export default function Profile() {
 
 const handleUploadAvatar = async (e) => {
   e.preventDefault();
-  SetLoading(true);
+  setLoading(true);
   try {
     if (!avatarFile) return;
 
@@ -44,11 +44,11 @@ const handleUploadAvatar = async (e) => {
     );
 
     const updatedProfile = await response.data;
-    SetUser(updatedProfile);
+    setUser(updatedProfile);
   } catch (err) {
     console.error(err);
   } finally {
-    SetLoading(false);
+    setLoading(false);
   }
 };
 
@@ -112,43 +112,43 @@ const handleUploadAvatar = async (e) => {
 // Separate component to view other users' profiles
 export function ProfileView() {
 
-  const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError, setToggledFriendId, toggledFriendId, toggleMessages, SetToggleMessages,
-  SetFriends, SetUserMessages, messageContent, setMessageContent } = useOutletContext();
+  const { setMount, mount, setNewFetch, user, setCurrentRoom, 
+  currentRoom, authRouter, setError, setToggledFriendId, toggledFriendId, toggleMessages, setToggleMessages,
+  setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage } = useOutletContext();
 
   const [ selectedUser, setSelectedUser ] = useState(null);
   const [ friendshipStatus, setFriendshipStatus ] = useState(null);
+  const [selectedFriendId, setSelectedFriendId] = useState(toggledFriendId);
   const [pending, setPending] = useState(false);
-
-  const { userId } = useParams();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await authRouter.get(`/friends/${userId}`);
+        const response = await authRouter.get(`/friends/${selectedFriendId}`);
         const result = await response.data;
         setSelectedUser(result.friendData);
         setFriendshipStatus(result.friendshipStatus);
-        const pendingStatus = user.friendsOf.find(friend => friend.id === parseInt(userId, 10) && result.friendshipStatus !== true);
-        setPending(pendingStatus ? true : false);
       } catch (error) {
-        SetError(error);
+        setError(error);
       }
     };
 
     fetchProfile();
-  }, [selectedUser]);
+  }, [toggledFriendId]);
+
+
 
   const handleToggleMessageBox = async () => {
     setToggledFriendId(toggledFriendId === selectedUser.id ? null : selectedUser.id);
-    SetToggleMessages(!toggleMessages);
+    setToggleMessages(!toggleMessages);
+    setToggleDirectMessage(true);
 
     authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${selectedUser.id}`)
     .then( response => {
       const data = response.data;
       setMessageContent(data.currentViewedMessages);
-      SetFriends(data.updatedFriends);
-      SetUserMessages(data.updatedMessages);
+      setFriends(data.updatedFriends);
+      setUserMessages(data.updatedMessages);
 
     })
     .catch(error => {
@@ -162,10 +162,11 @@ export function ProfileView() {
 
     try {
       const response = await authRouter.post(`/friends/${friendId}`);
+      friendshipStatus ? setFriendshipStatus(false) : setFriendshipStatus(true);
     } catch (error) {
-      SetError(error);
+      setError(error);
     } finally {
-      SetMount(true);
+      setMount(true);
     }
   };
 
@@ -177,10 +178,10 @@ export function ProfileView() {
           <h2>{selectedUser.alias}'s Profile</h2>
           <p>Email: {selectedUser.email}</p>
           <p>{selectedUser.profile.bio}</p>
-          <p>Status: {friendshipStatus ? "Friends" : (pending ? "Pending" : "Not Friends")}</p>
+          <p>Status: {friendshipStatus ? "Friends" : "Not Friends"}</p>
           <div>
             <button onClick={() => handleUpdateFriendship(selectedUser.id)}>
-              {!friendshipStatus && !pending ? (
+              {!friendshipStatus ? (
                 <span>Add Friend</span>
               ) : pending ? (
                 <span>Pending...</span>
@@ -190,7 +191,7 @@ export function ProfileView() {
             </button>
           </div>
           <div>
-            <button type="submit" onClick={() => handleToggleMessageBox()}>Message</button>
+            <button type="button" onClick={() => handleToggleMessageBox()}>Message</button>
           </div>
         </div>
       )}

@@ -46,6 +46,13 @@ async function handleCreateUser(req, res, next) {
       },
     });
 
+  await prisma.friendship.create({
+      data: {
+        userId: 1,
+        friendId: user.id,
+      },
+    });
+
    return res.status(201).json({ message: "Account Created Successfully" });
 
   } catch (error) {

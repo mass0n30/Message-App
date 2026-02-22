@@ -4,7 +4,7 @@ import styles from '../styles/components/sidebar.module.css';
 import axios from "axios";
 
 function SideBar(props) {
-  const {chatRooms, currentRoom, SetChatRooms, SetCurrentRoom, loading, success, SetLoading, authRouter, SetAlertGuest, guestMode } = props;
+  const {chatRooms, currentRoom, setChatRooms, setCurrentRoom, loading, success, setLoading, authRouter, setAlertGuest, guestMode } = props;
 
   const [toggle, setToggle] = useState(false);
   const [roomName, setRoomName] = useState("");
@@ -14,26 +14,26 @@ function SideBar(props) {
   const handleSetRoom = (roomId) => {
 
     if (currentRoom?.id !== roomId) {
-      SetLoading(true);
+      setLoading(true);
     }
 
     const selectedRoom = chatRooms.find((room) => room.id === roomId);
 
     if (selectedRoom) {
-      SetCurrentRoom(selectedRoom);
+      setCurrentRoom(selectedRoom);
       navigate('/home');
     }
   };
 
   const handleCreateRoom = () => {
     if (guestMode) {
-      SetAlertGuest(true);
+      setAlertGuest(true);
       return;
     } 
 
     if (!toggle) {
       setToggle(true);
-    } else {
+    } else {  
       setToggle(false);
     }
   };
@@ -44,8 +44,8 @@ function SideBar(props) {
     try {
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/chats/`, { roomName: roomName });
       const result = await response.data;
-      SetChatRooms(result.allData.chatRooms);
-      SetCurrentRoom(result.chatRoom); 
+      setChatRooms(result.allData.chatRooms);
+      setCurrentRoom(result.chatRoom); 
       navigate('/home');
     } catch (error) {
       console.error("Error creating room:", error);

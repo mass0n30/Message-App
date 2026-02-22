@@ -7,7 +7,9 @@ import ChatBody  from '../components/ChatBody';
 {/*maybe import local styles */}
 
 function HomePage() {
-  const { user, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, SetLoading, SetSuccess, authRouter, SetError, guestMode, SetAlertGuest } = useOutletContext();
+  const { user, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, setLoading, setSuccess, authRouter, setError, guestMode, setAlertGuest
+    , toggleMessages, setToggleMessages, setToggledFriendId, toggledFriendId, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage
+   } = useOutletContext();
 
 
 
@@ -15,16 +17,18 @@ function HomePage() {
     <>
       <div>Welcome home, <i>{user ? user.alias : "Guest"}</i> </div>
       <ChatBody 
-        SetLoading={SetLoading} 
-        SetMount={SetMount} 
+        setLoading={setLoading}
+        setMount={setMount}
         mount={mount}
         user={user}
         currentRoom={currentRoom}
-        SetCurrentRoom={SetCurrentRoom}
+        setCurrentRoom={setCurrentRoom}
         authRouter={authRouter}
-        SetError={SetError}
+        setError={setError}
         guestMode={guestMode}
-        SetAlertGuest={SetAlertGuest}
+        setAlertGuest={setAlertGuest}
+        setToggledFriendId={setToggledFriendId}
+        toggledFriendId={toggledFriendId}
       />
     </> 
   )

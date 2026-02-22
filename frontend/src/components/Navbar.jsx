@@ -6,22 +6,22 @@ import styles from '../styles/components/navbar.module.css';
 import Cluster from '../primitives/Cluster';
 
 
-function Navbar({setMount, guestMode, SetAlertGuest, user, friends, SetToggleMessages, toggleMessages, messages}) {
+function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMessages, toggleMessages, messages}) {
   const navigate = useNavigate();
 
   const newMsgCount = user && messages ? messages.filter(msg => !msg.read).length : 0;
 
   function handleNavigateMessages() {
     if (guestMode) {
-      SetAlertGuest(true);
+      setAlertGuest(true);
       return;
     }
-    SetToggleMessages(!toggleMessages);
+    setToggleMessages(!toggleMessages);
   };
 
   function handleNavigateProfile() {
     if (guestMode) {
-      SetAlertGuest(true);
+      setAlertGuest(true);
       return;
     } else {
       navigate("/home/profile");

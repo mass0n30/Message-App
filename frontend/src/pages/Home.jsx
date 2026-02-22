@@ -9,29 +9,30 @@ import SideBar from "../components/Sidebar";
 import MessagesBox from "../components/MessagesBox";
 import axios from "axios";
 import SnackBarAlert from "../components/reactMUI/Alerts";
-import { getPendingMessages } from "../../public/helpers";
+import { getPendingMessages } from "../../utils/helpers";
 
 function Home() {
 
   // state settings
-  const [user, SetUser] = useState(null);
-  const [users, SetUsers] = useState(null);
-  const [userMessages, SetUserMessages] = useState(null);
-  const [guestMode, SetGuestMode] = useState(false);
-  const [alertGuest, SetAlertGuest] = useState(false);
-  const [friends, SetFriends] = useState(false);
-  const [chatRooms, SetChatRooms] = useState(null);
-  const [currentRoom, SetCurrentRoom] = useState(null);
+  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [userMessages, setUserMessages] = useState(null);
+  const [guestMode, setGuestMode] = useState(false);
+  const [alertGuest, setAlertGuest] = useState(false);
+  const [friends, setFriends] = useState(false);
+  const [chatRooms, setChatRooms] = useState(null);
+  const [currentRoom, setCurrentRoom] = useState(null);
   // message box toggle settings
-  const [toggleMessages, SetToggleMessages] = useState(false);
-  const [pendingMessages, SetPendingMessages] = useState(false);
+  const [toggleMessages, setToggleMessages] = useState(false);
+  const [toggleDirectMessage, setToggleDirectMessage] = useState(false);
+  const [pendingMessages, setPendingMessages] = useState(false);
   const [toggledFriendId, setToggledFriendId] = useState(null);
-  const [messageContent, setMessageContent] = useState(null);
+  const [messageContent, setMessageContent] = useState([]);
   // loading state settings
-  const [mount, SetMount] = useState(true);
-  const [loading, SetLoading] = useState(true);
-  const [success, SetSuccess] = useState(false);
-  const [error, SetError] = useState(null);
+  const [mount, setMount] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
   const token = localStorage.getItem('usertoken');
 
   const navigate = useNavigate();
@@ -58,16 +59,16 @@ function Home() {
   // spinner upon mount with delay, post creation message with delay
   useEffect(() => {
     const timer = setTimeout(() => {
-      SetLoading(false);
+      setLoading(false);
     }, 2000);
 
     const successTimer = setTimeout(() => {
-      SetSuccess(false);
+      setSuccess(false);
     }, 5000);
 
 
     return () => clearTimeout(timer, successTimer); 
-  } ,[loading, SetSuccess, SetLoading]);
+  } ,[loading, setSuccess, setLoading]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -78,16 +79,16 @@ function Home() {
         // console.log(result.allData, "home data");
         // setting all non sensitive user data
 
-        SetUser(result.userData); 
-        SetFriends(result.userData.userFriendships);
-        SetUserMessages(result.userData.receivedMessages);
+        setUser(result.userData); 
+        setFriends(result.userData.userFriendships);
+        setUserMessages(result.userData.receivedMessages);
         const pendingMessages = getPendingMessages(result.userData.userFriendships, result.userData.receivedMessages);
-        SetPendingMessages(pendingMessages);
-        SetUsers(result.allData.users);
-        SetChatRooms(result.allData.chatRooms);
-        SetCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
+        setPendingMessages(pendingMessages);
+        setUsers(result.allData.users);
+        setChatRooms(result.allData.chatRooms);
+        setCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
       } catch (error) {
-        SetError(error);
+        setError(error);
       }
     };
 
@@ -107,20 +108,20 @@ function Home() {
 
         const result = await response.json();
 
-        SetGuestMode(true);
-        SetUsers(result.allData.users);
-        SetChatRooms(result.allData.chatRooms);
-        SetCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
+        setGuestMode(true);
+        setUsers(result.allData.users);
+        setChatRooms(result.allData.chatRooms);
+        setCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
 
         // reset boolean fetch after updated posts fetch
       } catch (error) {
-        SetError(error);
+        setError(error);
       } 
     };
 
     // cleanup for mount, used to update userProfile from user changes
     const timer = setTimeout(() => {
-      SetMount(false);
+      setMount(false);
     }, 2000);
 
 
@@ -159,12 +160,12 @@ function Home() {
     <Shell>
       <Stack>
         <Navbar
-          setMount={SetMount}
+          setMount={setMount}
           guestMode={guestMode}
-          SetAlertGuest={SetAlertGuest}
+          setAlertGuest={setAlertGuest}
           user={user}
           messages={userMessages}
-          SetToggleMessages={SetToggleMessages}
+          setToggleMessages={setToggleMessages}
           toggleMessages={toggleMessages}
 
         />
@@ -173,16 +174,16 @@ function Home() {
             <SideBar 
               chatRooms={chatRooms}
               currentRoom={currentRoom}
-              SetCurrentRoom={SetCurrentRoom}
-              SetChatRooms={SetChatRooms}
-              SetMount={SetMount}
+              setCurrentRoom={setCurrentRoom}
+              setChatRooms={setChatRooms}
+              setMount={setMount}
               mount={mount}
               loading={loading}
               success={success}
-              SetLoading={SetLoading}
+              setLoading={setLoading}
               authRouter={authRouter}
-              SetError={SetError}
-              SetAlertGuest={SetAlertGuest}
+              setError={setError}
+              setAlertGuest={setAlertGuest}
               guestMode={guestMode}
               user={user}
             />
@@ -193,18 +194,23 @@ function Home() {
             messages={userMessages}
             toggleMessages={toggleMessages}
             pendingMessages={pendingMessages}
-            SetFriends={SetFriends}
+            setFriends={setFriends}
             friends={friends}
-            SetUserMessages={SetUserMessages}
+            setUserMessages={setUserMessages}
             toggledFriendId={toggledFriendId}
             setToggledFriendId={setToggledFriendId}
             messageContent={messageContent}
             setMessageContent={setMessageContent}
+            setToggleMessages={setToggleMessages}
+            guestMode={guestMode}
+            setAlertGuest={setAlertGuest}
+            toggleDirectMessage={toggleDirectMessage}
+            setToggleDirectMessage={setToggleDirectMessage}
           />
           <main>
-            <SnackBarAlert setOpen={SetAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
-            <Outlet context={{user, SetUser, users, chatRooms, currentRoom, SetCurrentRoom, loading, mount, SetMount, success, SetLoading, SetSuccess, authRouter, authRouterForm, SetError, guestMode, SetAlertGuest
-            ,toggleMessages, SetToggleMessages, setToggledFriendId, toggledFriendId, SetFriends, SetUserMessages, messageContent, setMessageContent }} />
+            <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
+            <Outlet context={{user, setUser, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, success, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
+            ,toggleMessages, setToggleMessages, setToggledFriendId, toggledFriendId, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage }} />
           </main>
         </div>
         <Footer/>

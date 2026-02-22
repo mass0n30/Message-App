@@ -1,16 +1,17 @@
 import styles from '../styles/components/chatbody.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Message from './Message';
 
 export default function ChatBody(props) {
 
-  const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError, SetCurrentFriend, guestMode, SetAlertGuest } = props;
+  const { setMount, mount, setNewFetch, user, setCurrentRoom, 
+  currentRoom, authRouter, setError, setToggledFriendId, toggledFriendId, guestMode, setAlertGuest } = props;
 
   const navigate = useNavigate();
 
-  const [ messageContent, setMessageContent ] = useState("");
-  const [ loading, SetLoading ] = useState(true);
+  const [ messageContent, setMessageContent ] = useState(null);
+  const [ loading, SetLoading ] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,7 +28,7 @@ export default function ChatBody(props) {
     e.preventDefault();
 
     if (guestMode) {
-      SetAlertGuest(true);
+      setAlertGuest(true);
       return;
     }
 
@@ -38,20 +39,13 @@ export default function ChatBody(props) {
         roomId: roomId
       });
       const result = await response.data;
-      SetCurrentRoom(result.updatedChatRoom);
+      setCurrentRoom(result.updatedChatRoom);
+      setMessageContent("");
     } catch (error) {
-      SetError(error)
+      setError(error)
     }
   }
 
-  const handleGetProfile = async (userId) => {
-    if (guestMode) {
-      SetAlertGuest(true);
-      return;
-    } else {
-      navigate(`/home/profile/${userId}`);
-    }
-  }
 
   if (loading) {
     return (
@@ -67,26 +61,35 @@ export default function ChatBody(props) {
         <h2>{currentRoom.name}</h2>
       )}
       <div className={styles.messages}>
-       { currentRoom && (
-          currentRoom.messages && currentRoom.messages.length > 0 ? (
-            currentRoom.messages.map((message) => (
-              <div key={message.id} className={user ? (message.senderId === user.id ? styles.ownMessage : styles.message) : styles.message}>
-                <strong>
-                  <button style={{
-                    background: 'none',
-                    border: 'none',
-                    padding: 0,
-                    font: 'inherit',}}
-                    onClick={() => message.senderId !== user.id ? handleGetProfile(message.sender.id) : null}
-                    >
-                      {message.senderId === user.id ? "You" : message.sender.alias}:
-                  </button>
-                </strong> {message.content}
-              </div>
-            ))) : (
-              <p>No messages in this chat room.</p>
-            ))
-        }
+        {currentRoom?.messages?.length > 0 ? (
+          (() => {
+            let lastDay = null;
+
+            return currentRoom.messages.map((message) => {
+              const day = new Date(message.timestamp).toISOString().slice(0, 10); 
+              const showDayHeader = day !== lastDay;
+              if (showDayHeader) {
+                lastDay = day;
+              }
+
+              return (
+                <Message
+                  key={message.id}
+                  user={user}
+                  msg={message}
+                  guestMode={guestMode}
+                  setAlertGuest={setAlertGuest}
+                  setToggleMessages={null}
+                  showDayHeader={showDayHeader}
+                  setToggledFriendId={setToggledFriendId}
+                  toggledFriendId={toggledFriendId}
+                />
+              );
+            });
+          })()
+        ) : (
+          <p>No messages in this chat room.</p>
+        )}
       </div>
       <div className="input-area">
         <form
@@ -96,6 +99,7 @@ export default function ChatBody(props) {
           autoComplete="off"
         >
           <input type="text" placeholder="Type your message..."
+          value={messageContent}
           onChange={(e) => setMessageContent(e.target.value)} />
           <button>Send</button>
         </form>
