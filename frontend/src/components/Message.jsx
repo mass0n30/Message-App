@@ -48,23 +48,38 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
         )}
         <div className={styles.messageContainer}>
           <div className={styles.messageHeader}>
-            <CircleUserRound size={20} />
-            <span className={styles.messageTimeStamp}>{formattedTime}</span>
-              <strong>
-                <button style={{
+            <div className={styles.avatarContainer}>
+              <button
+                className={styles.avatarButton}
+                style={{
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  font: 'inherit',}}
-                  onClick={() => msg?.senderId !== user?.id || msg?.sender?.id !== user?.id ? handleGetProfile(msg.sender.id) : null}
-                  >
-                    {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
+                  font: 'inherit',
+                }}
+              onClick={() => msg?.senderId !== user?.id || msg?.sender?.id !== user?.id ? handleGetProfile(msg.sender.id) : null}
+              >
+              {msg?.sender?.profile?.avatarUrl ? (
+
+                <img
+                  src={msg.sender.profile.avatarUrl}
+                  alt={msg.sender.alias}
+                  className={styles.avatar}
+                />
+              ) : (
+                <CircleUserRound size={20} />
+              )}
                 </button>
-              </strong> 
+              </div>
+                <div className={styles.messageContent}>
+                  <strong>
+                    {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
+                  </strong>
+                  {msg.content}
+                </div>
           </div>
-          <div className={styles.messageContent}>
-            {msg.content}
-          </div>
+
+          <span className={styles.messageTimeStamp}>{formattedTime}</span>
         </div>
       </div>
     );

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from './Message';
 
-function MessagesBox({ toggleMessages, authRouter, user, friends, setFriends, messages, pendingMessages, setUserMessages, toggledFriendId, setToggledFriendId,
+function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages, toggledFriendId, setToggledFriendId,
   messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage
  }) {
 
@@ -19,7 +19,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setFriends, me
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }, [messageContent]);
+  }, [messageContent, messages]);
       
   
 
@@ -31,10 +31,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setFriends, me
     authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${friendId}`)
     .then( response => {
       const data = response.data;
-      setMessageContent(data.currentViewedMessages);
-      setFriends(data.updatedFriends);
-      setUserMessages(data.updatedMessages);
-
+      setMount(true)
     })
     .catch(error => {
       console.error("Error updating message status:", error);
@@ -176,17 +173,22 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setFriends, me
                   }
     
                   return (
-                    <Message
-                      key={message.id}
-                      user={user}
-                      msg={message}
-                      guestMode={guestMode}
-                      setAlertGuest={setAlertGuest}
-                      setToggleMessages={null}
-                      showDayHeader={showDayHeader}
-                      setToggledFriendId={setToggledFriendId}
-                      toggledFriendId={toggledFriendId}
-                    />
+                    <div key={message.id} className={styles.pendingMessageItem}>
+                      <Message
+                        key={message.id}
+                        user={user}
+                        msg={message}
+                        guestMode={guestMode}
+                        setAlertGuest={setAlertGuest}
+                        setToggleMessages={null}
+                        showDayHeader={showDayHeader}
+                        setToggledFriendId={setToggledFriendId}
+                        toggledFriendId={toggledFriendId}
+                      />
+                      <div className={styles.messageMarkRead}>
+                        <button onClick={() => handleToggleMessage(message.sender.id)}>Mark as Read</button>
+                      </div>
+                    </div>
                   );
                 });
               })()

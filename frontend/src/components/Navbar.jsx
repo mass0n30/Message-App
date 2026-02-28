@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/components/navbar.module.css';
+import messageBoxStyles from '../styles/components/messagesbox.module.css';
 import Cluster from '../primitives/Cluster';
 
 
@@ -46,7 +47,10 @@ function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMes
           <button onClick={handleNavigateProfile}>Profile</button>
         </div>
         <div className={styles.navLinks}>
-          <button onClick={handleNavigateMessages}>Messages {newMsgCount > 0 && <span style={{ color: 'red' }}>({newMsgCount})</span>}</button>
+          <button onClick={handleNavigateMessages} className={messageBoxStyles.pendingMessagesBtn}>
+            <div>Messages</div>
+            {newMsgCount > 0 && <div className={messageBoxStyles.pendingCount}>{newMsgCount}</div>}
+          </button>
         </div>
       </Cluster>
 

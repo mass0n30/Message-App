@@ -138,8 +138,8 @@ async function getChatRooms(req, res, next) {
                   id: true,
                   alias: true,
                   fname: true,
-                  lname: true
-
+                  lname: true,
+                  profile: true,
                 }
               }
             }

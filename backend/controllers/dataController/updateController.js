@@ -102,6 +102,7 @@ const { getDirectMessageChatMessages } = require('../../controllers/viewControll
 async function handleUpdateMessageStatus(req, res, next) {
   try {
     const friendId  = req.params.friendId;
+    console.log(friendId, "friendId in update message status");
     const userId = parseInt(req.user.id, 10);
 
     await prisma.messages.updateMany({

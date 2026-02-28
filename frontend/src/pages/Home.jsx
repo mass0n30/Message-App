@@ -206,6 +206,8 @@ function Home() {
             setAlertGuest={setAlertGuest}
             toggleDirectMessage={toggleDirectMessage}
             setToggleDirectMessage={setToggleDirectMessage}
+            mount={mount}
+            setMount={setMount}
           />
           <main>
             <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>

@@ -118,13 +118,12 @@ export function ProfileView() {
 
   const [ selectedUser, setSelectedUser ] = useState(null);
   const [ friendshipStatus, setFriendshipStatus ] = useState(null);
-  const [selectedFriendId, setSelectedFriendId] = useState(toggledFriendId);
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await authRouter.get(`/friends/${selectedFriendId}`);
+        const response = await authRouter.get(`/friends/${toggledFriendId}`);
         const result = await response.data;
         setSelectedUser(result.friendData);
         setFriendshipStatus(result.friendshipStatus);
@@ -139,7 +138,6 @@ export function ProfileView() {
 
 
   const handleToggleMessageBox = async () => {
-    setToggledFriendId(toggledFriendId === selectedUser.id ? null : selectedUser.id);
     setToggleMessages(!toggleMessages);
     setToggleDirectMessage(true);
 
@@ -176,8 +174,8 @@ export function ProfileView() {
       {selectedUser && (
         <div>
           <h2>{selectedUser.alias}'s Profile</h2>
-          <p>Email: {selectedUser.email}</p>
-          <p>{selectedUser.profile.bio}</p>
+          <p>Email: {selectedUser?.email}</p>
+          <p>{selectedUser?.profile.bio}</p>
           <p>Status: {friendshipStatus ? "Friends" : "Not Friends"}</p>
           <div>
             <button onClick={() => handleUpdateFriendship(selectedUser.id)}>
