@@ -1,11 +1,12 @@
 
 import { useOutletContext, useParams } from "react-router-dom";
+import { CircleUserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import formStyles from '../styles/components/form.module.css';
 import profileStyles from '../styles/pages/profile.module.css';
 
 export default function Profile() {
-  const { user, setUser, authRouter, authRouterForm, setLoading } = useOutletContext();
+  const { user, setUser, authRouter, authRouterForm, setLoading, setMount } = useOutletContext();
   const [avatarFile, setAvatarFile] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -89,7 +90,7 @@ const handleUploadAvatar = async (e) => {
 
           <div>
             <div className={profileStyles.avatarSection}>
-              <img src={user.profile && user.profile.avatarUrl ? `${user.profile.avatarUrl}` : ''} alt="User Avatar" />
+              {user.profile.avatarUrl ? <img src={user.profile.avatarUrl} alt="User Avatar" />: <CircleUserRound size={100} />}
             </div>
             <button className={profileStyles.openModalButton}>Change Avatar</button>
             <div className={profileStyles.addFileModalContent}>
@@ -113,17 +114,19 @@ const handleUploadAvatar = async (e) => {
 export function ProfileView() {
 
   const { setMount, mount, setNewFetch, user, setCurrentRoom, 
-  currentRoom, authRouter, setError, setToggledFriendId, toggledFriendId, toggleMessages, setToggleMessages,
+  currentRoom, authRouter, setError, toggleMessages, setToggleMessages,
   setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage } = useOutletContext();
 
   const [ selectedUser, setSelectedUser ] = useState(null);
   const [ friendshipStatus, setFriendshipStatus ] = useState(null);
   const [pending, setPending] = useState(false);
 
+  const { userId } = useParams();
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await authRouter.get(`/friends/${toggledFriendId}`);
+        const response = await authRouter.get(`/friends/${userId}`);
         const result = await response.data;
         setSelectedUser(result.friendData);
         setFriendshipStatus(result.friendshipStatus);
@@ -133,7 +136,7 @@ export function ProfileView() {
     };
 
     fetchProfile();
-  }, [toggledFriendId]);
+  }, []);
 
 
 
@@ -145,8 +148,7 @@ export function ProfileView() {
     .then( response => {
       const data = response.data;
       setMessageContent(data.currentViewedMessages);
-      setFriends(data.updatedFriends);
-      setUserMessages(data.updatedMessages);
+      setMount(true);
 
     })
     .catch(error => {

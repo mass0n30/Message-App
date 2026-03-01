@@ -29,7 +29,7 @@ function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMes
     }
   };
 
-    function handleLogOut() {
+  function handleLogOut() {
     localStorage.removeItem("usertoken");
     navigate("/");
   };

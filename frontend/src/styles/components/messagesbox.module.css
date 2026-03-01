@@ -66,6 +66,12 @@
 
 .pendingMessages {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pendingMessageItem {
+  flex: 1;
 }
 
 .pendingMessagesBtn {

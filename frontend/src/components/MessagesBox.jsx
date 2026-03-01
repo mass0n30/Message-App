@@ -5,14 +5,16 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from './Message';
 
-function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages, toggledFriendId, setToggledFriendId,
+function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
   messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage
  }) {
 
   const [directMessage, setDirectMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [alertSuccess, setAlertSuccess] = useState(false);
+  const [alertRead, setAlertRead] = useState(false);
   const [togglePending, setTogglePending] = useState(false);
+  const [toggledFriendId, setToggledFriendId] = useState(null);
 
 
   useEffect(() => {
@@ -23,15 +25,19 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
       
   
 
-  const handleToggleMessage = async (friendId) => {
+  const handleToggleMessage = async (friendId, toggle) => {
 
+    toggle && setToggleDirectMessage(true);
     setToggledFriendId(friendId);
-    setToggleDirectMessage(true);
 
     authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${friendId}`)
     .then( response => {
       const data = response.data;
-      setMount(true)
+      
+      setMount(true);
+      setMessageContent(data.updatedMessages);
+      !toggle && setAlertRead(true);
+
     })
     .catch(error => {
       console.error("Error updating message status:", error);
@@ -42,7 +48,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
 
-    if (!directMessage || directMessage.trim() === '') return;
+    if (!directMessage || directMessage.trim() === '' || toggledFriendId === null) return;
 
     try {
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`, {
@@ -102,8 +108,6 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
                       setAlertGuest={setAlertGuest}
                       setToggleMessages={setToggleMessages}
                       showDayHeader={showDayHeader}
-                      setToggledFriendId={setToggledFriendId}
-                      toggledFriendId={toggledFriendId}
                     />
                   );
                 });
@@ -117,6 +121,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
           </form>
         </div>
         <SnackBarAlert setOpen={setAlertSuccess} open={alertSuccess} msg={'Message sent successfully!'} />
+        <SnackBarAlert setOpen={setAlertRead} open={alertRead} msg={'Messages marked as read!'} />
       </div>
       );
   }
@@ -139,7 +144,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
               <div key={friend.id} className={styles.friendItem}>
                 <button
                   className={styles.friendItemBtn}
-                  onClick={() => handleToggleMessage(friend?.friendsOf?.id)}
+                  onClick={() => handleToggleMessage(friend?.friendsOf?.id, true)}
                 >
                   {friend?.friendsOf?.alias}
 
@@ -182,11 +187,12 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
                         setAlertGuest={setAlertGuest}
                         setToggleMessages={null}
                         showDayHeader={showDayHeader}
-                        setToggledFriendId={setToggledFriendId}
-                        toggledFriendId={toggledFriendId}
                       />
                       <div className={styles.messageMarkRead}>
                         <button onClick={() => handleToggleMessage(message.sender.id)}>Mark as Read</button>
+                      </div>
+                      <div className={styles.messageDelete}>
+                        <button onClick={() => handleToggleMessage(message.sender.id, true)}>Message</button>
                       </div>
                     </div>
                   );

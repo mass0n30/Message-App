@@ -40,6 +40,16 @@ async function getUserData(req, res, next) {
                     content: true,
                     timestamp: true,
                     read: true,
+                    sender: {
+                      select: {
+                        id: true,
+                        alias: true,
+                        fname: true,
+                        lname: true,
+                        email: true,
+                        profile: true,
+                      }
+                    },
                   }
                 },
               }
@@ -56,6 +66,10 @@ async function getUserData(req, res, next) {
               select: {
                 id: true,
                 alias: true,
+                fname: true,
+                lname: true,
+                email: true,
+                profile: true,
               }
             }
           }
@@ -166,6 +180,8 @@ async function getChatRoom(req, res,next) {
                 id: true,
                 alias: true,
                 fname: true,
+                lname: true,
+                profile: true,
               }
             }
           }
@@ -204,12 +220,14 @@ async function getDirectMessageChatMessages(req, res, next, friendId) {
           select: {
             id: true,
             alias: true,
+            profile: true,
           }
         },
         receiver: {
           select: {
             id: true,
             alias: true,
+            profile: true,
           }
         }
       },

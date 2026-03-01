@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/components/message.module.css';
 import { CircleUserRound } from 'lucide-react';
+import Cluster from '../primitives/Cluster';
 import { useState } from 'react';
 
-export default function Message({ user, msg, guestMode, setAlertGuest, setToggleMessages, showDayHeader,
-  toggledFriendId, setToggledFriendId
+export default function Message({ user, msg, guestMode, setAlertGuest, setToggleMessages, showDayHeader
  }) {
 
     const navigate = useNavigate();
@@ -34,52 +34,54 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
         return;
       } else {
         if (setToggleMessages) setToggleMessages(false);
-        setToggledFriendId(userId);
         navigate(`/home/profile/${userId}`);
       }
     }
 
     return (
-      <div className={user ? (msg.senderId === user.id || msg.sender?.id === user.id ? styles.ownMessage : styles.message) : styles.message}>
+      <div className={styles.message}>
         {showDayHeader && (
           <div className={styles.dateSeparator}>
             <span>{formattedDate}</span>
           </div>
         )}
-        <div className={styles.messageContainer}>
-          <div className={styles.messageHeader}>
-            <div className={styles.avatarContainer}>
-              <button
-                className={styles.avatarButton}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  font: 'inherit',
-                }}
-              onClick={() => msg?.senderId !== user?.id || msg?.sender?.id !== user?.id ? handleGetProfile(msg.sender.id) : null}
-              >
-              {msg?.sender?.profile?.avatarUrl ? (
+        <div className={user ? (msg.senderId=== user.id || msg.sender?.id === user.id ? styles.ownMessageContainer : styles.messageContainer) :  styles.messageContainer}>
+          <div className={user ? (msg.senderId === user.id || msg.sender?.id === user.id ? styles.messageHeaderLeft : styles.messageHeader) : styles.messageHeader}>
+            <Cluster>
+              <div className={styles.avatarContainer}>
+                <button
+                  className={styles.avatarButton}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    font: 'inherit',
+                  }}
+                onClick={() => msg?.senderId !== user?.id || msg?.sender?.id !== user?.id ? handleGetProfile(msg.sender.id) : null}
+                >
+                {msg?.sender?.profile?.avatarUrl ? (
 
-                <img
-                  src={msg.sender.profile.avatarUrl}
-                  alt={msg.sender.alias}
-                  className={styles.avatar}
-                />
-              ) : (
-                <CircleUserRound size={20} />
-              )}
-                </button>
-              </div>
-                <div className={styles.messageContent}>
-                  <strong>
-                    {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
-                  </strong>
-                  {msg.content}
+                  <img
+                    src={msg.sender.profile.avatarUrl}
+                    alt={msg.sender.alias}
+                    className={styles.avatar}
+                  />
+                ) : (
+                  <CircleUserRound className={styles.avatar} />
+                )}
+                  </button>
                 </div>
+                  <div className={styles.messageContent}>
+                    <strong>
+                      {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
+                    </strong>
+                   <div>{msg.content}</div>
+                  </div>
+                </Cluster>
           </div>
-
-          <span className={styles.messageTimeStamp}>{formattedTime}</span>
+        <div className={msg?.senderId === user?.id || msg?.sender?.id === user?.id ? styles.messageTimeStampLeft : styles.messageTimeStamp}>
+          <div className={styles.timeTxt}>{formattedTime}</div>
+        </div>
         </div>
       </div>
     );

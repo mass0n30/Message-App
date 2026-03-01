@@ -101,13 +101,13 @@ const { getDirectMessageChatMessages } = require('../../controllers/viewControll
 
 async function handleUpdateMessageStatus(req, res, next) {
   try {
-    const friendId  = req.params.friendId;
+    const friendId  = parseInt(req.params.friendId, 10);
     console.log(friendId, "friendId in update message status");
     const userId = parseInt(req.user.id, 10);
 
     await prisma.messages.updateMany({
       where: {
-        senderId: parseInt(friendId, 10),
+        senderId: friendId,
         receiverId: userId,
         read: false,
       },
@@ -116,14 +116,10 @@ async function handleUpdateMessageStatus(req, res, next) {
       },
     });
 
-    const updatedUser = await getUserData(req, res, next);
-
-    const currentViewedMessages = await getDirectMessageChatMessages(req, res, next, friendId);
+      const updatedMessages = await getDirectMessageChatMessages(req, res, next, friendId);
 
     return {
-      updatedFriends: updatedUser.userFriendships,
-      updatedMessages: updatedUser.receivedMessages,
-      currentViewedMessages
+      updatedMessages
     };
   } catch (err) {
     return next(err);

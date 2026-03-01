@@ -26,7 +26,6 @@ function Home() {
   const [toggleMessages, setToggleMessages] = useState(false);
   const [toggleDirectMessage, setToggleDirectMessage] = useState(false);
   const [pendingMessages, setPendingMessages] = useState(false);
-  const [toggledFriendId, setToggledFriendId] = useState(null);
   const [messageContent, setMessageContent] = useState([]);
   // loading state settings
   const [mount, setMount] = useState(true);
@@ -197,8 +196,6 @@ function Home() {
             setFriends={setFriends}
             friends={friends}
             setUserMessages={setUserMessages}
-            toggledFriendId={toggledFriendId}
-            setToggledFriendId={setToggledFriendId}
             messageContent={messageContent}
             setMessageContent={setMessageContent}
             setToggleMessages={setToggleMessages}
@@ -212,7 +209,7 @@ function Home() {
           <main>
             <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
             <Outlet context={{user, setUser, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, success, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
-            ,toggleMessages, setToggleMessages, setToggledFriendId, toggledFriendId, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage }} />
+            ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage }} />
           </main>
         </div>
         <Footer/>

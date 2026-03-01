@@ -1,19 +1,18 @@
 
-.ownMessage, .message {
-    padding: 10px;
+.message {
+    padding: 5px;
     border-radius: 5px;
-    margin-bottom: 10px;
-    max-width: 60%;
-    width: 50%;
+    margin-bottom: 5px;
     word-wrap: break-word;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.ownMessage {
+
+
+.ownMessageContainer {
     background-color: #001741;
-    align-self: flex-end;
 }
 
 .messageContainer {
@@ -21,7 +20,8 @@
   flex-direction: column;
 }
 
-.messageHeader {
+
+.messageHeader, .messageHeaderLeft {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
@@ -37,7 +37,7 @@
   font-style: italic;
 }
 
-.dateSeparator, .messageTimeStamp {
+.dateSeparator, .messageTimeStamp, .messageTimeStampLeft {
   margin: 10px 0;
   flex: 1;
   font-size: var(--text-xs);
@@ -47,9 +47,20 @@
   justify-content: center;
 }
 
-.messageTimeStamp {
+.messageTimeStamp, .messageTimeStampLeft {
   margin: 5px 0;
   justify-content: flex-start;
+  flex: 1;
+}
+
+.messageContent {
+  gap: 5px;
+  display: flex;
+}
+
+.messageTimeStampLeft, .messageHeaderLeft {
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .avatarContainer {

@@ -8,7 +8,7 @@ import ChatBody  from '../components/ChatBody';
 
 function HomePage() {
   const { user, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, setLoading, setSuccess, authRouter, setError, guestMode, setAlertGuest
-    , toggleMessages, setToggleMessages, setToggledFriendId, toggledFriendId, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage
+    , toggleMessages, setToggleMessages, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage
    } = useOutletContext();
 
 
@@ -27,8 +27,6 @@ function HomePage() {
         setError={setError}
         guestMode={guestMode}
         setAlertGuest={setAlertGuest}
-        setToggledFriendId={setToggledFriendId}
-        toggledFriendId={toggledFriendId}
       />
     </> 
   )
