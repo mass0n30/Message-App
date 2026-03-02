@@ -36,10 +36,13 @@ function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMes
 
   return (
     <nav className={styles.navbar}>
-      <Cluster>
-        <div className={styles.logo}>
-          <h1>Navbar Text</h1>
+      <div className={styles.logo}>
+        <h1>PulseChat</h1>
+        <div className={styles.logoImageContainer}>
+          <img src='/logo.png' alt='logo' className={styles.logoImage} />
         </div>
+      </div>
+      <Cluster>
         <div className={styles.navLinks}>
           <button onClick={handleLogOut}>Log Out</button>
         </div>

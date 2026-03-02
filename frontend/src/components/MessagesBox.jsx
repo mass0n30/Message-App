@@ -1,5 +1,6 @@
 import styles from '../styles/components/messagesbox.module.css';
 import formStyles from '../styles/components/form.module.css';
+import chatBodyStyles from '../styles/components/chatbody.module.css';
 import SnackBarAlert from './reactMUI/Alerts';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -114,8 +115,8 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
               })()}
           </div>
         )}
-        <div>
-          <form className={formStyles.formContainer} onSubmit={handleSubmitMessage}>
+        <div className={chatBodyStyles.inputContainer}>
+          <form className={chatBodyStyles.formContainer} onSubmit={handleSubmitMessage}>
             <input type="text" placeholder="Send Message" value={directMessage} onChange={(e) => setDirectMessage(e.target.value)} />
             <button type="submit">Send</button>
           </form>

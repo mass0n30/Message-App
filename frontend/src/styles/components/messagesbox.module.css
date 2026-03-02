@@ -8,9 +8,9 @@
   display: flex;
   flex-direction: column;
   height: 40rem; 
-  width: 20rem;
+  width: 30rem;
   background-color: rgb(17, 17, 17);
-  padding: 20px;
+  padding: var(--space-md);
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -56,11 +56,11 @@
 .newMessage, .noMessage {
   color: white;
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: var(--text-sm);
 }
 
 .newMessage {
-  background-color: red;
+  background-color: var(--color-thirdary);
   font-weight: bold;
 }
 
@@ -84,15 +84,15 @@
   font-weight: bold;
   margin-left: 5px;
   font-size: var(--text-xs);
-  background-color: rgb(255, 0, 0);
+  background-color: var(--color-thirdary);
   padding: 2px 8px;
   border-radius: 50%;
-  border: 2px solid rgb(145, 2, 2);
+  border: 2px solid var(--color-thirdary);
 }
 
 .messageTimeStamp {
-  font-size: 10px;
-  color: #888;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   font-style: italic;
 }
 
@@ -104,12 +104,12 @@
 
 .messageItem {
   align-items: flex-end;
-  background-color: #021fc0;
+  background-color: var(--color-secondary-light);
 }
 
 .messageContent {
   flex: 1;
-  font-size: 14px;
+  font-size: var(--text-sm);
   display: flex;
   flex-direction: column;
 }

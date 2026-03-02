@@ -2,20 +2,25 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from "react-router-dom";
 import ChatBody  from '../components/ChatBody';
+import { use } from 'react';
 
 
 {/*maybe import local styles */}
 
 function HomePage() {
   const { user, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, setLoading, setSuccess, authRouter, setError, guestMode, setAlertGuest
-    , toggleMessages, setToggleMessages, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage
+    , toggleMessages, setToggleMessages, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome
    } = useOutletContext();
 
 
 
-  return (
+   return (
     <>
-      <div>Welcome home, <i>{user ? user.alias : "Guest"}</i> </div>
+    {alertWelcome && (
+      <div className="welcome-alert">
+        Welcome back, <i>{user ? user.alias : "Guest"}</i>!
+      </div>
+    )}
       <ChatBody 
         setLoading={setLoading}
         setMount={setMount}

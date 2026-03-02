@@ -69,6 +69,7 @@ model Messages {
   content   String
   timestamp DateTime @default(now())
   read      Boolean  @default(false)
+  imgUrl    String?
   
   sender    User     @relation("sentMessages", fields: [senderId], references: [id])
   receiver  User     @relation("receivedMessages", fields: [receiverId], references: [id])
@@ -89,6 +90,7 @@ model ChatMessage {
   senderId   Int
   content    String
   timestamp  DateTime @default(now())
+  imgUrl     String?
   
   chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
   sender     User     @relation(fields: [senderId], references: [id])

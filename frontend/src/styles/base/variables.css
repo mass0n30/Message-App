@@ -1,19 +1,18 @@
 /* ----------------- Colors ----------------- */
 :root {
-  --color-text: #e5e7eb;
+  --color-text: #eef0f3;
   --color-text-paragraph: #d4d4d4;
   --color-white-alt: #E8F1F2;
-  --color-text-active: #a7e9ff; /* sidebar category selected text */
+  --color-text-active: #C9FBFF; /* sidebar category selected text */
+  --color-background: #080a0f; /* main background */
+  --color-primary: #3B82F6;             /* main neon */
+  --color-primary-hover: #488dfc;       /* softer neon */
+  --color-primary-dark: #001b47;      /* light neon */
+  --color-secondary: #0F172A; 
+  --color-secondary-light: #1e293b;       /* accent red */
 
-  --color-primary: rgb(59, 130, 246);             /* main neon */
-  --color-primary-hover: #60a5fa;       /* softer neon */
-  --color-primary-glow: #00aaff;        /* bright glow */
-  --color-primary-glow-translucent: #00aaffa8;   /* dark glow */
-  --color-primary-glow-lite: #5ee7ff;   /* micro glow */
-  --color-secondary: #F03A47; 
-  --color-secondary-light: #f03a4683;       /* accent red */
-  --color-text-link:#646cff;
-  --color-text-link-hover: #535bf2;
+  --color-thirdary: #B80C09;     
+
   --color-text-muted: #6b7280;     /* Secondary / muted text */      /* Borders / dividers */
 }
 

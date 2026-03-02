@@ -55,7 +55,9 @@ function SideBar(props) {
 
   return (
     <div className={styles.sidebar}>
-      <h2>Sidebar</h2>
+      <div className={styles.sidebarHeader}>
+        <h3>Join Room</h3>
+      </div>
       {chatRooms && chatRooms.length > 0 && (
         <div className={styles.chatRoomList}>
           {chatRooms.map((room) => (
@@ -63,7 +65,7 @@ function SideBar(props) {
               <button onClick={() => handleSetRoom(room.id)} >{room.name}</button>
             </div>
           ))}
-          <div>
+          <div className={styles.addRoomButton}>
             <button onClick={() => handleCreateRoom()}>{toggle ? "Cancel" : "Add Room"}</button>
           </div>
           {toggle && (

@@ -47,7 +47,7 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
         )}
         <div className={user ? (msg.senderId=== user.id || msg.sender?.id === user.id ? styles.ownMessageContainer : styles.messageContainer) :  styles.messageContainer}>
           <div className={user ? (msg.senderId === user.id || msg.sender?.id === user.id ? styles.messageHeaderLeft : styles.messageHeader) : styles.messageHeader}>
-            <Cluster>
+            <Cluster style={{ padding: 0 }}>
               <div className={styles.avatarContainer}>
                 <button
                   className={styles.avatarButton}

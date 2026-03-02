@@ -91,7 +91,7 @@ export default function ChatBody(props) {
           <p>No messages in this chat room.</p>
         )}
       </div>
-      <div className="input-area">
+      <div className={styles.inputContainer}>
         <form
           onSubmit={handleSubmit}
           method="POST"

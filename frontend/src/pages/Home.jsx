@@ -54,6 +54,18 @@ function Home() {
       },
   });
 
+  const [alertWelcome, setAlertWelcome] = useState(false);
+
+  useEffect(() => {
+    setAlertWelcome(true);
+    const timer = setTimeout(() => {
+      setAlertWelcome(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [user]);
+
+
 
   // spinner upon mount with delay, post creation message with delay
   useEffect(() => {
@@ -145,7 +157,34 @@ function Home() {
     return (
       <Shell>
         <Stack>
+        <Navbar
+          setMount={setMount}
+          guestMode={guestMode}
+          setAlertGuest={setAlertGuest}
+          user={user}
+          messages={userMessages}
+          setToggleMessages={setToggleMessages}
+          toggleMessages={toggleMessages}
 
+        />
+          <aside>
+              <SideBar 
+                chatRooms={chatRooms}
+                currentRoom={currentRoom}
+                setCurrentRoom={setCurrentRoom}
+                setChatRooms={setChatRooms}
+                setMount={setMount}
+                mount={mount}
+                loading={loading}
+                success={success}
+                setLoading={setLoading}
+                authRouter={authRouter}
+                setError={setError}
+                setAlertGuest={setAlertGuest}
+                guestMode={guestMode}
+                user={user}
+              />
+            </aside>
             <div className="contentWrapper" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
               <div className="spinner">Loading...</div>
             </div>
@@ -209,7 +248,7 @@ function Home() {
           <main>
             <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
             <Outlet context={{user, setUser, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, success, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
-            ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage }} />
+            ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome }} />
           </main>
         </div>
         <Footer/>

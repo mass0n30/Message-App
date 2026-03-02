@@ -19,6 +19,7 @@ export default function Profile() {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
+    setMount(true);
     setLoading(true);
     try {
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/profile`, formData);
@@ -32,6 +33,7 @@ export default function Profile() {
 
 const handleUploadAvatar = async (e) => {
   e.preventDefault();
+  setMount(true);
   setLoading(true);
   try {
     if (!avatarFile) return;
@@ -147,7 +149,7 @@ export function ProfileView() {
     authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${selectedUser.id}`)
     .then( response => {
       const data = response.data;
-      setMessageContent(data.currentViewedMessages);
+      setMessageContent(data.updatedMessages);
       setMount(true);
 
     })
@@ -163,6 +165,7 @@ export function ProfileView() {
     try {
       const response = await authRouter.post(`/friends/${friendId}`);
       friendshipStatus ? setFriendshipStatus(false) : setFriendshipStatus(true);
+      setMount(true);
     } catch (error) {
       setError(error);
     } finally {
