@@ -5,11 +5,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  border: none;
 }
 
 .sidebarHeader {
   padding: 8px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-text-muted);
   background-color: var(--color-secondary-light);
 }
 
@@ -21,26 +22,69 @@
 
 .chatRoomItem {
   padding: 8px;
-  border-bottom: 1px solid #eee;
+}
+
+.chatRoomItemAlt {
+  padding: 8px;
+  background-color: var(--color-secondary-light);
 }
 
 .addRoomButton {
-  padding: var(--space-md);
   border-top: 1px solid #eee;
   display: flex;
   justify-content: center;
-
+  padding: var(--space-sm);
 }
 
-.chatRoomItem button {
+.addRoomButton button {
   background: none;
   border: none;
-  padding: 8px;
+  cursor: pointer;
+  padding: var(--space-sm) 12px;
+}
+
+.addRoomButton button:hover {
+  background: var(--color-secondary-light);
+  border: solid 2px var(--color-primary);
+}
+
+.addRoomIcon {
+  width: var(--icon-size-desktop);
+  height: var(--icon-size-desktop);
+}
+
+.chatRoomItem button, .chatRoomItemAlt button {
+  background: none;
+  border: none;
+  padding: var(--space-sm);
   text-align: left;
   width: 100%;
   cursor: pointer;
 }
 
-.chatRoomItem button:hover {
-  background: #f0f0f0;
+.createRoomForm {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  background-color: var(--color-secondary-light);
+  box-shadow: inset 0 0 3px 2px var(--color-primary-dark);
+  border-radius: var(--radius-lg);
+  border: solid 4px var(--color-primary);
+}
+
+.createRoomForm input, .createRoomForm select {
+  padding: var(--space-sm);
+  font-size: var(--text-base);
+  border-radius: var(--radius-sm);
+  background-color: #1a1a1a;
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+.createRoomForm form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
 }

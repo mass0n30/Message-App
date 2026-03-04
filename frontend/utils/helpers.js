@@ -19,3 +19,25 @@ export function getPendingMessages(userFriendships, receivedMessages) {
 
   return pendingMessages;
 };
+
+
+export function assignChatRoomPattern(chatRoom, pattern) {
+  if (!chatRoom || !pattern) return chatRoom;
+
+  const patternMap = {
+    "FloatingCloud": "/pattern/FloatingCloud.svg",
+    "GlowingStars": "/pattern/GlowingStars.svg",
+    "Snow": "/pattern/Snow.svg",
+    "Sprinkle": "/pattern/Sprinkle.svg",
+    "DashLights": "/pattern/DashLights.svg",
+    "Abstract": "/pattern/Abstract.svg",
+    "Circuit": "/pattern/Circuit.svg",
+  };
+
+  const backgroundImage = patternMap[pattern] || null;
+
+  return {
+    ...chatRoom,
+    backgroundImage,
+  };
+}

@@ -2,6 +2,9 @@ import styles from '../styles/components/chatbody.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Message from './Message';
+import { Send, ArrowDownUp, ArrowUpDown } from 'lucide-react';
+import SendMessage from './SendMessage';
+
 
 export default function ChatBody(props) {
 
@@ -11,6 +14,7 @@ export default function ChatBody(props) {
   const navigate = useNavigate();
 
   const [ messageContent, setMessageContent ] = useState(null);
+  const [order, setOrder] = useState(true);
   const [ loading, SetLoading ] = useState("");
 
   useEffect(() => {
@@ -56,11 +60,31 @@ export default function ChatBody(props) {
   }
 
   return (
-    <div>
-      {currentRoom?.name && (
-        <h2>{currentRoom.name}</h2>
-      )}
+    <div className={styles.chatBody}
+      style={{
+        backgroundImage: currentRoom?.pattern ? `url(/pattern/${currentRoom.pattern}.svg)` : 'none',
+      }}
+    >
+      <div className={styles.header}>
+        {currentRoom?.name && (
+          <h2>{currentRoom.name}</h2>
+        )}
+        {currentRoom?.topic && (
+          <h4>{currentRoom?.topic}</h4>
+        )}
+      </div>
+      <div className={styles.inputContainer}>
+        <SendMessage
+          handleSubmit={handleSubmit}
+          messageContent={messageContent}
+          setMessageContent={setMessageContent}
+        />
+
+      </div>
       <div className={styles.messages}>
+        <div className={styles.orderToggle} onClick={() => setOrder(!order)}>
+          {order ? <ArrowDownUp className={styles.arrow} /> : <ArrowUpDown className={styles.arrow} />}
+        </div>
         {currentRoom?.messages?.length > 0 ? (
           (() => {
             let lastDay = null;
@@ -88,23 +112,10 @@ export default function ChatBody(props) {
             });
           })()
         ) : (
-          <p>No messages in this chat room.</p>
+          <p className={styles.noMessages}>No messages in this chat room.</p>
         )}
       </div>
-      <div className={styles.inputContainer}>
-        <form
-          onSubmit={handleSubmit}
-          method="POST"
-          id="messageForm"
-          autoComplete="off"
-        >
-          <input type="text" placeholder="Type your message..."
-          value={messageContent}
-          onChange={(e) => setMessageContent(e.target.value)} />
-          <button>Send</button>
-        </form>
 
-      </div>
     </div>
   );
 }

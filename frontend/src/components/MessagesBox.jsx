@@ -3,8 +3,9 @@ import formStyles from '../styles/components/form.module.css';
 import chatBodyStyles from '../styles/components/chatbody.module.css';
 import SnackBarAlert from './reactMUI/Alerts';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Message from './Message';
+import SendMessage from './SendMessage';
+import { Send } from 'lucide-react';
 
 function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
   messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage
@@ -81,6 +82,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
     return (
       <div className={styles.messagesBox}
         style={{ display: toggleMessages ? 'block' : 'none' }}
+        onClick={(e) => e.stopPropagation()}
       >
         <h2>Messages Box</h2>
       {/* Show toggled messages*/}
@@ -116,10 +118,12 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
           </div>
         )}
         <div className={chatBodyStyles.inputContainer}>
-          <form className={chatBodyStyles.formContainer} onSubmit={handleSubmitMessage}>
-            <input type="text" placeholder="Send Message" value={directMessage} onChange={(e) => setDirectMessage(e.target.value)} />
-            <button type="submit">Send</button>
-          </form>
+          <SendMessage
+            handleSubmit={handleSubmitMessage}
+            messageContent={directMessage}
+            setMessageContent={setDirectMessage}
+            placeholder={"Type your message..."}
+          />
         </div>
         <SnackBarAlert setOpen={setAlertSuccess} open={alertSuccess} msg={'Message sent successfully!'} />
         <SnackBarAlert setOpen={setAlertRead} open={alertRead} msg={'Messages marked as read!'} />
@@ -137,12 +141,12 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
         
         <div className={styles.friendsList}>
           <h3>Friends</h3>
-          {friends.map((friend) => {
+          {friends.map((friend, index) => {
             const sent = friend?.friendsOf?.sentMessages || [];
             const hasNewMessages = sent.some((msg) => !msg.read);
 
             return (
-              <div key={friend.id} className={styles.friendItem}>
+              <div key={friend.id} className={index % 2 === 0 ? styles.friendItem : styles.friendItemAlt}>
                 <button
                   className={styles.friendItemBtn}
                   onClick={() => handleToggleMessage(friend?.friendsOf?.id, true)}
@@ -164,7 +168,11 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
         <div className={styles.pendingMessages}>
           <div >
             <button onClick={() => setTogglePending(!togglePending)} className={styles.pendingMessagesBtn}>
-              <div>Pending Messages</div><div className={styles.pendingCount}>{pendingMessages.length}</div>
+              <div>Pending</div>
+              <div className={styles.chatIconContainer}>
+                <img src='chatArt.png' alt="Chat Icon" className={styles.chatIcon} />
+              </div>
+              <div className={styles.pendingCount}>{pendingMessages.length}</div>
             </button>
           </div>
           {togglePending && (

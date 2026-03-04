@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import{ useNavigate } from "react-router-dom";
 import styles from '../styles/components/sidebar.module.css';
 import axios from "axios";
+import { SquarePlus, X } from "lucide-react";
 
 function SideBar(props) {
   const {chatRooms, currentRoom, setChatRooms, setCurrentRoom, loading, success, setLoading, authRouter, setAlertGuest, guestMode } = props;
 
   const [toggle, setToggle] = useState(false);
   const [roomName, setRoomName] = useState("");
+  const [topic, setTopic] = useState("");
+  const [roomPattern, setRoomPattern] = useState("");
 
   const navigate = useNavigate();
 
@@ -41,8 +44,18 @@ function SideBar(props) {
   const handleSubmitCreateRoom = async (roomName) => {
     if (!roomName || roomName.trim() === "") return;
 
+    if (!toggle) {
+      setRoomName("");
+      setTopic("");
+      setRoomPattern("");
+      setToggle(true);
+
+    } else {  
+      setToggle(false);
+    }
+
     try {
-      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/chats/`, { roomName: roomName });
+      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/chats/`, { roomName: roomName, topic: topic, pattern: roomPattern });
       const result = await response.data;
       setChatRooms(result.allData.chatRooms);
       setCurrentRoom(result.chatRoom); 
@@ -60,26 +73,50 @@ function SideBar(props) {
       </div>
       {chatRooms && chatRooms.length > 0 && (
         <div className={styles.chatRoomList}>
-          {chatRooms.map((room) => (
-            <div key={room.id} className={styles.chatRoomItem}>
+          {chatRooms.map((room, index) => (
+            <div key={room.id} className={index % 2 === 0 ? styles.chatRoomItem : styles.chatRoomItemAlt}>
               <button onClick={() => handleSetRoom(room.id)} >{room.name}</button>
             </div>
           ))}
           <div className={styles.addRoomButton}>
-            <button onClick={() => handleCreateRoom()}>{toggle ? "Cancel" : "Add Room"}</button>
+            <button onClick={() => handleCreateRoom()}>{toggle ? (<div><X className={styles.addRoomIcon} /></div>) : (<div><SquarePlus className={styles.addRoomIcon} /></div>)}</button>
           </div>
           {toggle && (
-            <div>
+            <div className={styles.createRoomForm}>
               <form onSubmit={(e) => {
                 e.preventDefault();
                 handleSubmitCreateRoom(roomName);
               }}>
-                <input 
-                  type="text" 
-                  placeholder="Room Name" 
-                  value={roomName}    
-                  onChange={(e) => setRoomName(e.target.value)}
-                />
+                <div className={styles.formRow}>
+                  <input 
+                    type="text" 
+                    placeholder="Room Name" 
+                    value={roomName}    
+                    onChange={(e) => setRoomName(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formRow}>
+                  <input 
+                    type="text" 
+                    placeholder="Topic (optional)" 
+                    value={topic}    
+                    onChange={(e) => setTopic(e.target.value)}
+                  />
+                </div>
+                <div className={styles.formRow}>
+                  <select value={roomPattern} onChange={(e) => setRoomPattern(e.target.value)}>
+                    <option value="" disabled selected hidden>Select your decoration</option>
+                    <option value="None">None</option>
+                    <option value="FloatingCloud">Floating Cloud</option>
+                    <option value="GlowingStars">Glowing Stars</option>
+                    <option value="Snow">Snow</option>
+                    <option value="Sprinkle">Sprinkle</option>
+                    <option value="DashLights">Dash Lights</option>
+                    <option value="Abstract">Abstract</option>
+                    <option value="Circuit">Circuit</option>
+                  </select>
+                </div>
+
                 <button type="submit">Create</button>
               </form>
             </div>

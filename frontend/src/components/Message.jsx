@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/components/message.module.css';
-import { CircleUserRound } from 'lucide-react';
+import { CircleUserRound, GripVertical } from 'lucide-react';
 import Cluster from '../primitives/Cluster';
 import { useState } from 'react';
 
@@ -47,7 +47,7 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
         )}
         <div className={user ? (msg.senderId=== user.id || msg.sender?.id === user.id ? styles.ownMessageContainer : styles.messageContainer) :  styles.messageContainer}>
           <div className={user ? (msg.senderId === user.id || msg.sender?.id === user.id ? styles.messageHeaderLeft : styles.messageHeader) : styles.messageHeader}>
-            <Cluster style={{ padding: 0 }}>
+            <Cluster id={ user ? (msg.senderId === user.id || msg.sender?.id === user.id ? "ownMessageCluster" : "messageCluster") : "messageCluster"}>
               <div className={styles.avatarContainer}>
                 <button
                   className={styles.avatarButton}

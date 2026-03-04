@@ -70,12 +70,14 @@ async function handleCreateChatRoom(req, res, next) {
   }
 
   try {
-    const { roomName } = req.body;
+    const { roomName, topic, pattern } = req.body;
     console.log(roomName);
     const chatRoom = await prisma.chatRoom.create({
       data: {
-        ownerId: 1, // parseInt(req.user.id, 10)
+        ownerId: parseInt(req.user.id, 10),
         name: roomName,
+        topic: topic,
+        pattern: pattern
       }
    });
 

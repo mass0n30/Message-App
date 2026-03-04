@@ -173,6 +173,7 @@ async function getChatRoom(req, res,next) {
     const chatRoom = await prisma.chatRoom.findUnique({
       where: {id: chatId},
       include: {
+        
         messages: {
           include: {
             sender: {

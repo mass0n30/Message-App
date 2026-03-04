@@ -27,6 +27,7 @@ function Home() {
   const [toggleDirectMessage, setToggleDirectMessage] = useState(false);
   const [pendingMessages, setPendingMessages] = useState(false);
   const [messageContent, setMessageContent] = useState([]);
+
   // loading state settings
   const [mount, setMount] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -60,10 +61,10 @@ function Home() {
     setAlertWelcome(true);
     const timer = setTimeout(() => {
       setAlertWelcome(false);
-    }, 3000);
+    }, 6000);
 
     return () => clearTimeout(timer);
-  }, [user]);
+  }, []);
 
 
 
@@ -156,7 +157,7 @@ function Home() {
   if (loading) {
     return (
       <Shell>
-        <Stack>
+        <Stack style={{ gap: 0 }}>
         <Navbar
           setMount={setMount}
           guestMode={guestMode}
@@ -245,7 +246,11 @@ function Home() {
             mount={mount}
             setMount={setMount}
           />
-          <main>
+          <main onClick={() => {
+            if (toggleMessages) {
+              setToggleMessages(false);
+            }
+          }}>
             <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
             <Outlet context={{user, setUser, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, success, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
             ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome }} />

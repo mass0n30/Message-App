@@ -31,20 +31,25 @@
 
 .dateSeparator {
   padding: 5px 10px;
-  border-bottom: solid 2px var(--color-secondary-light);
   margin: 10px auto;
   font-size: var(--text-sm);
-  color: #888;
+  color: var(--color-text);
   font-style: italic;
 }
 
-.dateSeparator, .messageTimeStamp, .messageTimeStampLeft {
+.messageTimeStamp, .messageTimeStampLeft {
   flex: 1;
   font-size: var(--text-xs);
-  color: #888;
+  color: var(--color-text-muted);
   font-style: italic;
   display: flex;
   justify-content: center;
+}
+
+.dateSeparator, .timeTxt {
+  background-color: var(--color-background-transparent);
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 
 .messageTimeStamp, .messageTimeStampLeft {
@@ -58,6 +63,8 @@
 .messageContent {
   gap: 5px;
   display: flex;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .messageTimeStampLeft, .messageHeaderLeft {
@@ -77,8 +84,8 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   margin-right: 10px;
 }

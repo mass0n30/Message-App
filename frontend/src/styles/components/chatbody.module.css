@@ -1,24 +1,47 @@
 
+.chatBody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-left: solid 2px var(--color-text-muted);
+  background-size: contain;
+  background-repeat: repeat;
+}
 
 .messages {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  overflow-y: auto;
+  flex: 3;
+  background-color: var(--color-background-transparent);
 }
 
 .inputContainer {
-  padding: 20px;
-  border-top: 1px solid var(--color-secondary-light);
-  background-color: var(--color-secondary);
+  height: 10%;
+  background-color: var(--color-secondary-light);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  bottom: 0;
+  width: 100%;
+  border-top: solid 2px var(--color-text-muted);
+  border-bottom: solid 2px var(--color-text-muted);
 }
 
-.inputContainer input {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+.header {
+
+  background-color: var(--color-background-transparent);
 }
 
-.inputContainer button {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+.header, .noMessages {
+  flex: 1;
+  padding: var(--space-md);
 }
+
+.orderToggle {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+

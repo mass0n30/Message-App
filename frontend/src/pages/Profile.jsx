@@ -1,6 +1,6 @@
 
 import { useOutletContext, useParams } from "react-router-dom";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import formStyles from '../styles/components/form.module.css';
 import profileStyles from '../styles/pages/profile.module.css';
@@ -8,6 +8,7 @@ import profileStyles from '../styles/pages/profile.module.css';
 export default function Profile() {
   const { user, setUser, authRouter, authRouterForm, setLoading, setMount } = useOutletContext();
   const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarToggle, setAvatarToggle] = useState(false);
 
   const [formData, setFormData] = useState({
     alias: user.alias,
@@ -57,56 +58,63 @@ const handleUploadAvatar = async (e) => {
 
   return (
     <div>
-      <h1>Profile Page</h1>
+      <h2>Profile Page</h2>
       {user && (
-        <div>
-          <form onSubmit={handleUpdateProfile} 
-          className={formStyles.formContainer}
-          style={{ justifyContent: 'flex-start', alignContent: 'flex-start', maxWidth: '400px' }}
-          >
-            <label>Alias</label>
-            <input type="text" value={formData.alias} onChange={(e) => setFormData({ ...formData, alias: e.target.value })} />
-            <br />
-            <label>Email</label>
-            <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-            <br />
-            <label>Bio</label>
-            <textarea value={formData.bio ? formData.bio : ''} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
-            <br />
-            <label>Status</label>
-              <select
-                value={formData.status === true ? "Online" : "Offline"}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value === "Online" ? true : false })
-                }
-              >
-                <option value="Online">Online</option>
-                <option value="Offline">Offline</option>
-              </select>
+        <div className={profileStyles.profileContainer}>
+          <div className={profileStyles.innerProfileContainer}>
+            <div className={profileStyles.avatarContainer}>
+              <div className={profileStyles.avatarSection}>
+                {user.profile.avatarUrl ? <img src={user.profile.avatarUrl} alt="User Avatar" />: <CircleUserRound size={100} />}
+              </div>
+              <div className={profileStyles.avatarControlBtns}>
+                <div><button className={profileStyles.openModalButton} onClick={() => setAvatarToggle(!avatarToggle)}>Change Avatar</button></div>
+                {avatarToggle && <div><button className={profileStyles.closeModalButton} onClick={() => setAvatarToggle(false)}><XCircle className={profileStyles.closeIcon} /></button></div>}
+              </div>
+              {avatarToggle && (
+              <div className={profileStyles.addFileModalContent}>
+                <label>Add a File</label>
+                
+                <form onSubmit={handleUploadAvatar}>
+                  <input type="file" name="avatar" className={profileStyles.fileInput} onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} />
+                  <button type="submit">Upload</button>
+                </form>
 
-            <br />
-            <label>
-              <button type="submit">Update Profile</button>
-            </label>
-          </form>
-
-          <div>
-            <div className={profileStyles.avatarSection}>
-              {user.profile.avatarUrl ? <img src={user.profile.avatarUrl} alt="User Avatar" />: <CircleUserRound size={100} />}
+              </div>
+              )}
             </div>
-            <button className={profileStyles.openModalButton}>Change Avatar</button>
-            <div className={profileStyles.addFileModalContent}>
-              <label>Add a File</label>
-              <form onSubmit={handleUploadAvatar}>
-                <input type="file" name="avatar" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} />
-                <button type="submit">Upload</button>
-              </form>
-              <button className={profileStyles.closeModalButton}>Close</button>
-            </div>
+            
+            <form onSubmit={handleUpdateProfile} 
+            className={formStyles.formContainer}
+            style={{ justifyContent: 'flex-start', alignContent: 'flex-start', maxWidth: '400px' }}
+            >
+              <label>Alias</label>
+              <input type="text" value={formData.alias} onChange={(e) => setFormData({ ...formData, alias: e.target.value })} />
+              <br />
+              <label>Email</label>
+              <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <br />
+              <label>Bio</label>
+              <textarea value={formData.bio ? formData.bio : ''} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
+              <br />
+              <label>Status</label>
+              <div className={profileStyles.statusSelect}>
+                <select
+                  value={formData.status === true ? "Online" : "Offline"}
+                  onChange={(e) =>
+                    setFormData({ ...formData, status: e.target.value === "Online" ? true : false })
+                  }
+                >
+                  <option value="Online">Online</option>
+                  <option value="Offline">Offline</option>
+                </select>
+              </div>
+              <br />
+              <label>
+                <button type="submit">Update Profile</button>
+              </label>
+            </form>
           </div>
-
         </div>
-
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/components/navbar.module.css';
 import messageBoxStyles from '../styles/components/messagesbox.module.css';
 import Cluster from '../primitives/Cluster';
-
+import { MailWarning, Mail, CircleUserRound, LucideLogOut } from 'lucide-react';
 
 function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMessages, toggleMessages, messages}) {
   const navigate = useNavigate();
@@ -44,14 +44,16 @@ function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMes
       </div>
       <Cluster>
         <div className={styles.navLinks}>
-          <button onClick={handleLogOut}>Log Out</button>
+          <button onClick={handleLogOut}><LucideLogOut size={32} strokeWidth={2.5} /></button>
         </div>
         <div className={styles.navLinks}>
-          <button onClick={handleNavigateProfile}>Profile</button>
+          <button onClick={handleNavigateProfile}><CircleUserRound size={32} strokeWidth={2.5} /></button>
         </div>
         <div className={styles.navLinks}>
           <button onClick={handleNavigateMessages} className={messageBoxStyles.pendingMessagesBtn}>
-            <div>Messages</div>
+            {newMsgCount > 0 ? 
+            <div><MailWarning size={32} strokeWidth={2.5} /></div>
+              : <div><Mail size={32} strokeWidth={2.5} /></div>}
             {newMsgCount > 0 && <div className={messageBoxStyles.pendingCount}>{newMsgCount}</div>}
           </button>
         </div>

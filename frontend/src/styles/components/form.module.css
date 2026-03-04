@@ -11,11 +11,14 @@
     width: 100%;
 }
 
-.formContainerOuter {
+.formContainerOuter, .formContainer {
     flex: 1;
-    padding: var(--space-lg);
+    padding: var(--space-xl);
+
     box-sizing: border-box;
     width: 100%;
+    background-color: var(--color-secondary);
+    border-radius: var(--radius-lg);
 }
 
 .form_row {

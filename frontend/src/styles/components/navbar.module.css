@@ -42,3 +42,19 @@
   display: flex;
   gap: 2rem;
 }
+
+.navLinks button {
+  background: var(--color-background);
+  border: none;
+  box-sizing: border-box;
+  padding: var(--space-md) var(--space-lg);
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.navLinks button:hover {
+  background-color: var(--color-background);
+  filter: brightness(0.9);
+}
+
