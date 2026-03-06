@@ -27,7 +27,7 @@ friendDetailsRouter.post('/:friendId', async (req, res, next) => {
 }); 
 
 /* websocket implementation needed for realtime chatting */
-friendDetailsRouter.post('/chats/private/:friendId', async (req, res, next) => {
+friendDetailsRouter.post('/chats/private/:friendId', upload.single('file'), validateCreateMessage(), async (req, res, next) => {
   try {
     const updatedMessages = await handleCreateMessageDirect(req, res, next);
     return updatedMessages;

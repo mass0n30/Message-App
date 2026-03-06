@@ -4,20 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { XCircle, ArrowDownUp, ArrowUpDown } from 'lucide-react';
 import SendMessage from './SendMessage';
 import Message from './Message';
+import FileForm from '../UI/FileForm';
 
 export default function ChatBody(props) {
 
   const { setMount, mount, setNewFetch, user, setCurrentRoom, 
-  currentRoom, authRouter, setError, setToggledFriendId, toggledFriendId, guestMode, setAlertGuest } = props;
-
-  const navigate = useNavigate();
+  currentRoom, authRouter, authRouterForm, setError, setToggledFriendId, toggledFriendId,
+  guestMode, setAlertGuest, messageFile, setMessageFile, fileToggle, setFileToggle } = props;
 
   const [ messageContent, setMessageContent ] = useState(null);
-  const [fileToggle, setFileToggle] = useState(false);
-  const [file, setFile] = useState(null);
-  const [addedFileToggle, setAddedFileToggle] = useState(false);
   const [order, setOrder] = useState(true);
   const [ loading, SetLoading ] = useState("");
+  // attached file preview state
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,19 +37,45 @@ export default function ChatBody(props) {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("content", messageContent);
+    formData.append("userId", userId);
+    formData.append("roomId", roomId);
+    if (messageFile) {
+      formData.append("file", messageFile);
+      SetLoading(true);
+    }
+
+    // conditional - if file, use multer form data, else use json body
     try {
-      const response = await authRouter.post(`/chats/${currentRoom.id}/message`, {
-        content: messageContent,
-        userId: userId,
-        roomId: roomId
-      });
-      const result = await response.data;
-      setCurrentRoom(result.updatedChatRoom);
-      setMessageContent("");
-      setAddedFileToggle(false);
-      setFile(null);
+      if (!messageFile) {
+        const response = await authRouter.post(`/chats/${currentRoom.id}/message`, {
+          content: messageContent,
+          userId,
+          roomId,
+        });
+        const result = await response.data;
+        setCurrentRoom(result.updatedChatRoom);
+        setMessageContent("");
+        setMessageFile(null);
+      } else {
+        const formData = new FormData();
+        formData.append("content", messageContent);
+        formData.append("userId", String(userId));
+        formData.append("roomId", String(roomId));
+        formData.append("file", messageFile);
+
+        const response = await authRouterForm.post(`/chats/${currentRoom.id}/message`, formData);
+        const result = await response.data;
+        setMessageContent("");
+        setMessageFile(null);
+        setCurrentRoom(result.updatedChatRoom);
+      }
     } catch (error) {
       setError(error)
+    } finally {
+      setMessageFile(null);
+      setFileToggle(false);
     }
   }
 
@@ -82,12 +107,13 @@ export default function ChatBody(props) {
           handleSubmit={handleSubmit}
           messageContent={messageContent}
           setMessageContent={setMessageContent}
-          file={file}
-          setFile={setFile}
-          addedFileToggle={addedFileToggle}
-          setAddedFileToggle={setAddedFileToggle}
+          file={messageFile}
+          setFile={setMessageFile}
+          fileToggle={fileToggle}
+          setFileToggle={setFileToggle}
+          preview={preview}
+          setPreview={setPreview}
         />
-
       </div>
         <div className={styles.avatarContainer}>
 
@@ -97,20 +123,10 @@ export default function ChatBody(props) {
             <button className={styles.closeModalButton} onClick={() => setFileToggle(false)}><XCircle className={styles.closeIcon} /></button>
           </div>
         }
-          {fileToggle && (
-          <div className={styles.addFileModalContent}>
-            <label>Add a File</label>
-
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              setAddedFileToggle(true);
-            }}>
-              <input type="file" name="avatar" className={styles.fileInput} onChange={(e) => setFile(e.target.files?.[0] || null)} />
-              <button type="submit">Add</button>
-            </form>
-
-          </div>
-          )}
+          {fileToggle && 
+            <FileForm file={messageFile} setFile={setMessageFile} fileToggle={fileToggle} setFileToggle={setFileToggle} handleUploadFile={handleSubmit} 
+            preview={preview} setPreview={setPreview} />
+          }
         </div>
         <div className={styles.orderToggle} >
           {order ? <ArrowDownUp className={styles.arrow} onClick={() => setOrder(!order)} /> : <ArrowUpDown className={styles.arrow} onClick={() => setOrder(!order)} />}

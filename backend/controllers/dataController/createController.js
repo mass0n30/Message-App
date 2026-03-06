@@ -96,17 +96,20 @@ async function handleCreateChatMessage(req, res, next) {
     return res.status(400).json({ errors: errors.array() });
   }
 
+  const url = req.file ? await handleUploadFile(req, res, next) : null;
+
   try {
     const userId = parseInt(req.body.userId, 10);
     const chatRoomId = parseInt(req.body.roomId, 10);
-    const { content } = req.body;
+    const content = req.body.content;
+    
 
     const newMessage = await prisma.chatMessage.create({
       data: {
-        chatRoomId: chatRoomId,
         content: content,
         senderId: userId,
-        chatRoomId: chatRoomId
+        chatRoomId: chatRoomId,
+        imgUrl: url ? url.url : null,
       },
     });
 
@@ -137,13 +140,22 @@ async function handleCreateChatMessage(req, res, next) {
 const { getDirectMessageChatMessages } = require("../viewController.js");
 
 async function handleCreateMessageDirect(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const url = req.file ? await handleUploadFile(req, res, next) : null;
+
   try {
-    const { content } = req.body;
+    const content = req.body.content;
+    
     await prisma.messages.create({
       data: {
         receiverId: parseInt(req.params.friendId),
         senderId: parseInt(req.user.id),
         content: content,
+        imgUrl: url ? url.url : null,
       }
   });
 

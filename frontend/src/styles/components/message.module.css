@@ -9,6 +9,13 @@
     flex-direction: column;
 }
 
+.attachedMessageFile {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
 
 
 .ownMessageContainer {

@@ -2,24 +2,86 @@
 @import '../base/variables.css';
 
 
-.loginContainer, .formContainerOuter, .formContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
 
 .formContainerOuter, .formContainer {
     flex: 1;
     padding: var(--space-xl);
-
     box-sizing: border-box;
     width: 100%;
     background-color: var(--color-secondary);
     border-radius: var(--radius-lg);
 }
+
+
+.formContainer input:focus {
+  outline: none;
+}
+
+.formContainer button:focus {
+  border-top-left-radius: 0px ;
+  border-bottom-left-radius: 0px ;
+  box-shadow: inset 0 0 3px 3px var(--color-primary-dark);
+
+}
+
+.sendFormContainer {
+  max-height: 3rem;
+  flex: 1;
+  display: flex;
+  border-radius: 12px;
+  border: 3px solid var(--color-primary);
+  box-shadow: inset 0 0 3px 3px var(--color-primary-dark);
+
+}
+
+.sendFormContainer input {
+  flex: 1;
+  border: none;
+  padding: 2px var(--space-md);
+  font-size: var(--text-sm);
+  border-radius: 12px;
+  background-color: transparent;
+
+}
+
+.attachmentButton {
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.attachmentButton:hover {
+  filter: brightness(0.9);
+  background-color: transparent;
+}
+
+.attachmentIcon, .attachmentIconX {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text);
+}
+
+.attachmentIconX:hover {
+  color: var(--color-thirdary);
+}
+
+.sendMessageContainer {
+  height: 100%;
+  background-color: var(--color-secondary-light);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-md);
+}
+
+.sendMessageFormContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+
 
 .form_row {
     display: flex;
@@ -72,6 +134,8 @@
 
 .fileToggleBtns {
   display: flex;
+  width: 100%;
+  justify-content: flex-end;
 }
 
 .closeModalButton, .closeModalButton:hover {
@@ -91,3 +155,51 @@
   padding-left: 0;
   width: 80%;
 }
+
+.previewImage {
+  margin-top: var(--space-sm);
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  width: var(--icon-size-mobile);
+  height: auto;
+}
+
+.previewButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  overlay: var(--color-background-transparent);
+}
+
+.previewButton:hover .xIcon {
+  background-color: transparent;
+  color: var(--color-thirdary);
+}
+
+.xIcon {
+  width: 20px;
+  z-index: 1;
+  height:auto;
+  color: var(--color-text);
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.addFileModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-background-transparent);
+}
+

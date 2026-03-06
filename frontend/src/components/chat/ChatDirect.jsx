@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react';
 
 export default function ChatDirect(props) {
 
-  const { SetMount, mount, SetNewFetch, user, SetCurrentRoom, 
-  currentRoom, authRouter, SetError } = props;
 
-  const [ messageContent, setMessageContent ] = useState("");
   const [ loading, SetLoading ] = useState(true);
   const [ messages, setMessages ] = useState([]);
 

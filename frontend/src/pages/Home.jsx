@@ -18,17 +18,18 @@ function Home() {
   const [users, setUsers] = useState(null);
   const [userMessages, setUserMessages] = useState(null);
   const [messageContent, setMessageContent] = useState([]);
+  const [messageFile, setMessageFile] = useState(null);
   const [guestMode, setGuestMode] = useState(false);
   const [alertGuest, setAlertGuest] = useState(false);
   const [friends, setFriends] = useState(false);
   const [chatRooms, setChatRooms] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
-  const [fileUrl, setFileUrl] = useState(null);
 
   // message box toggle settings
   const [toggleMessages, setToggleMessages] = useState(false);
   const [toggleDirectMessage, setToggleDirectMessage] = useState(false);
   const [pendingMessages, setPendingMessages] = useState(false);
+  const [fileToggle, setFileToggle] = useState(false);
 
   // loading state settings
   const [mount, setMount] = useState(true);
@@ -231,6 +232,7 @@ function Home() {
           </aside>
           <MessagesBox
             authRouter={authRouter}
+            authRouterForm={authRouterForm}
             user={user}
             messages={userMessages}
             toggleMessages={toggleMessages}
@@ -247,6 +249,10 @@ function Home() {
             setToggleDirectMessage={setToggleDirectMessage}
             mount={mount}
             setMount={setMount}
+            messageFile={messageFile}
+            setMessageFile={setMessageFile}
+            fileToggle={fileToggle}
+            setFileToggle={setFileToggle}
           />
           <main onClick={() => {
             if (toggleMessages) {
@@ -255,7 +261,7 @@ function Home() {
           }}>
             <SnackBarAlert setOpen={setAlertGuest} open={alertGuest} msg={'Signup for User Features'}/>
             <Outlet context={{user, setUser, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, success, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
-            ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome }} />
+            ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome, messageFile, setMessageFile, fileToggle, setFileToggle }} />
           </main>
         </div>
         <Footer/>

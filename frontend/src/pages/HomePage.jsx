@@ -7,8 +7,9 @@ import ChatBody  from '../components/chat/ChatBody';
 {/*maybe import local styles */}
 
 function HomePage() {
-  const { user, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, setLoading, setSuccess, authRouter, setError, guestMode, setAlertGuest
-    , toggleMessages, setToggleMessages, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome
+  const { user, users, chatRooms, currentRoom, setCurrentRoom, loading, mount, setMount, setLoading, setSuccess, authRouter, authRouterForm, setError, guestMode, setAlertGuest
+    , toggleMessages, setToggleMessages, setFriends, setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, messageFile, setMessageFile,
+    fileToggle, setFileToggle
    } = useOutletContext();
 
 
@@ -28,9 +29,14 @@ function HomePage() {
         currentRoom={currentRoom}
         setCurrentRoom={setCurrentRoom}
         authRouter={authRouter}
+        authRouterForm={authRouterForm}
         setError={setError}
         guestMode={guestMode}
         setAlertGuest={setAlertGuest}
+        messageFile={messageFile}
+        setMessageFile={setMessageFile}
+        fileToggle={fileToggle}
+        setFileToggle={setFileToggle}
       />
     </> 
   )

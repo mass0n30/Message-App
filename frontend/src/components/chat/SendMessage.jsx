@@ -1,47 +1,55 @@
-import { ImagePlus, ImageMinus } from 'lucide-react';
-import styles from '../../styles/components/messagesbox.module.css';
+import { ImagePlus, ImageMinus, X } from 'lucide-react';
+import formStyles from '../../styles/components/form.module.css';
 import { useState } from 'react';
 import FileForm from '../UI/FileForm';
 
-function SendMessage({ handleSubmit, messageContent, setMessageContent, file, setFile }) {
+function SendMessage({ handleSubmit, messageContent, setMessageContent, file, setFile, fileToggle, setFileToggle,
+  preview, setPreview
+ }) {
 
-  const [fileToggle, setFileToggle] = useState(false);
+  // attached file preview state
 
   const handleUploadFile = () => {
 
-    {!fileToggle && setFileToggle(true);}
-    {fileToggle && setFileToggle(false);}
-
-    // clear uploaded file in file state when closing file form
-    if (fileToggle) {
-
-      setFile(null);
+    if (fileToggle == false) {
+      setFileToggle(true);
     }
+  
   }
 
   return (
-    <div className={styles.sendMessageContainer}>
-      <div className={styles.sendMessageFormContainer}>
+    <div className={formStyles.sendMessageContainer}>
+      <div className={formStyles.sendMessageFormContainer}>
         <form
           onSubmit={handleSubmit}
           method="POST"
-          className={styles.formContainer}
+          className={formStyles.sendFormContainer}
           autoComplete="off"
         >
           <input type="text" placeholder="Type your message..." 
-          className={styles.messageInput}
+          className={formStyles.messageInput}
           value={messageContent}
           onChange={(e) => setMessageContent(e.target.value)} />
-            <button type="button" className={styles.attachmentButton} onClick={() => handleUploadFile()}>
-              { fileToggle ? <ImageMinus className={styles.attachmentIconX} strokeWidth={2.5} /> :
-              <ImagePlus className={styles.attachmentIcon} strokeWidth={2.5} />
+            {preview && 
+              <button type="button" className={formStyles.previewButton} onClick={() => {
+                setPreview(null);
+                setFile(null);
+              }}>
+                <X className={formStyles.xIcon} />
+                <img src={preview} className={formStyles.previewImage} alt="preview" />
+              </button>
+            }
+            <button type="button" className={formStyles.attachmentButton} onClick={() => handleUploadFile()}>
+              { fileToggle ? <ImageMinus className={formStyles.attachmentIconX} strokeWidth={2.5} /> :
+              <ImagePlus className={formStyles.attachmentIcon} strokeWidth={2.5} />
         }
             </button>
-          <button className={styles.sendButton}>Send</button>
+          <button className={formStyles.sendButton}>Send</button>
         </form>
       </div>
       {fileToggle && (
-        <FileForm file={file} setFile={setFile} fileToggle={fileToggle} setFileToggle={setFileToggle} handleUploadFile={handleUploadFile} />
+        <FileForm file={file} setFile={setFile} fileToggle={fileToggle} setFileToggle={setFileToggle} handleUploadFile={handleUploadFile}
+        preview={preview} setPreview={setPreview} />
       )}
     </div>
   )

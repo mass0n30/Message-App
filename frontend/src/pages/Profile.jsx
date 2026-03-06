@@ -7,9 +7,11 @@ import profileStyles from '../styles/pages/profile.module.css';
 import FileForm from "../components/UI/FileForm";
 
 export default function Profile() {
-  const { user, setUser, authRouter, authRouterForm, setLoading, setMount } = useOutletContext();
-  const [avatarFile, setAvatarFile] = useState(null);
+  const { user, setUser, authRouter, authRouterForm, setLoading, setMount,
+    messageFile, setMessageFile
+   } = useOutletContext();
   const [avatarToggle, setAvatarToggle] = useState(false);
+  const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
     alias: user.alias,
@@ -38,10 +40,10 @@ const handleUploadAvatar = async (e) => {
   setMount(true);
   setLoading(true);
   try {
-    if (!avatarFile) return;
+    if (!messageFile) return;
 
     const fd = new FormData();
-    fd.append("avatar", avatarFile); 
+    fd.append("avatar", messageFile);
 
     const response = await authRouterForm.post(
       `${import.meta.env.VITE_API_URL}/profile/avatar`,
@@ -72,7 +74,7 @@ const handleUploadAvatar = async (e) => {
                   {avatarToggle ? <XCircle size={20} /> : "Change Avatar"}
                 </button>
               </div>
-              <FileForm file={avatarFile} setFile={setAvatarFile} fileToggle={avatarToggle} setFileToggle={setAvatarToggle} handleUploadFile={handleUploadAvatar} />
+              {avatarToggle && <FileForm file={messageFile} setFile={setMessageFile} fileToggle={avatarToggle} setFileToggle={setAvatarToggle} handleUploadAvatar={handleUploadAvatar} preview={preview} setPreview={setPreview} />}
             </div>
             
             <form onSubmit={handleUpdateProfile} 

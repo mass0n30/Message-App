@@ -6,8 +6,9 @@ import Message from './Message';
 import SendMessage from './SendMessage';
 import { Send, MessagesSquare } from 'lucide-react';
 
-function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
-  messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage
+function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
+  messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage,
+  messageFile, setMessageFile, setFileToggle, fileToggle
  }) {
 
   const [directMessage, setDirectMessage] = useState('');
@@ -46,27 +47,56 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
     
   };
 
+
   const handleSubmitMessage = async (e) => {
     e.preventDefault();
 
     if (!directMessage || directMessage.trim() === '' || toggledFriendId === null) return;
 
+    const formData = new FormData();
+    formData.append("content", messageContent);
+    if (messageFile) {
+      formData.append("file", messageFile);
+      setLoading(true);
+    }
+
     try {
-      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`, {
-        userId: user.id,
-        friendId: toggledFriendId,
-        content: directMessage,
-        file: file
-      });
-      const result = await response.data;
-      setMessageContent(result.updatedMessages);
-      setAlertSuccess(true);
-      setDirectMessage('');
+      if (!messageFile) {
+        const response = await authRouter.post(
+          `${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`,
+          {
+            content: directMessage,
+            userId,
+          }
+        );
+
+        const result = await response.data;
+        setMessageContent(result.updatedMessages);
+        setAlertSuccess(true);
+        setDirectMessage("");
+      } else {
+        const formData = new FormData();
+        formData.append("content", directMessage);
+        formData.append("userId", String(userId));
+        formData.append("file", messageFile);
+
+        const response = await authRouterForm.post(
+          `${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`,
+          formData
+        );
+
+        const result = await response.data;
+        setMessageContent(result.updatedMessages);
+        setAlertSuccess(true);
+        setDirectMessage("");
+      }
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setMessageFile(null);
+      setFileToggle(false);
     }
   };
-
   if (loading) {
     return (
       <div className={styles.messagesBox}
@@ -122,7 +152,10 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
             handleSubmit={handleSubmitMessage}
             messageContent={directMessage}
             setMessageContent={setDirectMessage}
-            placeholder={"Type your message..."}
+            file={messageFile}
+            setFile={setMessageFile}
+            fileToggle={fileToggle}
+            setFileToggle={setFileToggle}
           />
         </div>
         <SnackBarAlert setOpen={setAlertSuccess} open={alertSuccess} msg={'Message sent successfully!'} />

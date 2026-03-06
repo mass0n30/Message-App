@@ -1,6 +1,8 @@
 const Router = require("express");
 const chatRouter = Router();
 const passport = require("passport");
+const multer =  require('multer');
+const upload = multer({ dest: 'uploads/' });
 const {validateCreateChatRoom, validateCreateMessage} = require('../controllers/validation'); 
 
 const {handleCreateChatRoom, handleCreateChatMessage } = require('../controllers/dataController/createController');
@@ -18,6 +20,6 @@ chatRouter.get('/:chatRoomId', async (req, res, next ) => {
   }
 });
 
-chatRouter.post('/:chatRoomId/message', passport.authenticate('jwt', { session: false }), validateCreateMessage(), handleCreateChatMessage);
+chatRouter.post('/:chatRoomId/message', upload.single('file'), passport.authenticate('jwt', { session: false }), validateCreateMessage(), handleCreateChatMessage);
 
 module.exports = {chatRouter};

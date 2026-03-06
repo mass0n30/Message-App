@@ -75,6 +75,11 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
                     <strong>
                       {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
                     </strong>
+                    {msg.imgUrl && (
+                      <div className={styles.fileContainer}>
+                        <img src={msg.imgUrl} alt="Attached file" className={styles.attachedMessageFile} />
+                      </div>
+                    )}
                    <div>{msg.content}</div>
                   </div>
                 </Cluster>
