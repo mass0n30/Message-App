@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { useOutletContext } from "react-router-dom";
-import ChatBody  from '../components/ChatBody';
+import ChatBody  from '../components/chat/ChatBody';
 
 
 {/*maybe import local styles */}

@@ -4,6 +4,7 @@ import { CircleUserRound, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import formStyles from '../styles/components/form.module.css';
 import profileStyles from '../styles/pages/profile.module.css';
+import FileForm from "../components/UI/FileForm";
 
 export default function Profile() {
   const { user, setUser, authRouter, authRouterForm, setLoading, setMount } = useOutletContext();
@@ -66,21 +67,12 @@ const handleUploadAvatar = async (e) => {
               <div className={profileStyles.avatarSection}>
                 {user.profile.avatarUrl ? <img src={user.profile.avatarUrl} alt="User Avatar" />: <CircleUserRound size={100} />}
               </div>
-              <div className={profileStyles.avatarControlBtns}>
-                <div><button className={profileStyles.openModalButton} onClick={() => setAvatarToggle(!avatarToggle)}>Change Avatar</button></div>
-                {avatarToggle && <div><button className={profileStyles.closeModalButton} onClick={() => setAvatarToggle(false)}><XCircle className={profileStyles.closeIcon} /></button></div>}
+              <div>
+                <button onClick={() => setAvatarToggle(!avatarToggle)}>
+                  {avatarToggle ? <XCircle size={20} /> : "Change Avatar"}
+                </button>
               </div>
-              {avatarToggle && (
-              <div className={profileStyles.addFileModalContent}>
-                <label>Add a File</label>
-                
-                <form onSubmit={handleUploadAvatar}>
-                  <input type="file" name="avatar" className={profileStyles.fileInput} onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} />
-                  <button type="submit">Upload</button>
-                </form>
-
-              </div>
-              )}
+              <FileForm file={avatarFile} setFile={setAvatarFile} fileToggle={avatarToggle} setFileToggle={setAvatarToggle} handleUploadFile={handleUploadAvatar} />
             </div>
             
             <form onSubmit={handleUpdateProfile} 

@@ -247,5 +247,6 @@ label {
   flex-direction: row-reverse;
   padding-top: var(--space-sm);
   padding-bottom: 0px;
+  flex-wrap: nowrap;
 }
 

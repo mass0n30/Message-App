@@ -2,18 +2,32 @@
 .chatBody {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
   border-left: solid 2px var(--color-text-muted);
   background-size: contain;
   background-repeat: repeat;
 }
 
-.messages {
+.messagesContainer {
+  flex: 3;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  flex: 3;
   background-color: var(--color-background-transparent);
+}
+
+.messages, .messagesReversed {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.messagesReversed {
+  flex-direction: column-reverse;
 }
 
 .inputContainer {
@@ -21,7 +35,7 @@
   background-color: var(--color-secondary-light);
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: var(--space-md);
   bottom: 0;
   width: 100%;
   border-top: solid 2px var(--color-text-muted);
@@ -42,6 +56,21 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  background-color: var(--color-background-transparent);
 }
+
+.arrow {
+  width: var(--icon-size-desktop);
+  height: var(--icon-size-desktop);
+  padding: var(--space-md);
+}
+
+.arrow:hover {
+  cursor: pointer;
+  background-color: var(--color-background-transparent);
+  filter: brightness(1.4);
+  border-radius: var(--radius-lg);
+}
+
 
 

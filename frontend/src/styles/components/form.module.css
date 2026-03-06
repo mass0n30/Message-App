@@ -69,3 +69,25 @@
   gap: var(--space-md);
   padding: var(--space-sm);
 }
+
+.fileToggleBtns {
+  display: flex;
+}
+
+.closeModalButton, .closeModalButton:hover {
+  background: none;
+  border: none;
+  padding: 0px;
+  padding-left: 8px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.closeIcon {
+  width: var(--icon-size-desktop);
+}
+
+.fileInput {
+  padding-left: 0;
+  width: 80%;
+}

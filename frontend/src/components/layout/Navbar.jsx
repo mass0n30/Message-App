@@ -1,10 +1,7 @@
-
-import React from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/components/navbar.module.css';
-import messageBoxStyles from '../styles/components/messagesbox.module.css';
-import Cluster from '../primitives/Cluster';
+import styles from '../../styles/components/navbar.module.css';
+import messageBoxStyles from '../../styles/components/messagesbox.module.css';
+import Cluster from '../../primitives/Cluster';
 import { MailWarning, Mail, CircleUserRound, LucideLogOut } from 'lucide-react';
 
 function Navbar({setMount, guestMode, setAlertGuest, user, friends, setToggleMessages, toggleMessages, messages}) {

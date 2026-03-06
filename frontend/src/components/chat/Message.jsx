@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import styles from '../styles/components/message.module.css';
+import styles from '../../styles/components/message.module.css';
 import { CircleUserRound, GripVertical } from 'lucide-react';
-import Cluster from '../primitives/Cluster';
+import Cluster from '../../primitives/Cluster';
 import { useState } from 'react';
 
 export default function Message({ user, msg, guestMode, setAlertGuest, setToggleMessages, showDayHeader

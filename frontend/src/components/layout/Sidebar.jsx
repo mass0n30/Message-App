@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import{ useNavigate } from "react-router-dom";
-import styles from '../styles/components/sidebar.module.css';
-import axios from "axios";
+import styles from '../../styles/components/sidebar.module.css';
 import { SquarePlus, X } from "lucide-react";
 
 function SideBar(props) {
@@ -74,7 +73,7 @@ function SideBar(props) {
       {chatRooms && chatRooms.length > 0 && (
         <div className={styles.chatRoomList}>
           {chatRooms.map((room, index) => (
-            <div key={room.id} className={index % 2 === 0 ? styles.chatRoomItem : styles.chatRoomItemAlt}>
+            <div key={room.id} className={index % 2 === 0 ? styles.chatRoomItem : styles.chatRoomItemAlt} >
               <button onClick={() => handleSetRoom(room.id)} >{room.name}</button>
             </div>
           ))}

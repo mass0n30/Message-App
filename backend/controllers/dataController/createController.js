@@ -115,7 +115,15 @@ async function handleCreateChatMessage(req, res, next) {
       include: {
         messages: {
           include: {
-            sender: true,
+            sender: {
+                select: {
+                  id: true,
+                  alias: true,
+                  fname: true,
+                  lname: true,
+                  profile: true,
+                }
+              }
           },
         },
       },

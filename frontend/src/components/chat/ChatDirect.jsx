@@ -1,4 +1,4 @@
-import styles from '../styles/components/chatbody.module.css';
+import styles from '../../styles/components/chatbody.module.css';
 import { useEffect, useState } from 'react';
 
 export default function ChatDirect(props) {

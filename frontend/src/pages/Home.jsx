@@ -3,12 +3,12 @@ import { useParams, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Shell from "../primitives/Shell";
 import Stack from "../primitives/Stack";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import SideBar from "../components/Sidebar";
-import MessagesBox from "../components/MessagesBox";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import SideBar from "../components/layout/Sidebar";
+import MessagesBox from "../components/chat/MessagesBox";
 import axios from "axios";
-import SnackBarAlert from "../components/reactMUI/Alerts";
+import SnackBarAlert from "../components/UI/reactMUI/Alerts";
 import { getPendingMessages } from "../../utils/helpers";
 
 function Home() {
@@ -17,16 +17,18 @@ function Home() {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState(null);
   const [userMessages, setUserMessages] = useState(null);
+  const [messageContent, setMessageContent] = useState([]);
   const [guestMode, setGuestMode] = useState(false);
   const [alertGuest, setAlertGuest] = useState(false);
   const [friends, setFriends] = useState(false);
   const [chatRooms, setChatRooms] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
+
   // message box toggle settings
   const [toggleMessages, setToggleMessages] = useState(false);
   const [toggleDirectMessage, setToggleDirectMessage] = useState(false);
   const [pendingMessages, setPendingMessages] = useState(false);
-  const [messageContent, setMessageContent] = useState([]);
 
   // loading state settings
   const [mount, setMount] = useState(true);

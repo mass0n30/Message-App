@@ -1,11 +1,10 @@
-import styles from '../styles/components/messagesbox.module.css';
-import formStyles from '../styles/components/form.module.css';
-import chatBodyStyles from '../styles/components/chatbody.module.css';
-import SnackBarAlert from './reactMUI/Alerts';
+import styles from '../../styles/components/messagesbox.module.css';
+import chatBodyStyles from '../../styles/components/chatbody.module.css';
+import SnackBarAlert from '../UI/reactMUI/Alerts';
 import { useState, useEffect } from 'react';
 import Message from './Message';
 import SendMessage from './SendMessage';
-import { Send } from 'lucide-react';
+import { Send, MessagesSquare } from 'lucide-react';
 
 function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
   messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage
@@ -56,7 +55,8 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
       const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`, {
         userId: user.id,
         friendId: toggledFriendId,
-        content: directMessage
+        content: directMessage,
+        file: file
       });
       const result = await response.data;
       setMessageContent(result.updatedMessages);
@@ -140,6 +140,54 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
       {user && friends?.length > 0 && toggleDirectMessage === false && (
         
         <div className={styles.friendsList}>
+        {pendingMessages && pendingMessages?.length > 0 ? (
+          <div className={styles.pendingMessages}>
+            <div >
+              <button onClick={() => setTogglePending(!togglePending)} className={styles.pendingMessagesBtn}>
+                <div className={styles.pendingText}>Pending</div>
+                <div className={styles.chatIconContainer}>
+                  <MessagesSquare className={styles.chatIcon} />
+                </div>
+                <div className={styles.pendingCount}>{pendingMessages.length}</div>
+              </button>
+            </div>
+            {togglePending && (
+                (() => {
+                  let lastDay = null;
+
+                  return pendingMessages.map((message) => {
+                    const day = new Date(message.timestamp).toISOString().slice(0, 10);
+                    const showDayHeader = day !== lastDay;
+                    if (showDayHeader) {
+                      lastDay = day;
+                    }
+      
+                    return (
+                      <div key={message.id} className={styles.pendingMessageItem}>
+                        <Message
+                          key={message.id}
+                          user={user}
+                          msg={message}
+                          guestMode={guestMode}
+                          setAlertGuest={setAlertGuest}
+                          setToggleMessages={null}
+                          showDayHeader={showDayHeader}
+                        />
+                        <div className={styles.messageMarkRead}>
+                          <button onClick={() => handleToggleMessage(message.sender.id)}>Mark as Read</button>
+                        </div>
+                        <div className={styles.messageDelete}>
+                          <button onClick={() => handleToggleMessage(message.sender.id, true)}>Message</button>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()
+              )} 
+            </div>
+        ) : (
+          <></>
+        )}
           <h3>Friends</h3>
           {friends.map((friend, index) => {
             const sent = friend?.friendsOf?.sentMessages || [];
@@ -164,54 +212,7 @@ function MessagesBox({ toggleMessages, authRouter, user, friends, setMount, mess
           })}
         </div>
       )}
-      {pendingMessages && pendingMessages?.length > 0 ? (
-        <div className={styles.pendingMessages}>
-          <div >
-            <button onClick={() => setTogglePending(!togglePending)} className={styles.pendingMessagesBtn}>
-              <div>Pending</div>
-              <div className={styles.chatIconContainer}>
-                <img src='chatArt.png' alt="Chat Icon" className={styles.chatIcon} />
-              </div>
-              <div className={styles.pendingCount}>{pendingMessages.length}</div>
-            </button>
-          </div>
-          {togglePending && (
-              (() => {
-                let lastDay = null;
 
-                return pendingMessages.map((message) => {
-                  const day = new Date(message.timestamp).toISOString().slice(0, 10);
-                  const showDayHeader = day !== lastDay;
-                  if (showDayHeader) {
-                    lastDay = day;
-                  }
-    
-                  return (
-                    <div key={message.id} className={styles.pendingMessageItem}>
-                      <Message
-                        key={message.id}
-                        user={user}
-                        msg={message}
-                        guestMode={guestMode}
-                        setAlertGuest={setAlertGuest}
-                        setToggleMessages={null}
-                        showDayHeader={showDayHeader}
-                      />
-                      <div className={styles.messageMarkRead}>
-                        <button onClick={() => handleToggleMessage(message.sender.id)}>Mark as Read</button>
-                      </div>
-                      <div className={styles.messageDelete}>
-                        <button onClick={() => handleToggleMessage(message.sender.id, true)}>Message</button>
-                      </div>
-                    </div>
-                  );
-                });
-              })()
-            )} 
-          </div>
-      ) : (
-        <></>
-      )}
     </div>
   );
 }

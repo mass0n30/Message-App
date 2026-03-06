@@ -20,14 +20,34 @@
   padding: 8px;
 }
 
+.chatRoomItem, .chatRoomItemAlt {
+  flex: 1;
+  padding: var(--space-sm);
+  display: flex;
+}
+
 .chatRoomItem {
-  padding: 8px;
+  background-color: var(--color-background-transparent);
 }
 
 .chatRoomItemAlt {
-  padding: 8px;
   background-color: var(--color-secondary-light);
 }
+
+.chatRoomItem:hover, .chatRoomItemAlt:hover {
+  filter: brightness(1.1);
+}
+
+.chatRoomItem button, .chatRoomItemAlt button {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.chatRoomItemAlt button:hover, .chatRoomItem button:hover {
+  background-color: transparent;
+}
+
 
 .addRoomButton {
   border-top: 1px solid #eee;
@@ -44,9 +64,11 @@
 }
 
 .addRoomButton button:hover {
-  background: var(--color-secondary-light);
-  border: solid 2px var(--color-primary);
+  background-color: var(--color-background-transparent);
+  filter: brightness(1.4);
+  border-radius: var(--radius-lg);
 }
+
 
 .addRoomIcon {
   width: var(--icon-size-desktop);

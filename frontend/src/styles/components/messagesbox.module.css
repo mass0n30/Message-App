@@ -1,6 +1,7 @@
 
 @import '../base/variables.css';
 
+
 .messagesBox {
   position: absolute;
   top: calc(0 - 10vh);
@@ -44,6 +45,11 @@
   border-bottom: 1px solid #eee;
 }
 
+.friendItem button:hover, .friendItemAlt button:hover {
+  filter: brightness(1.2);
+  background-color: var(--color-secondary);
+}
+
 .friendItemAlt {
   background-color: var(--color-secondary-light);
 }
@@ -84,6 +90,7 @@
   position: relative;
   background-color: var(--color-background );
   border: solid 2px var(--color-primary);
+  padding: var(--space-sm) var(--space-md);
 }
 
 .pendingCount {
@@ -98,8 +105,13 @@
   padding: 2px 8px;
   border-radius: 50%;
   border: 2px solid var(--color-thirdary);
-  right: 0;
+  right: 4px;
   top: 8px;
+}
+
+.pendingMessagesBtn:hover {
+  background-color: var(--color-thirdary-hover);
+  border-color: var(--color-primary);
 }
 
 .messageTimeStamp {
@@ -120,7 +132,7 @@
 }
 
 .chatIconContainer{
-  width: 50px;
+  width: 35px;
   height: 50px;
   border-radius: 50%;
   display: flex;
@@ -137,6 +149,13 @@
   background-size: cover;
   background-position: center;
 }
+
+.pendingText {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
 
 .messageContent {
   flex: 1;
@@ -188,18 +207,29 @@
   background-color: transparent;
 }
 
-.attachmentIcon {
+.attachmentIcon, .attachmentIconX {
   width: 20px;
   height: 20px;
   color: var(--color-text);
+}
+
+.attachmentIconX:hover {
+  color: var(--color-thirdary);
 }
 
 .sendMessageContainer {
   height: 100%;
   background-color: var(--color-secondary-light);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 0 20px;
-  border-top: solid 2px var(--color-text-muted);
-  border-bottom: solid 2px var(--color-text-muted);
+  padding: 0 var(--space-md);
 }
+
+.sendMessageFormContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
