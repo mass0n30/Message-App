@@ -4,6 +4,10 @@
 
 
 .formContainerOuter, .formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     padding: var(--space-xl);
     box-sizing: border-box;
@@ -74,6 +78,12 @@
   padding: 0 var(--space-md);
 }
 
+.messageContainer {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+}
+
 .sendMessageFormContainer {
   width: 100%;
   display: flex;
@@ -136,9 +146,13 @@
   display: flex;
   width: 100%;
   justify-content: flex-end;
+  margin-right: 80%;
 }
 
 .closeModalButton, .closeModalButton:hover {
+  display: flex;
+  width: var(--icon-size-mobile);
+  height: var(--icon-size-mobile);
   background: none;
   border: none;
   padding: 0px;
@@ -148,7 +162,8 @@
 }
 
 .closeIcon {
-  width: var(--icon-size-desktop);
+  width: 100%;
+  height: 100%;
 }
 
 .fileInput {
@@ -156,9 +171,19 @@
   width: 80%;
 }
 
+.previewImgContainer {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .previewImage {
   margin-top: var(--space-sm);
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--radius-sm);
   width: var(--icon-size-mobile);
   height: auto;
@@ -201,5 +226,24 @@
   width: 100%;
   height: 100%;
   background-color: var(--color-background-transparent);
+}
+
+.fileFormTitle {
+  margin-top: var(--space-xs);
+}
+
+.fileFormIcon {
+  width: var(--icon-size-mobile);
+  height: auto;
+  color: var(--color-text);
+  flex: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.fileFormIcon img {
+  max-width: 100%;
+  height: auto;
 }
 

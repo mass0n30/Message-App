@@ -2,25 +2,12 @@
 Starter template, using PERN stack, keeping backend and frontend in seperate directories. 
 Real Time messaging using websockets in the context of using React: https://ably.com/blog/websockets-react-tutorial 
 
+Bugs: 
+  - Chatroom messages not updating upon refresh after signed user sends message?
+  - time tag in messages with absolute position overlays on avatar, flex avatar at top?
+
 ToDo:
-  Display UserFriend (who we added) all Friends under Friends in message box
-  Display Pending messages for users not added under Friends in message box
-  - create message in update
-  - return updated messages like userProfile
-
-  - add user messages tab in nav (amount of new messages, *default message for signing up)
-  - add popup module for message directs (toggling on parent component)
-  - display messages with time stamp
-  - realtime messaging overview:
-      Connect socket
-      
-      Listen for events (incoming)
-
-      Update state
-
-      Render UI
-
-      Emit events (outgoing) from user actions
+  - Real time messaging ?
 
 
 Done:
@@ -33,6 +20,14 @@ Done:
  - Setup Tests to test API Routes
   - setup Guest logic
   - add banners for guest features
+  Display UserFriend (who we added) all Friends under Friends in message box
+  Display Pending messages for users not added under Friends in message box
+  - create message in update
+  - return updated messages like userProfile
+
+  - add user messages tab in nav (amount of new messages, *default message for signing up)
+  - add popup module for message directs (toggling on parent component)
+  - display messages with time stamp
 
 BACKEND directory:
 

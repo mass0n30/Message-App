@@ -17,7 +17,8 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
   const [alertRead, setAlertRead] = useState(false);
   const [togglePending, setTogglePending] = useState(false);
   const [toggledFriendId, setToggledFriendId] = useState(null);
-
+  // attached file preview state
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,7 +67,6 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
           `${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`,
           {
             content: directMessage,
-            userId,
           }
         );
 
@@ -77,7 +77,6 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
       } else {
         const formData = new FormData();
         formData.append("content", directMessage);
-        formData.append("userId", String(userId));
         formData.append("file", messageFile);
 
         const response = await authRouterForm.post(
@@ -156,6 +155,8 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
             setFile={setMessageFile}
             fileToggle={fileToggle}
             setFileToggle={setFileToggle}
+            preview={preview}
+            setPreview={setPreview}
           />
         </div>
         <SnackBarAlert setOpen={setAlertSuccess} open={alertSuccess} msg={'Message sent successfully!'} />
@@ -221,7 +222,10 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
         ) : (
           <></>
         )}
-          <h3>Friends</h3>
+        <div className={styles.friendsListHeader}>
+          <img src='/user.png' alt='friends list icon' className={styles.friendsListIcon} />
+          <h3>Friends List</h3>
+        </div>
           {friends.map((friend, index) => {
             const sent = friend?.friendsOf?.sentMessages || [];
             const hasNewMessages = sent.some((msg) => !msg.read);

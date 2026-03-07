@@ -14,6 +14,7 @@
   padding: var(--space-md);
   box-sizing: border-box;
   overflow-y: scroll;
+  z-index: 1000;
 }
 
 
@@ -35,6 +36,20 @@
 
 .friendsList {
   padding: 10px;
+}
+
+.friendsListHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  max-height: 100px;
+}
+
+.friendsListIcon {
+  width: var(--icon-size-mobile);
+  height: auto;
+  color: var(--color-text);
 }
 
 .friendItem, .friendItemAlt {

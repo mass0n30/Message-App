@@ -217,6 +217,7 @@ async function getDirectMessageChatMessages(req, res, next, friendId) {
         content: true,
         timestamp: true,
         read: true,
+        imgUrl: true,
         sender: {
           select: {
             id: true,

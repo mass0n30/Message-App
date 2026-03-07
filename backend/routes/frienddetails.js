@@ -1,5 +1,8 @@
 const friendDetailsRouter = require('express').Router();
 const {getSelectedUserData} = require('../controllers/viewController');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const {validateCreateMessage} = require('../controllers/validation');
 const { handleAddFriend} = require('../controllers/dataController/updateController');  
 const {handleCreateMessageDirect} = require('../controllers/dataController/createController');
 // viewing user details + friendship status (view users info if friend)

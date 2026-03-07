@@ -19,11 +19,15 @@
 
 
 .ownMessageContainer {
-    background-color: var(--color-primary-dark);
-    border-radius: 30px 0px 30px 30px;
+  min-height: 120px;
+  position: relative;
+  background-color: var(--color-primary-dark);
+  border-radius: 30px 0px 30px 30px;
 }
 
 .messageContainer {
+  min-height: 120px;
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: var(--color-secondary-light);
@@ -45,7 +49,27 @@
 }
 
 .messageTimeStamp, .messageTimeStampLeft {
-  flex: 1;
+  margin: 5px 0;
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+  margin-top: 5px;
+}
+
+.messageTimeStampLeft {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+}
+
+.messageTimeStamp {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
   font-size: var(--text-xs);
   color: var(--color-text-muted);
   font-style: italic;
@@ -59,13 +83,7 @@
   border-radius: 10px;
 }
 
-.messageTimeStamp, .messageTimeStampLeft {
-  margin: 5px 0;
-  justify-content: flex-start;
-  flex: 1;
-  padding-left: var(--space-sm);
-  padding-right: var(--space-sm);
-}
+
 
 .messageContent {
   gap: 5px;

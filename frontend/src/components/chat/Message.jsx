@@ -71,17 +71,19 @@ export default function Message({ user, msg, guestMode, setAlertGuest, setToggle
                 )}
                   </button>
                 </div>
+                
                   <div className={styles.messageContent}>
                     <strong>
                       {msg?.senderId === user?.id || msg?.sender?.id === user?.id ? "You" : msg.sender.alias}:
                     </strong>
-                    {msg.imgUrl && (
-                      <div className={styles.fileContainer}>
-                        <img src={msg.imgUrl} alt="Attached file" className={styles.attachedMessageFile} />
-                      </div>
-                    )}
+
                    <div>{msg.content}</div>
                   </div>
+                  {msg.imgUrl && (
+                    <div className={styles.fileContainer}>
+                      <img src={msg.imgUrl} alt="Attached file" className={styles.attachedMessageFile} />
+                    </div>
+                  )}
                 </Cluster>
           </div>
         <div className={msg?.senderId === user?.id || msg?.sender?.id === user?.id ? styles.messageTimeStampLeft : styles.messageTimeStamp}>

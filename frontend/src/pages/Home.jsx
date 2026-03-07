@@ -101,7 +101,9 @@ function Home() {
         setPendingMessages(pendingMessages);
         setUsers(result.allData.users);
         setChatRooms(result.allData.chatRooms);
-        setCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
+        if (currentRoom === null) {
+          setCurrentRoom(result.allData.chatRooms[0]); // default to Global chatroom
+        }
       } catch (error) {
         setError(error);
       }

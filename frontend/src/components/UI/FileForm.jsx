@@ -20,29 +20,39 @@ export default function FileForm({ file, setFile, fileToggle, setFileToggle, han
 
   return (
     <div className={styles.addFileModal}> 
-      <div className={styles.formContainer}>
-        <div className={styles.fileToggleBtns}>
-          {fileToggle && <div><button className={styles.closeModalButton} onClick={handleClose}><XCircle className={styles.closeIcon} /></button></div>}
-        </div>
-        {fileToggle && (
-        <div className={styles.addFileModalContent}>
-          <label>Add a File</label>
+      <div className={styles.formContainerOuter}>
+        <div className={styles.formContainer}>
+          <div className={styles.fileToggleBtns}>
+            {fileToggle && <div><button className={styles.closeModalButton} onClick={handleClose}><XCircle className={styles.closeIcon} /></button></div>}
+          </div>
+            {fileToggle && (
+            <div className={styles.addFileModalContent}>
+                <div className={styles.fileFormHeader}>
+                  <div className={styles.fileFormIcon}>
+                    <img src={'/open-folder.png'} />
+                  </div>
+                  <h2 className={styles.fileFormTitle}>{handleUploadAvatar ? "Upload Avatar" : "Attach a File"}</h2>
+                </div>
 
-          <form onSubmit={handleAttachFile} method="POST" className={styles.fileForm} autoComplete="off">
-            <input type="file" name="avatar" className={styles.fileInput} onChange={(e) => {
-              setFile(e.target.files?.[0] || null);
-              const file = e.target.files?.[0];
-              if (file) {
-                setPreview(URL.createObjectURL(file));
-              }
-            }} />
-            {preview && <img src={preview} className={styles.previewImage} alt="preview" />}
-            <button type="submit">Upload</button>
-          </form>
-
+              <form onSubmit={handleAttachFile} method="POST" className={styles.fileForm} autoComplete="off">
+                <input type="file" name="avatar" className={styles.fileInput} onChange={(e) => {
+                  setFile(e.target.files?.[0] || null);
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setPreview(URL.createObjectURL(file));
+                  }
+                }} />
+                {preview && 
+                  <div className={styles.previewImgContainer}>
+                    <img src={preview} className={styles.previewImage} alt="preview" />
+                  </div>
+                }
+                <button type="submit">Upload</button>
+              </form>
+            
+            </div>
+            )}
         </div>
-        
-        )}
       </div>
     </div>
   );
