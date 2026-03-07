@@ -20,8 +20,12 @@ const server = createServer(app);
 
 console.log('DATABASE_URL:', process.env.DATABASE_URL)
 
+app.use(cors({ // put client URL domain in .env eventually
+  origin: ['https://retro-game-atlas.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  credentials: true
+}));
 
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
