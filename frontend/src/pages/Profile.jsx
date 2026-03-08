@@ -26,7 +26,7 @@ export default function Profile() {
     setMount(true);
     setLoading(true);
     try {
-      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/profile`, formData);
+      const response = await authRouter.post('/profile', formData);
       const result = await response.data;
       setUser(result);
     } catch (error) {
@@ -46,7 +46,7 @@ const handleUploadAvatar = async (e) => {
     fd.append("avatar", messageFile);
 
     const response = await authRouterForm.post(
-      `${import.meta.env.VITE_API_URL}/profile/avatar`,
+      '/profile/avatar',
       fd
     );
 
@@ -148,7 +148,7 @@ export function ProfileView() {
     setToggleMessages(!toggleMessages);
     setToggleDirectMessage(true);
 
-    authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${selectedUser.id}`)
+    authRouter.put(`/friends/chats/read/${selectedUser.id}`)
     .then( response => {
       const data = response.data;
       setMessageContent(data.updatedMessages);

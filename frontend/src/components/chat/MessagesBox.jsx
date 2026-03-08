@@ -33,7 +33,7 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
     toggle && setToggleDirectMessage(true);
     setToggledFriendId(friendId);
 
-    authRouter.put(`${import.meta.env.VITE_API_URL}/friends/chats/read/${friendId}`)
+    authRouter.put(`/friends/chats/read/${friendId}`)
     .then( response => {
       const data = response.data;
       
@@ -64,7 +64,7 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
     try {
       if (!messageFile) {
         const response = await authRouter.post(
-          `${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`,
+          `/friends/chats/private/${toggledFriendId}`,
           {
             content: directMessage,
           }
@@ -80,7 +80,7 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
         formData.append("file", messageFile);
 
         const response = await authRouterForm.post(
-          `${import.meta.env.VITE_API_URL}/friends/chats/private/${toggledFriendId}`,
+          `/friends/chats/private/${toggledFriendId}`,
           formData
         );
 

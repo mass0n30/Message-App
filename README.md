@@ -5,6 +5,7 @@ Real Time messaging using websockets in the context of using React: https://ably
 Bugs: 
   - Chatroom messages not updating upon refresh after signed user sends message?
   - time tag in messages with absolute position overlays on avatar, flex avatar at top?
+  - refresh 404s on deployment 
 
 ToDo:
   - Real time messaging ?

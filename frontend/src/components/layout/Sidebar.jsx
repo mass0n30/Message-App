@@ -54,7 +54,7 @@ function SideBar(props) {
     }
 
     try {
-      const response = await authRouter.post(`${import.meta.env.VITE_API_URL}/chats/`, { roomName: roomName, topic: topic, pattern: roomPattern });
+      const response = await authRouter.post('/chats/', { roomName: roomName, topic: topic, pattern: roomPattern });
       const result = await response.data;
       setChatRooms(result.allData.chatRooms);
       setCurrentRoom(result.chatRoom); 

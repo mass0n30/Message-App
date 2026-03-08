@@ -5,8 +5,6 @@ const { getCloudinaryObj } = require("../../config/cloud.js");
 
 const bcrypt = require("bcryptjs");
 
-const { handleAddFriend } = require("./updateController.js");
-
 async function handleCreateUser(req, res, next) {
   const errors = validationResult(req);
      if (!errors.isEmpty()) {
