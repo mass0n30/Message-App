@@ -18,10 +18,9 @@ const {homeRouter} = require('./routes/home');
 const app = express();
 const server = createServer(app);
 
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
 
 app.use(cors({ // put client URL domain in .env eventually
-  origin: ['https://massageapplication.vercel.app', 'http://localhost:5173'],
+  origin: ['https://massageapplication.vercel.app', 'http://localhost:5173', 'http://localhost:5000'],
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true
 }));
@@ -62,7 +61,7 @@ app.use('/home', homeRouter);
 // all mount level routes below here require authentication for every request 
 const profileRouter = require('./routes/profile').profileRouter;
 
-app.use('/profile', passport.authenticate('jwt', { session: false }), profileRouter);  
+app.use('/home/profile', passport.authenticate('jwt', { session: false }), profileRouter);
 
 const chatRouter = require('./routes/chats').chatRouter;
 

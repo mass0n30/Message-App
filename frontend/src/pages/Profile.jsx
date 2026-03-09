@@ -26,7 +26,7 @@ export default function Profile() {
     setMount(true);
     setLoading(true);
     try {
-      const response = await authRouter.post('/profile', formData);
+      const response = await authRouter.post('/home/profile', formData);
       const result = await response.data;
       setUser(result);
     } catch (error) {
@@ -46,7 +46,7 @@ const handleUploadAvatar = async (e) => {
     fd.append("avatar", messageFile);
 
     const response = await authRouterForm.post(
-      '/profile/avatar',
+      '/home/profile/avatar',
       fd
     );
 

@@ -34,7 +34,7 @@ export default function FileForm({ file, setFile, fileToggle, setFileToggle, han
                   <h2 className={styles.fileFormTitle}>{handleUploadAvatar ? "Upload Avatar" : "Attach a File"}</h2>
                 </div>
 
-              <form onSubmit={handleAttachFile} method="POST" className={styles.fileForm} autoComplete="off">
+              <form onSubmit={handleUploadAvatar} method="POST" className={styles.fileForm} autoComplete="off">
                 <input type="file" name="avatar" className={styles.fileInput} onChange={(e) => {
                   setFile(e.target.files?.[0] || null);
                   const file = e.target.files?.[0];
