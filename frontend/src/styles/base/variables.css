@@ -5,16 +5,15 @@
   --color-white-alt: #E8F1F2;
   --color-text-active: #C9FBFF; /* sidebar category selected text */
   --color-background: #080a0f; /* main background */
+  --color-dark-background: #1a1a1a; /* dark background for cards, modals, etc. */
   --color-background-transparent: #080a0fe0; 
   --color-primary: #3B82F6;             /* main neon */
   --color-primary-hover: #488dfc;       /* softer neon */
   --color-primary-dark: #001b47;      /* light neon */
   --color-secondary: #0F172A; 
   --color-secondary-light: #1e293b;       /* accent red */
-
   --color-thirdary: #B80C09;     
-
-  --color-text-muted: #6b7280;     /* Secondary / muted text */      /* Borders / dividers */
+  --color-text-muted: #757c8b;     /* Secondary / muted text */      /* Borders / dividers */
 }
 
 /* ----------------- Typography ----------------- */

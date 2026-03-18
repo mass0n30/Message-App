@@ -4,7 +4,7 @@ import SnackBarAlert from '../UI/reactMUI/Alerts';
 import { useState, useEffect } from 'react';
 import Message from './Message';
 import SendMessage from './SendMessage';
-import { Send, MessagesSquare } from 'lucide-react';
+import { Send, CircleUserRound, MessagesSquare } from 'lucide-react';
 
 function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends, setMount, messages, pendingMessages, setUserMessages,
   messageContent, setMessageContent, guestMode, setAlertGuest, setToggleMessages, toggleDirectMessage, setToggleDirectMessage,
@@ -236,8 +236,14 @@ function MessagesBox({ toggleMessages, authRouterForm, authRouter, user, friends
                   className={styles.friendItemBtn}
                   onClick={() => handleToggleMessage(friend?.friendsOf?.id, true)}
                 >
-                  {friend?.friendsOf?.alias}
-
+                  <div className={styles.friendAvatarContainer}>
+                    {friend.friendsOf.profile.avatarUrl ? (
+                      <img src={friend.friendsOf.profile.avatarUrl} alt='friend avatar' className={styles.friendAvatar} />
+                    ) : (
+                      <CircleUserRound className={styles.friendAvatar} />
+                    )}
+                    {friend?.friendsOf?.alias}
+                  </div>
                   {hasNewMessages ? (
                     <div className={styles.newMessage}>New Message</div>
                   ) : (

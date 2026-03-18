@@ -8,6 +8,15 @@ Bugs:
   - refresh 404s on deployment 
 
 ToDo:
+  - debug image dm route
+  - add Global/Saved Rooms/Explore Rooms sidebar toggle
+  - add Global displays main room and created users
+  - created users add search bar
+  - add profile img for users and rooms (clean default icons)
+    *clear all tables local and deployed (prevent any issues)
+    *! update prisma schema (update deployed DATABASE_URL as well)
+  - position fix message send box bottom of chat bodys
+    * enlarge input and button across container
   - Real time messaging ?
 
 

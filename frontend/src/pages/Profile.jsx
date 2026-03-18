@@ -78,17 +78,14 @@ const handleUploadAvatar = async (e) => {
             </div>
             
             <form onSubmit={handleUpdateProfile} 
-            className={formStyles.formContainer}
+            className={profileStyles.profileFormContainer}
             style={{ justifyContent: 'flex-start', alignContent: 'flex-start', maxWidth: '400px' }}
             >
-              <label>Alias</label>
-              <input type="text" value={formData.alias} onChange={(e) => setFormData({ ...formData, alias: e.target.value })} />
+              <input placeholder="Alias" type="text" value={formData.alias} onChange={(e) => setFormData({ ...formData, alias: e.target.value })} />
               <br />
-              <label>Email</label>
-              <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+              <input placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
               <br />
-              <label>Bio</label>
-              <textarea value={formData.bio ? formData.bio : ''} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
+              <textarea placeholder="Bio" value={formData.bio ? formData.bio : ''} onChange={(e) => setFormData({ ...formData, bio: e.target.value })} />
               <br />
               <label>Status</label>
               <div className={profileStyles.statusSelect}>
@@ -103,9 +100,7 @@ const handleUploadAvatar = async (e) => {
                 </select>
               </div>
               <br />
-              <label>
-                <button type="submit">Update Profile</button>
-              </label>
+              <button className={profileStyles.updateButton} type="submit">Update Profile</button>
             </form>
           </div>
         </div>

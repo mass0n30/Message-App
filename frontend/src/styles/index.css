@@ -23,6 +23,7 @@ html {
     -webkit-text-size-adjust: 100%; /* Safari and Chrome */
     -moz-text-size-adjust: 100%; /* Firefox */
     text-size-adjust: 100%;
+    overflow-x: hidden;
 }
 
 html, body, nav, #root, main, section, .infinite-scroll-component__outerdiv, .infinite-scroll-component {
@@ -105,7 +106,7 @@ aside {
   justify-content: center;
   background-color: var(--color-background);
   border: none;
-  border-top: solid 2px var(--color-text-muted);
+  border-top: solid 4px var(--color-primary-dark);
 }
 
 a {
@@ -223,7 +224,7 @@ label {
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 10000;
 }
 
 @keyframes fadeInOut {

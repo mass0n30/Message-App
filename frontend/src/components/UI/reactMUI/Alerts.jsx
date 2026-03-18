@@ -15,6 +15,7 @@ export default function SnackBarAlert({ open, setOpen, msg }) {
       autoHideDuration={4000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      sx={{ zIndex: 10000 }}
     >
       <SnackbarContent
         sx={{

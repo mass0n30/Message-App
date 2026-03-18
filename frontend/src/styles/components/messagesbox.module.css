@@ -8,13 +8,24 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  height: 40rem; 
+  height: 90%; 
   width: 30rem;
   background-color: var(--color-secondary);
   padding: var(--space-md);
   box-sizing: border-box;
   overflow-y: scroll;
   z-index: 1000;
+  border: var(--color-primary-dark) solid 4px;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(40px);
+  }
+  to {
+    transform: translateX(0);
+  } 
 }
 
 
@@ -77,6 +88,19 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+.friendAvatarContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.friendAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .newMessage, .noMessage {

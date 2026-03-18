@@ -111,7 +111,7 @@ function Home() {
 
     const fetchGuestMode = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/home/guest`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}home/guest`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json', 

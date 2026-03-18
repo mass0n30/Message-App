@@ -9,13 +9,71 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding: var(--space-xl);
     box-sizing: border-box;
     width: 100%;
     background-color: var(--color-secondary);
     border-radius: var(--radius-lg);
 }
 
+.formContainerOuter {
+  background-image: url('./pattern/Sprinkle.svg');
+}
+
+.formContainer  {
+  background-color: rgba(9, 11, 34, 0.747);
+  height: 100%;
+}
+
+.formInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 50%;
+  padding: var(--space-md);
+  box-sizing: border-box;
+}
+
+.profileFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-md);
+  box-sizing: border-box;
+}
+
+.login_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} 
+
+.logoText {
+  font-family: "Pacifico", cursive;
+  font-weight: 200;
+  color: var(--color-text);
+  font-size: 3rem;
+}
+
+.logoSubText {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  font-style: italic;
+
+}
 
 .formContainer input:focus {
   outline: none;
@@ -27,6 +85,7 @@
   box-shadow: inset 0 0 3px 3px var(--color-primary-dark);
 
 }
+
 
 .sendFormContainer {
   max-height: 3rem;
@@ -100,20 +159,30 @@
     justify-content: center;
     gap: var(--space-md);
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     padding: var(--space-md);
     box-sizing: border-box;
 }
 
-.form_input {
+.form_input, .form_button {
     width: 100%;
-    padding: var(--space-sm);
+    padding: var(--space-md);
     font-size: var(--text-base);
     border: 1px solid var(--color-text-muted);
     border-radius: var(--radius-sm);
-    background-color: #1a1a1a;
+    background-color: var(--color-dark-background);
     color: var(--color-text);
     box-sizing: border-box;
+}
+
+.form_input {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--text-xl);
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-dark-background);
+  color: var(--color-text);
 }
 
 .form_row_signup {
@@ -121,10 +190,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-xs);
   width: 100%;
   max-width: 400px;
-  padding: var(--space-sm);
+  padding: var(--space-xs);
   box-sizing: border-box;
 }
 
@@ -132,6 +201,35 @@
   flex: 1;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  padding: var(--space-md);
+  font-size: var(--text-base);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.form_button {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: none;
+  padding: var(--space-md);
+  font-size: var(--text-base);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.guest_btn:hover, .form_button_signup:hover {
+  background-color: var(--color-dark-background);
+  color: var(--color-text);
+  border-color: var(--color-primary-dark);
+}
+
+.guest_container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: var(--space-md);
 }
 
 .form_btns {

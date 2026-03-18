@@ -17,7 +17,7 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await fetch(`${import.meta.env.VITE_API_URL}/`, {
+    await fetch(`${import.meta.env.VITE_API_URL}`, {
         mode: 'cors',
         method: 'POST',
         headers: {
@@ -53,7 +53,7 @@ function Login() {
   };
 
     const handleGuestSubmit = async () => {
-    await fetch(`${import.meta.env.VITE_API_URL}/home/guest`, {
+    await fetch(`${import.meta.env.VITE_API_URL}home/guest`, {
         mode: 'cors',
         method: 'GET',
         headers: {
@@ -78,58 +78,63 @@ function Login() {
 
   return (
     <>
-    {error ? (
-      <p>A network error was encountered: {error}</p>
-    ) : null}
 
       <div className={styles.formContainerOuter} >
         <div className={styles.formContainer}>
+
         <div className={styles.logoContainer}>
+          <h1 className={styles.logoText}>Welcome Back</h1>
           <div className={styles.logoImage}>
+            <img src="/logo.png" alt="logo" className={styles.logo} />
           </div>
-          <div className={styles.logoText}></div>
-        </div>
+          <div className={styles.logoText}>
+            <h2 className={styles.logoSubText}>Login to your account</h2>
+          </div>
         {error ? (
-          <span style={{ color: 'red' }}>Error was encountered: {error}</span>
+          <span style={{ color: 'red' }}> {error}</span>
         ) : null}
-        <form 
-          onSubmit={handleSubmit} 
-          method="POST" 
-          className={styles.login_form} 
-          autoComplete="off"
-        >
-          <div className={styles.form_row}>
-            <input 
-             className={styles.form_input}
-             onChange={(e) => setUsername(e.target.value)}
-             id="email" 
-             name="username" 
-             autoComplete="off" 
-             placeholder="Enter Email" 
-             type="text" 
-            />
-          </div>
-          <div className={styles.form_row}>
-            <input 
-            className={styles.form_input}
-            onChange={(e) => setPassword(e.target.value)} 
-            id="password" 
-            name="password"  
-            autoComplete="new-password" 
-            placeholder="Enter Password" 
-            type ="password" 
-            />
-          </div>
-          <div className={styles.form_row}>
-            <button type="submit" className={styles.form_button}>Continue</button>
-          </div>
-        </form>
+        
+        </div>
+        <div className={styles.formInputContainer}>
+          <form 
+            onSubmit={handleSubmit} 
+            method="POST" 
+            className={styles.login_form} 
+            autoComplete="off"
+          >
+            <div className={styles.form_row}>
+              <input 
+              className={styles.form_input}
+              onChange={(e) => setUsername(e.target.value)}
+              id="email" 
+              name="username" 
+              autoComplete="off" 
+              placeholder="Enter Email" 
+              type="text" 
+              />
+            </div>
+            <div className={styles.form_row}>
+              <input 
+              className={styles.form_input}
+              onChange={(e) => setPassword(e.target.value)} 
+              id="password" 
+              name="password"  
+              autoComplete="new-password" 
+              placeholder="Enter Password" 
+              type ="password" 
+              />
+            </div>
+            <div className={styles.form_row}>
+              <button type="submit" className={styles.form_button}>Continue</button>
+            </div>
+          </form>
+        </div>
           <div className={styles.form_row_signup}>
             <div className={styles.form_link} >
              <> Not a member? </> 
             </div>
             <Link to="/sign-up">
-              <button className={styles.form_button_signup}>Sign Up!</button>
+              <button className={styles.form_button_signup}>Sign Up</button>
             </Link>
           </div>
           <div className={styles.form_row_signup }>
