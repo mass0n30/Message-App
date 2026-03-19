@@ -37,9 +37,11 @@ html, body, nav, #root, main, section, .infinite-scroll-component__outerdiv, .in
   display: flex;
   flex-direction: column;
   min-width: 100%;
-  min-height: 100vh;
+  max-height: 100vh;
   cursor: default;
   background-color: var(--color-secondary);
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 /* Shell defines boundaries, Stack defines rhythm, Cluster defines horizontal relationships. */
@@ -50,11 +52,12 @@ html, body, nav, #root, main, section, .infinite-scroll-component__outerdiv, .in
 }
 
 .stack {
+  max-height: 100dvh;
+  height: 100%;
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md); /* change upon media queries */
 }
 
 .cluster {
@@ -89,7 +92,7 @@ main {
 }
 
 aside {
-  min-height: 100vh;
+  min-height: 90vh;
   height: 100%;
   width: 20vw;
   max-width: 500px;
@@ -102,11 +105,27 @@ aside {
 }
 
 .contentWrapper {
+  max-height: 90vh;
   display: flex;
   justify-content: center;
   background-color: var(--color-background);
   border: none;
   border-top: solid 4px var(--color-primary-dark);
+}
+
+@media (max-width: 1200px) {
+  aside {
+    position: absolute;
+    top: calc(0 - 10vh);
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  .contentWrapper {
+    position: relative;
+    border-top: none;
+    border-left: solid 4px var(--color-primary-dark);
+  }
 }
 
 a {
@@ -124,6 +143,17 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10vh;
+  padding: var(--space-md);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
 h1 {

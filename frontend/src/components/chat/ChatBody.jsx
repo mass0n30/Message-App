@@ -102,19 +102,6 @@ export default function ChatBody(props) {
           <h4>{currentRoom?.topic}</h4>
         )}
       </div>
-      <div className={styles.inputContainer}>
-        <SendMessage
-          handleSubmit={handleSubmit}
-          messageContent={messageContent}
-          setMessageContent={setMessageContent}
-          file={messageFile}
-          setFile={setMessageFile}
-          fileToggle={fileToggle}
-          setFileToggle={setFileToggle}
-          preview={preview}
-          setPreview={setPreview}
-        />
-      </div>
         <div className={styles.avatarContainer}>
 
         {fileToggle && 
@@ -128,10 +115,10 @@ export default function ChatBody(props) {
             preview={preview} setPreview={setPreview} />
           }
         </div>
+        <div className={styles.messagesContainer}>
         <div className={styles.orderToggle} >
           {order ? <ArrowDownUp className={styles.arrow} onClick={() => setOrder(!order)} /> : <ArrowUpDown className={styles.arrow} onClick={() => setOrder(!order)} />}
         </div>
-        <div className={styles.messagesContainer}>
           <div className={order ? styles.messages : styles.messagesReversed}>
 
             {currentRoom?.messages?.length > 0 ? (
@@ -164,6 +151,20 @@ export default function ChatBody(props) {
               <p className={styles.noMessages}>No messages in this chat room.</p>
             )}
           </div>
+
+        </div>
+        <div className={styles.inputContainer}>
+          <SendMessage
+            handleSubmit={handleSubmit}
+            messageContent={messageContent}
+            setMessageContent={setMessageContent}
+            file={messageFile}
+            setFile={setMessageFile}
+            fileToggle={fileToggle}
+            setFileToggle={setFileToggle}
+            preview={preview}
+            setPreview={setPreview}
+          />
         </div>
     </div>
   );

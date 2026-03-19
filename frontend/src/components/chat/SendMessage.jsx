@@ -1,4 +1,4 @@
-import { ImagePlus, ImageMinus, X } from 'lucide-react';
+import { ImagePlus, ImageMinus, X, SendHorizontal } from 'lucide-react';
 import formStyles from '../../styles/components/form.module.css';
 import { useState } from 'react';
 import FileForm from '../UI/FileForm';
@@ -44,7 +44,11 @@ function SendMessage({ handleSubmit, messageContent, setMessageContent, file, se
               <ImagePlus className={formStyles.attachmentIcon} strokeWidth={2.5} />
         }
             </button>
-          <button className={formStyles.sendButton}>Send</button>
+          <button className={formStyles.sendButton}>
+            <span>
+              <SendHorizontal className={formStyles.sendIcon} />
+            </span>
+          </button>
         </form>
       </div>
       {fileToggle && (

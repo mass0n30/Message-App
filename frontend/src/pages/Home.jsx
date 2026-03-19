@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Shell from "../primitives/Shell";
 import Stack from "../primitives/Stack";
 import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
 import SideBar from "../components/layout/Sidebar";
 import MessagesBox from "../components/chat/MessagesBox";
 import axios from "axios";
@@ -162,7 +161,7 @@ function Home() {
   if (loading) {
     return (
       <Shell>
-        <Stack style={{ gap: 0 }}>
+        <Stack>
         <Navbar
           setMount={setMount}
           guestMode={guestMode}
@@ -173,6 +172,7 @@ function Home() {
           toggleMessages={toggleMessages}
 
         />
+        <div className="contentWrapper" style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
           <aside>
               <SideBar 
                 chatRooms={chatRooms}
@@ -191,10 +191,10 @@ function Home() {
                 user={user}
               />
             </aside>
-            <div className="contentWrapper" style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
-              <div className="spinner">Loading...</div>
+              <main >
+                <div className="spinner">Loading...</div>
+              </main>
             </div>
-          <Footer/>
         </Stack>
       </Shell>
     );
@@ -266,7 +266,6 @@ function Home() {
             ,toggleMessages, setToggleMessages, setFriends, setUserMessages: setUserMessages, messageContent, setMessageContent, setToggleDirectMessage, alertWelcome, setAlertWelcome, messageFile, setMessageFile, fileToggle, setFileToggle }} />
           </main>
         </div>
-        <Footer/>
       </Stack>
     </Shell>
 

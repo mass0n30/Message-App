@@ -68,7 +68,14 @@ function SideBar(props) {
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
-        <h3>Join Room</h3>
+        <div className={styles.globalChatHeader}>
+          <img src="/global.png" alt="logo" className={styles.logo} />
+          <h2>Global Chat</h2>
+        </div>
+        <div className={styles.globalChatHeader}>
+          <img src="/people.png" alt="logo" className={styles.logo} />
+          <h2>Chat Users</h2>
+        </div>
       </div>
       {chatRooms && chatRooms.length > 0 && (
         <div className={styles.chatRoomList}>

@@ -10,7 +10,6 @@
 
 .sidebarHeader {
   padding: 8px 16px;
-  background-color: var(--color-secondary-light);
   border-bottom: solid 4px var(--color-primary-dark);
 }
 
@@ -18,6 +17,18 @@
   flex: 1;
   overflow-y: auto;
   border: none;
+}
+
+.globalChatHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.logo {
+  width: var(--icon-size-desktop);
+  height: var(--icon-size-desktop);
 }
 
 .chatRoomItem, .chatRoomItemAlt {
